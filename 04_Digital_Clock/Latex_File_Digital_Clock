@@ -1,0 +1,1139 @@
+\documentclass[11pt,a4paper]{article}
+
+% =========================================================
+%  PACKAGES
+% =========================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper,margin=2.2cm,top=2.6cm,bottom=2.8cm,headsep=14pt]{geometry}
+\usepackage{charter}                       % elegant serif body font
+\usepackage{helvet}                        % sans family available for headings
+\renewcommand{\ttdefault}{pcr}             % Courier (Type1) -- avoids EC bitmap fallback for \texttt
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric,arrows.meta,positioning,decorations.pathreplacing,calc,shadows,fit,backgrounds}
+\usepackage{circuitikz}
+\usepackage[skins,breakable]{tcolorbox}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{listings}
+\usepackage{pifont}
+\usepackage{ragged2e}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+% =========================================================
+%  COLOUR PALETTE  —  "PCB / Copper-Trace" theme
+% =========================================================
+\definecolor{pcbDark}{HTML}{0B3D2E}      % deep PCB-green, headings
+\definecolor{pcbDark2}{HTML}{102A2A}     % near-black green, title bg
+\definecolor{copper}{HTML}{C26B2F}       % copper accent
+\definecolor{copperLight}{HTML}{E8A559}  % light copper
+\definecolor{circuitGold}{HTML}{C9A227}  % pin / gold accent
+\definecolor{traceGray}{HTML}{4F5B5A}    % muted body gray-green
+\definecolor{pcbMint}{HTML}{EAF5EF}      % light mint box background
+\definecolor{copperTint}{HTML}{FBEEDF}   % light copper box background
+\definecolor{warnTint}{HTML}{FDECEC}     % light warning background
+\definecolor{warnRed}{HTML}{B23A2E}
+\definecolor{lineGray}{HTML}{C8D2CF}
+
+% =========================================================
+%  HYPERREF LINK COLOURS
+% =========================================================
+\hypersetup{
+  colorlinks=true,
+  linkcolor=pcbDark,
+  citecolor=pcbDark,
+  urlcolor=copper,
+  pdftitle={Standalone ATmega328P Based Digital Clock},
+  pdfauthor={},
+  pdfsubject={Embedded Systems Mini Project Documentation}
+}
+
+% =========================================================
+%  SECTION TITLE STYLING
+% =========================================================
+\titleformat{\section}
+  {\normalfont\sffamily\Large\bfseries\color{pcbDark}}
+  {\colorbox{pcbDark}{\textcolor{white}{\,\thesection\,}}\hspace{8pt}}
+  {0pt}
+  {\rule[-4pt]{0pt}{0pt}}
+  [{\color{lineGray}\titlerule[1pt]}]
+\titlespacing*{\section}{0pt}{22pt}{12pt}
+
+\titleformat{\subsection}
+  {\normalfont\sffamily\large\bfseries\color{copper}}
+  {\textcolor{copper}{\thesubsection}\hspace{6pt}}
+  {0pt}
+  {}
+\titlespacing*{\subsection}{0pt}{14pt}{8pt}
+
+\titleformat{\subsubsection}
+  {\normalfont\sffamily\bfseries\color{pcbDark2}}
+  {\textcolor{circuitGold}{\guillemotright}\hspace{4pt}}
+  {0pt}
+  {}
+\titlespacing*{\subsubsection}{0pt}{10pt}{6pt}
+
+% =========================================================
+%  HEADER / FOOTER
+% =========================================================
+\pagestyle{fancy}
+\setlength{\headheight}{22pt}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{lineGray}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{lineGray}\leaders\hrule height \footrulewidth\hfill}}
+\fancyhead[L]{\small\sffamily\textcolor{traceGray}{Standalone ATmega328P Digital Clock}}
+\fancyhead[R]{\small\sffamily\textcolor{traceGray}{\nouppercase{\leftmark}}}
+\fancyfoot[L]{\small\sffamily\textcolor{copper}{Embedded Systems Mini Project}}
+\fancyfoot[R]{\small\sffamily\textcolor{traceGray}{Page \thepage}}
+\markboth{}{}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyfoot[R]{\small\sffamily\textcolor{traceGray}{Page \thepage}}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% =========================================================
+%  CUSTOM COLOURED BOXES
+% =========================================================
+\newtcolorbox{infobox}[1][Note]{%
+  enhanced, breakable, colback=pcbMint, colframe=pcbDark,
+  boxrule=0.6pt, left=8pt, right=8pt, top=6pt, bottom=6pt,
+  arc=2pt, before skip=10pt, after skip=10pt,
+  fonttitle=\sffamily\bfseries, coltitle=white,
+  colbacktitle=pcbDark,
+  title={#1}
+}
+
+\newtcolorbox{designnote}[1][Design Note]{%
+  enhanced, breakable, colback=pcbMint, colframe=pcbDark!80,
+  boxrule=0.5pt, left=8pt, right=8pt, top=5pt, bottom=5pt,
+  arc=1.5pt, before skip=10pt, after skip=10pt,
+  fonttitle=\sffamily\bfseries\small, coltitle=pcbDark,
+  titlerule=0pt,
+  title={\textcolor{pcbDark}{\rule{2.2mm}{2.2mm}}\ \ #1}
+}
+
+\newtcolorbox{calcbox}[1][Calculation]{%
+  enhanced, breakable, colback=copperTint, colframe=copper,
+  boxrule=0.5pt, left=8pt, right=8pt, top=5pt, bottom=5pt,
+  arc=1.5pt, before skip=10pt, after skip=10pt,
+  fonttitle=\sffamily\bfseries\small, coltitle=copper!70!black,
+  titlerule=0pt,
+  title={\textcolor{copper}{\rule{2.2mm}{2.2mm}}\ \ #1}
+}
+
+\newtcolorbox{warnbox}[1][Caution]{%
+  enhanced, breakable, colback=warnTint, colframe=warnRed,
+  boxrule=0.5pt, left=8pt, right=8pt, top=5pt, bottom=5pt,
+  arc=1.5pt, before skip=10pt, after skip=10pt,
+  fonttitle=\sffamily\bfseries\small, coltitle=warnRed,
+  titlerule=0pt,
+  title={\textcolor{warnRed}{\rule{2.2mm}{2.2mm}}\ \ #1}
+}
+
+% =========================================================
+%  LISTINGS STYLE (for code snippets / pseudo-code)
+% =========================================================
+\lstdefinestyle{embedded}{
+  language=C,
+  backgroundcolor=\color{pcbDark2!4},
+  basicstyle=\ttfamily\small\color{black},
+  keywordstyle=\color{pcbDark}\bfseries,
+  commentstyle=\color{traceGray}\itshape,
+  stringstyle=\color{copper},
+  numberstyle=\tiny\color{traceGray},
+  numbers=left,
+  numbersep=8pt,
+  frame=single,
+  rulecolor=\color{lineGray},
+  framerule=0.5pt,
+  xleftmargin=14pt,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2
+}
+\lstset{style=embedded}
+
+% =========================================================
+%  MISC
+% =========================================================
+\setlist[itemize]{leftmargin=1.4em, itemsep=2pt, topsep=3pt}
+\setlist[enumerate]{leftmargin=1.6em, itemsep=3pt, topsep=3pt}
+\renewcommand{\arraystretch}{1.25}
+\captionsetup{font={small,sf},labelfont={bf,color=pcbDark},skip=6pt}
+
+% small helper macro for chip pin labels in tikz pin diagram
+\newcommand{\pinlabel}[1]{\footnotesize\sffamily #1}
+
+% Macros for the ATmega328P-PU PDIP-28 pinout diagram (Section 7)
+\newcommand{\leftpin}[3]{%
+  \draw[pinstub] (-1.05,-#1-0.5) -- (0,-#1-0.5);
+  \node[pinnum] at (0.32,-#1-0.5) {#2};
+  \node[pinfun, anchor=east] at (-1.2,-#1-0.5) {#3};
+}
+\newcommand{\rightpin}[3]{%
+  \draw[pinstub] (4.4,-#1-0.5) -- (5.45,-#1-0.5);
+  \node[pinnum] at (4.08,-#1-0.5) {#2};
+  \node[pinfun, anchor=west] at (5.6,-#1-0.5) {#3};
+}
+
+\begin{document}
+
+% =========================================================
+%  TITLE PAGE
+% =========================================================
+\begin{titlepage}
+\newgeometry{margin=0cm}
+\begin{tikzpicture}[remember picture, overlay]
+  % full-bleed background band
+  \fill[pcbDark2] (current page.north west) rectangle ([yshift=-7.6cm]current page.north east);
+  % copper accent rule along the bottom edge of the band
+  \fill[copper] ([yshift=-7.6cm]current page.north west) rectangle ([yshift=-7.85cm]current page.north east);
+  % decorative circuit-trace footer strip, confined low in the band, clear of all text
+  \begin{scope}
+    \clip ([yshift=-6.55cm]current page.north west) rectangle ([yshift=-7.6cm]current page.north east);
+    \draw[copperLight!45, line width=0.8pt]
+        ([yshift=-6.9cm,xshift=1.6cm]current page.north west) -- ++(2.4,0) -- ++(0,-0.45) -- ++(3.2,0);
+    \draw[copperLight!45, line width=0.8pt]
+        ([yshift=-7.25cm,xshift=8.6cm]current page.north west) -- ++(2.0,0) -- ++(0,0.45) -- ++(2.6,0);
+    \draw[circuitGold!60, line width=0.8pt]
+        ([yshift=-6.85cm,xshift=14.5cm]current page.north west) -- ++(2.6,0) -- ++(0,-0.5) -- ++(1.6,0);
+    \foreach \x/\y in {1.6/-6.9, 4.0/-6.9, 4.0/-7.35, 8.6/-7.25, 10.6/-7.25, 10.6/-6.8,
+                        14.5/-6.85, 17.1/-6.85, 17.1/-7.35}{
+      \fill[circuitGold] ([xshift=\x cm, yshift=\y cm]current page.north west) circle (1.5pt);
+    }
+  \end{scope}
+  % Eyebrow label
+  \node[anchor=north west, xshift=1.6cm, yshift=-1.0cm] at (current page.north west)
+    {\sffamily\footnotesize\textcolor{circuitGold}{EMBEDDED SYSTEMS\ \textbullet\ MINI PROJECT DOCUMENTATION}};
+  % Main Title
+  \node[anchor=north west, xshift=1.6cm, yshift=-2.6cm, text width=15.5cm] at (current page.north west)
+    {\sffamily\bfseries\fontsize{30}{36}\selectfont\textcolor{white}{The Digital Clock}};
+  \node[anchor=north west, xshift=1.6cm, yshift=-4.55cm, text width=15.5cm] at (current page.north west)
+    {\sffamily\bfseries\fontsize{17}{20}\selectfont\textcolor{copperLight}{Built Around the Bare ATmega328P-PU Microcontroller}};
+  \node[anchor=north west, xshift=1.6cm, yshift=-5.65cm, text width=15.2cm] at (current page.north west)
+    {\sffamily\small\textcolor{white!85!black}{From Breadboard Prototype to a 3D-Printed, Snap-Fit Enclosure --
+    a Complete Idea-to-Product Embedded Engineering Workflow}};
+\end{tikzpicture}
+
+\vspace*{\fill}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{rl}
+\sffamily\bfseries\textcolor{pcbDark}{Microcontroller:} & \sffamily ATmega328P-PU (standalone, no Arduino board) \\
+\sffamily\bfseries\textcolor{pcbDark}{Display:}          & \sffamily 4-Digit Multiplexed Seven-Segment (HH:MM / MM:SS) \\
+\sffamily\bfseries\textcolor{pcbDark}{Programming Tool:} & \sffamily Arduino Uno used as an AVR ISP Programmer \\
+\sffamily\bfseries\textcolor{pcbDark}{Enclosure:}        & \sffamily Fusion 360 CAD, Snap-Fit, FDM 3D Printed \\
+\end{tabular}
+\end{center}
+
+\vfill
+
+\begin{center}
+\rule{0.4\linewidth}{0.6pt}\\[6pt]
+{\sffamily\bfseries\large\textcolor{pcbDark}{Project Documentation Report}}\\[4pt]
+{\sffamily\small\textcolor{traceGray}{Department of Electronics \& Communication Engineering}}\\[10pt]
+{\sffamily\small\textcolor{traceGray}{\today}}
+\end{center}
+
+\vspace{1cm}
+\restoregeometry
+\end{titlepage}
+
+% =========================================================
+%  ABSTRACT
+% =========================================================
+\thispagestyle{plain}
+\begin{center}
+{\sffamily\Large\bfseries\textcolor{pcbDark}{Abstract}}
+\end{center}
+\vspace{4pt}
+\noindent
+This report documents the complete engineering workflow behind a \textbf{standalone digital clock} built around the bare \textbf{ATmega328P-PU} microcontroller -- the same chip that powers the Arduino Uno, used here without the Arduino board itself. The project follows a deliberate, industry-style path: requirement-driven \textbf{component selection}, supporting \textbf{engineering calculations} (crystal load capacitance, segment current-limiting resistors, decoupling and reset networks), a \textbf{breadboard prototype on an Arduino Uno} to validate display multiplexing and button logic, migration to the \textbf{bare ATmega328P-PU chip}, \textbf{bootloader burning} using a second Arduino Uno configured as an AVR ISP programmer, \textbf{firmware upload}, full-circuit \textbf{breadboard re-validation}, permanent \textbf{soldering}, and finally a custom \textbf{snap-fit enclosure} modelled in Autodesk Fusion 360 and 3D printed after slicing in Creality's slicer software. Every design decision -- from the 22\,pF crystal capacitors to the 330\,$\Omega$ segment resistors -- is backed by a calculation, making this document a complete reference for anyone wishing to reproduce, audit, or extend the build.
+
+\vspace{10pt}
+\begin{center}
+\begin{tcolorbox}[enhanced, colback=pcbMint, colframe=pcbDark, width=0.9\linewidth,
+  arc=2pt, boxrule=0.6pt, left=10pt,right=10pt,top=6pt,bottom=6pt]
+\centering\sffamily\small
+\textbf{Keywords:} ATmega328P-PU $\cdot$ AVR ISP $\cdot$ 7-Segment Multiplexing $\cdot$ Crystal Oscillator $\cdot$
+Bootloader Burning $\cdot$ Fusion 360 $\cdot$ Snap-Fit Enclosure $\cdot$ FDM 3D Printing
+\end{tcolorbox}
+\end{center}
+
+\newpage
+\tableofcontents
+\thispagestyle{plain}
+\newpage
+
+% =========================================================
+\section{Introduction}
+% =========================================================
+
+\subsection{Motivation}
+Most beginner digital-clock projects stop at "upload code to an Arduino board and watch the display blink." That is a fine starting point, but it stops short of the question every embedded engineer eventually has to answer: \emph{what happens once you remove the development board?} An Arduino Uno is, underneath the USB connector, the voltage regulator, and the FTDI/CH340 chip, simply a breakout board for one microcontroller -- the \textbf{ATmega328P}. This project was undertaken to deliberately strip away that convenience layer and rebuild the same functionality around the bare chip, going through every step a product team would: selecting parts for a reason, calculating support-component values instead of guessing them, validating logic on a breadboard, porting the firmware to the standalone microcontroller, burning a bootloader, soldering a permanent board, and finally packaging the result in a custom-designed, 3D-printed enclosure.
+
+\subsection{Project Objective}
+\begin{infobox}[Objective]
+To design and implement a \textbf{standalone digital clock} using an \textbf{ATmega328P-PU} microcontroller (rather than a complete Arduino board), demonstrating the full embedded-product development pipeline -- from idea to a finished, enclosed device -- and to document every design choice with the calculation that justifies it.
+\end{infobox}
+
+The final device displays the time on four multiplexed seven-segment displays and accepts user input through three push buttons, with two operating modes (\textit{Normal} and \textit{Seconds}) described in Section~\ref{sec:features}.
+
+\subsection{Development Workflow at a Glance}
+The project was executed as eight sequential phases, each building on the validation done in the one before it. This mirrors how a real embedded product moves from concept to manufacture: nothing is soldered until it has been proven on a breadboard, and nothing is enclosed until the soldered board itself is verified.
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=6mm and 8mm,
+  every node/.style={font=\sffamily\small},
+  flowbox/.style={rectangle, rounded corners=3pt, draw=pcbDark, fill=pcbMint,
+               text=pcbDark2, minimum height=10mm, minimum width=29mm,
+               align=center, line width=0.7pt, drop shadow={shadow xshift=0.6pt, shadow yshift=-0.6pt, opacity=0.25}},
+  arr/.style={-{Stealth[length=2.2mm]}, line width=0.9pt, draw=copper}
+]
+\node[flowbox] (n1) {1. Component\\Selection};
+\node[flowbox, right=of n1] (n2) {2. Engineering\\Calculations};
+\node[flowbox, right=of n2] (n3) {3. Arduino Uno\\Breadboard Test};
+\node[flowbox, right=of n3] (n4) {4. Migrate to\\ATmega328P-PU};
+
+\node[flowbox, below=15mm of n4] (n5) {5. Bootloader\\Burning (ISP)};
+\node[flowbox, left=of n5] (n6) {6. Firmware\\Upload};
+\node[flowbox, left=of n6] (n7) {7. Soldering \&\\Assembly};
+\node[flowbox, left=of n7] (n8) {8. CAD Enclosure\\\& 3D Printing};
+
+\draw[arr] (n1) -- (n2);
+\draw[arr] (n2) -- (n3);
+\draw[arr] (n3) -- (n4);
+\draw[arr] (n4) -- (n5);
+\draw[arr] (n5) -- (n6);
+\draw[arr] (n6) -- (n7);
+\draw[arr] (n7) -- (n8);
+\end{tikzpicture}
+\end{center}
+
+\begin{designnote}[Why this order matters]
+Logic is validated on the \textbf{Arduino Uno} first because its USB bootloader and on-board regulator make iteration fast -- mistakes there cost a re-upload, not a re-solder. Only after the segment mapping, multiplexing, and button logic are confirmed correct does the design move to the bare chip, where mistakes are costlier to fix.
+\end{designnote}
+
+% =========================================================
+\section{Final Feature Set}
+\label{sec:features}
+% =========================================================
+The firmware implements two display modes and a simple three-button control scheme, chosen to keep the user interface minimal while still allowing full time-setting capability.
+
+\subsection{Normal Mode --- HH:MM}
+This is the default, always-returned-to display mode. The four digits show hours and minutes, separated by a colon built from two LEDs, e.g.:
+\begin{center}
+{\Huge\sffamily\bfseries\textcolor{pcbDark}{14:35}}
+\end{center}
+
+\subsection{Seconds Mode --- MM:SS}
+A long press of the \textit{Start/Mode} button switches the display to minutes and seconds:
+\begin{center}
+{\Huge\sffamily\bfseries\textcolor{copper}{35:27}}
+\end{center}
+After a short timeout, the firmware automatically reverts to Normal Mode, so the clock never gets "stuck" showing seconds.
+
+\subsection{User Controls}
+Three momentary push buttons, wired with internal pull-ups, provide the entire user interface:
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\rowcolor{pcbDark}
+\textcolor{white}{\textbf{Button}} & \textcolor{white}{\textbf{Label}} & \textcolor{white}{\textbf{Function}} \\
+\midrule
+Button 1 & \textsc{Hour}  & Increment the hour value \\
+Button 2 & \textsc{Minute} & Increment the minute value \\
+Button 3 & \textsc{Start/Mode} & Start the clock from a set time / toggle Seconds Mode \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{designnote}[Active-Low Button Logic]
+With the internal pull-up resistors enabled in firmware, each button pin idles \textbf{HIGH}. Pressing a button pulls the pin to \textbf{LOW} (ground). The firmware therefore treats a logic-0 read as "pressed" -- no external pull-up/pull-down resistors are required on the board.
+\end{designnote}
+
+% =========================================================
+\section{System Architecture}
+\label{sec:architecture}
+% =========================================================
+At the block level, the clock has exactly four functional groups: a clock-generation source, the microcontroller itself, the output display (digits and colon), and the input (buttons). Figure~\ref{fig:blockdiagram} shows how they connect.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  every node/.style={font=\sffamily\small},
+  block/.style={rectangle, rounded corners=3pt, draw=pcbDark, fill=pcbMint,
+                text=pcbDark2, minimum height=11mm, minimum width=33mm, align=center,
+                line width=0.8pt},
+  centerblock/.style={rectangle, rounded corners=4pt, draw=pcbDark, fill=pcbDark,
+                text=white, minimum height=16mm, minimum width=42mm, align=center,
+                line width=1pt, font=\sffamily\bfseries\small},
+  conn/.style={-{Stealth[length=2.2mm]}, line width=0.9pt, draw=copper}
+]
+\node[centerblock] (mcu) {ATmega328P-PU\\\footnotesize\normalfont (Standalone Controller)};
+\node[block, above=14mm of mcu] (xtal) {16 MHz Crystal\\Oscillator};
+\node[block, below=14mm of mcu] (buttons) {3$\times$ Push Buttons\\(Pull-Up Inputs)};
+\node[block, right=20mm of mcu] (display) {4$\times$ 7-Segment\\Displays (Multiplexed)};
+\node[block, left=20mm of mcu] (colon) {Colon Indicator\\(2$\times$ LED)};
+
+\draw[conn] (xtal) -- (mcu);
+\draw[conn] (buttons) -- (mcu);
+\draw[conn] (mcu) -- (display);
+\draw[conn] (mcu) -- (colon);
+\end{tikzpicture}
+\caption{System block diagram: the ATmega328P-PU sits at the centre, clocked by a crystal, reading three buttons, and driving the multiplexed seven-segment display together with the colon LEDs.}
+\label{fig:blockdiagram}
+\end{figure}
+
+\begin{infobox}[Why no separate driver ICs?]
+With only 4 digits and 7 segments (11 signal lines) plus 2 colon LEDs and 3 buttons, the entire interface fits comfortably within the ATmega328P-PU's 23 usable GPIO pins (Section~\ref{sec:pinout}), so no external display-driver or multiplexer IC was needed -- the microcontroller drives everything directly.
+\end{infobox}
+
+% =========================================================
+\section{Component Selection \& Engineering Rationale}
+\label{sec:components}
+% =========================================================
+Every part on the bill of materials was chosen to satisfy a specific requirement of the system -- nothing was added "because it's commonly used." Table~\ref{tab:selection} walks through that reasoning component by component.
+
+\subsection{Selection Criteria}
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{p{3.6cm}p{3.6cm}p{6.6cm}}
+\toprule
+\rowcolor{pcbDark}
+\textcolor{white}{\textbf{Requirement}} & \textcolor{white}{\textbf{Component Chosen}} & \textcolor{white}{\textbf{Engineering Rationale}} \\
+\midrule
+Processing core & ATmega328P-PU (DIP-28) & Same silicon as the Arduino Uno, but \textasciitilde 80\% cheaper alone; allows a compact, board-free final product. \\
+System clock & 16\,MHz quartz crystal & Required by the Arduino core's timing libraries (\texttt{millis()}, \texttt{delay()}); the internal 8\,MHz RC oscillator is both slower and far less accurate for long-term timekeeping. \\
+Crystal loading & 2$\times$ 22\,pF ceramic capacitors & Brings the effective load capacitance to the crystal's specified range (Section~\ref{sec:crystalcalc}). \\
+Supply stabilisation & 2$\times$ 100\,nF ceramic capacitors & Suppresses switching noise on VCC/AVCC, preventing erratic resets. \\
+Reset stability & 10\,k$\Omega$ pull-up resistor & Holds RESET firmly HIGH so it cannot float and re-trigger the chip. \\
+Time display & 4$\times$ common-anode 7-segment displays & Inexpensive, widely available, and well-suited to multiplexed driving from a handful of GPIO pins. \\
+Segment current limiting & 330\,$\Omega$ resistors & Calculated (Section~\ref{sec:resistorcalc}) to hold segment current near 10\,mA for safe, bright operation. \\
+HH:MM / MM:SS separator & 2$\times$ LED + 330\,$\Omega$ resistors & Cheaper and simpler than a fifth digit; clearly marks the colon position. \\
+User input & 3$\times$ tactile push buttons & Minimum number of controls needed for hour-set, minute-set, and mode/start; internal pull-ups remove the need for external resistors. \\
+Firmware burning & A second Arduino Uno as ISP & Avoids purchasing a dedicated USBasp/AVRISP programmer -- a Uno already on hand does the job. \\
+Power input & 5\,V USB power module & Ubiquitous, safe low-voltage supply compatible with any USB charger or power bank. \\
+Enclosure & Fusion 360-designed, FDM-printed, snap-fit two-part shell & Protects the soldered board and gives a finished look without screws or extra hardware. \\
+\bottomrule
+\end{tabular}
+\caption{Component selection criteria and the reasoning behind each choice.}
+\label{tab:selection}
+\end{table}
+\newpage
+\subsection{Bill of Materials}
+\begin{center}
+\small
+\begin{longtable}{@{}p{4.6cm}p{3.0cm}p{1.2cm}p{5.4cm}@{}}
+\toprule
+\rowcolor{pcbDark}
+\textcolor{white}{\textbf{Component}} & \textcolor{white}{\textbf{Specification}} & \textcolor{white}{\textbf{Qty}} & \textcolor{white}{\textbf{Purpose}} \\
+\midrule
+\endhead
+ATmega328P-PU & DIP-28, 16\,MHz rated & 1 & Main controller \\
+Crystal oscillator & 16\,MHz, HC-49 package & 1 & System clock source \\
+Ceramic capacitor & 22\,pF & 2 & Crystal load capacitors \\
+Ceramic capacitor & 100\,nF & 2 & Decoupling: VCC \& AVCC \\
+Resistor & 10\,k$\Omega$ & 1 & RESET pull-up \\
+Resistor & 330\,$\Omega$ & 9 & 7 segment lines (a--g) + 2 colon LEDs \\
+7-Segment display & Common anode, single digit & 4 & Time display (multiplexed) \\
+LED (colon indicator) & 3\,mm/5\,mm, any colour & 2 & HH:MM / MM:SS separator \\
+Tactile push button & 6\,mm through-hole & 3 & Hour / Minute / Start-Mode input \\
+DIP-28 IC socket & 0.3$''$ pitch (optional) & 1 & Allows chip removal without re-soldering \\
+USB power module & 5\,V regulated output & 1 & Power supply \\
+Perforated/dot PCB & Standard prototyping board & 1 & Final permanent assembly \\
+Hook-up / jumper wire & 22--24 AWG & As needed & Breadboard and solder-side wiring \\
+PLA filament & 1.75\,mm, FDM printed & $\approx$ 1 spool & Enclosure (top + bottom shell) \\
+\bottomrule
+\caption{Final bill of materials for the standalone clock.}
+\label{tab:bom}
+\end{longtable}
+\end{center}
+
+\begin{designnote}[Tools used but not part of the final product]
+A breadboard, a second \textbf{Arduino Uno} (acting purely as an AVR ISP programmer), a soldering iron with fine tip, a digital multimeter, and a 3D printer were all essential to building this project but do not appear in the BOM above because they are not consumed by, or shipped with, the final device.
+\end{designnote}
+
+% =========================================================
+\section{Design Calculations}
+\label{sec:calculations}
+% =========================================================
+This section derives every passive-component value used in the standalone circuit. None of the values were copied from an unrelated reference design -- each follows from a short calculation given below.
+
+\subsection{Clock Source: Crystal Load Capacitance}
+\label{sec:crystalcalc}
+The ATmega328P-PU needs a stable timing reference for accurate second-counting. A 16\,MHz quartz crystal is wired across the \texttt{XTAL1}/\texttt{XTAL2} pins, each leg also returned to ground through a capacitor (Figure~\ref{fig:crystal}).
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=1.05, color=pcbDark, american]
+\draw (0,0) node[anchor=east]{XTAL1} to[piezoelectric, l=$Y_1$ 16\,MHz, *-*] (4.8,0) node[anchor=west]{XTAL2};
+\draw (1.3,0) to[C, l_=$C_1$ 22\,pF, color=copper] (1.3,-2) node[ground]{};
+\draw (3.5,0) to[C, l_=$C_2$ 22\,pF, color=copper] (3.5,-2) node[ground]{};
+\end{circuitikz}
+\caption{Crystal oscillator network: a 16\,MHz crystal with two 22\,pF load capacitors returned to ground.}
+\label{fig:crystal}
+\end{figure}
+
+\begin{calcbox}[Load Capacitance Calculation]
+The crystal's effective load capacitance is:
+\[
+C_L = \frac{C_1 C_2}{C_1+C_2} + C_{\text{stray}}
+\]
+With $C_1=C_2=22\,\text{pF}$:
+\[
+\frac{C_1 C_2}{C_1+C_2} = \frac{22\times22}{22+22} = 11\,\text{pF}
+\]
+Adding a typical board/breadboard stray capacitance of $C_{\text{stray}} \approx 4$--$5\,\text{pF}$ gives:
+\[
+C_L \approx 15\text{--}16\,\text{pF}
+\]
+This sits inside the load-capacitance window most 16\,MHz AVR-grade crystals are specified for, which is why \textbf{22\,pF} is the standard, datasheet-recommended capacitor value for this oscillator circuit -- and why it was chosen here rather than a smaller or larger value.
+\end{calcbox}
+
+\subsection{Decoupling Capacitor Network}
+\label{sec:decoupling}
+Two 100\,nF ceramic capacitors bypass the digital supply (\texttt{VCC}) and the analog supply (\texttt{AVCC}) directly to ground, placed as close to the chip's pins as practical (Figure~\ref{fig:decoupling}).
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=1.05, color=pcbDark, american]
+\draw (0,2) node[anchor=south]{VCC} to[short] (0,1.5) to[C, l_=$C_3$ 100\,nF, color=copper] (0,0) node[ground]{};
+\draw (2.6,2) node[anchor=south]{AVCC} to[short] (2.6,1.5) to[C, l_=$C_4$ 100\,nF, color=copper] (2.6,0) node[ground]{};
+\end{circuitikz}
+\caption{Decoupling network on VCC and AVCC.}
+\label{fig:decoupling}
+\end{figure}
+
+\begin{designnote}[Why this matters]
+Every time the multiplexer routine switches a digit or the firmware toggles a segment, the chip's internal switching draws a brief current spike. Without local decoupling, that spike shows up as a voltage dip on the supply rail -- large enough, in some cases, to dip below the chip's minimum operating voltage and cause a spurious reset. The 100\,nF capacitors act as tiny local reservoirs that supply this instantaneous current, keeping the rail flat.
+\end{designnote}
+
+\subsection{Reset Pull-Up Network}
+\label{sec:reset}
+The \texttt{RESET} pin is active-low: pulling it to ground resets the chip. Left unconnected, it is a high-impedance node that can be pulled low by noise alone. A 10\,k$\Omega$ resistor to \texttt{5V} (Figure~\ref{fig:reset}) holds it firmly HIGH during normal operation.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=1.05, color=pcbDark, american]
+\draw (0,2.2) node[anchor=south]{5\,V} to[short] (0,1.8) to[R, l_=$R_1$ 10\,k$\Omega$, color=copper] (0,0) to[short] (1.6,0) node[anchor=west]{RESET};
+\end{circuitikz}
+\caption{External RESET pull-up resistor.}
+\label{fig:reset}
+\end{figure}
+
+\subsection{Segment Current-Limiting Resistor}
+\label{sec:resistorcalc}
+Each seven-segment LED needs a series resistor so the current through it stays in a safe, consistently bright range. Figure~\ref{fig:segment} shows the arrangement for one segment line; the same resistor value is reused for all seven segment lines (a--g) since they share identical electrical characteristics.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[scale=1.05, color=pcbDark, american]
+\draw (0,0) node[anchor=east]{GPIO pin} to[R, l_=330\,$\Omega$, color=copper] (2.3,0) to[leD, l_=Segment] (4.4,0) node[anchor=west]{Common};
+\end{circuitikz}
+\caption{Current-limiting resistor in series with one display segment.}
+\label{fig:segment}
+\end{figure}
+
+\begin{calcbox}[Ohm's Law Resistor Sizing]
+\[
+R = \frac{V_{\text{supply}} - V_f}{I_{\text{segment}}}
+\]
+With a 5\,V supply, a typical red-LED segment forward drop $V_f \approx 2\,\text{V}$, and a target segment current of $I=10\,\text{mA}$:
+\[
+R = \frac{5 - 2}{0.01} = 300\,\Omega
+\]
+The closest standard (E12 series) resistor value \emph{above} the calculated minimum is:
+\[
+\boxed{R = 330\,\Omega}
+\]
+\end{calcbox}
+
+\begin{designnote}[Power Budget Check]
+With 7 segments lit at \textasciitilde 10\,mA each, a fully-lit digit (e.g. "8") momentarily draws up to $7 \times 10\,\text{mA} = 70\,\text{mA}$ through its active digit line. This is comfortably below the ATmega328P's absolute device-level current budget, but it is \emph{above} the recommended continuous 20\,mA-per-pin guideline for a single AVR I/O pin. Because the display is multiplexed -- only one digit is ever fully lit at an instant, each for a few milliseconds -- the \emph{average} current per pin over a full refresh cycle is far lower than this peak. As good practice for any future revision, routing the digit-select (common) lines through a small NPN/PNP transistor or low-$R_{DS}$ MOSFET per digit -- rather than driving them straight from the microcontroller -- keeps every AVR pin safely inside its rated current and is the standard approach in commercial multiplexed-display products.
+\end{designnote}
+
+% =========================================================
+\section{Phase I --- Breadboard Prototyping on the Arduino Uno}
+\label{sec:phase1}
+% =========================================================
+
+\subsection{Why Prototype Before Going Standalone}
+Before touching a bare chip, the complete display and button logic was built and tested on a breadboard \textbf{using a full Arduino Uno}. The goal of this phase was purely to validate software and wiring logic while iteration was still cheap:
+\begin{itemize}
+\item Correct segment-to-digit mapping (does "2" actually look like a 2 on every digit?)
+\item Correct multiplexing refresh rate (no visible flicker, no ghosting between digits)
+\item Correct button debounce and pull-up logic
+\item Correct \texttt{millis()}-based timekeeping (no drift, no missed seconds)
+\end{itemize}
+Any mistake at this stage costs nothing more than a re-upload. The same mistake discovered after soldering the standalone chip costs a desoldering iron and a replacement part.
+
+\subsection{Arduino Uno Pin Allocation}
+\begin{table}[H]
+\centering
+\begin{tabular}{lll}
+\toprule
+\rowcolor{pcbDark}
+\textcolor{white}{\textbf{Arduino Pins}} & \textcolor{white}{\textbf{Connected To}} & \textcolor{white}{\textbf{Role}} \\
+\midrule
+D2 -- D8 & Segments a, b, c, d, e, f, g & Shared segment lines (all 4 digits) \\
+D9 -- D12 & Digit 1, 2, 3, 4 common lines & Digit (multiplex) select \\
+A0 -- A2 & Button 1, 2, 3 & Hour / Minute / Start-Mode input \\
+\bottomrule
+\end{tabular}
+\caption{Pin allocation used during the Arduino Uno breadboard prototype.}
+\label{tab:unopins}
+\end{table}
+
+\subsection{Display Multiplexing Principle}
+\label{sec:multiplex}
+Driving four seven-segment digits independently would need $4 \times 7 = 28$ segment-control pins -- far more than is practical. Instead, all four digits' corresponding segments are wired together onto just seven shared lines (a through g), and a separate "digit select" line determines \emph{which one digit} is currently allowed to light up (Figure~\ref{fig:multiplex}).
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[font=\sffamily\small]
+\def\w{1.7}
+\def\h{0.55}
+\foreach \row/\name [count=\i from 0] in {0/Digit 1, 1/Digit 2, 2/Digit 3, 3/Digit 4}{
+  \node[anchor=east] at (-0.2,-\i*0.9) {\name};
+  \draw[pcbDark] (0,-\i*0.9-\h/2) -- (4*\w,-\i*0.9-\h/2);
+  \draw[pcbDark] (0,-\i*0.9+\h/2) -- (4*\w,-\i*0.9+\h/2);
+  \foreach \k in {0,1,2,3}{
+    \ifnum \k=\row
+      \fill[copper] (\k*\w,-\i*0.9-\h/2) rectangle (\k*\w+\w,-\i*0.9+\h/2);
+    \fi
+  }
+}
+\draw[-{Stealth[length=2.2mm]}, line width=0.8pt] (0,-3.6*0.9-0.55) -- (4*\w+0.3,-3.6*0.9-0.55) node[anchor=north west]{time};
+\foreach \k in {0,1,2,3,4}{
+  \draw (\k*\w,-3.6*0.9-0.45) -- (\k*\w,-3.6*0.9-0.65);
+}
+\node[anchor=north, align=center, font=\sffamily\footnotesize] at (2*\w,-3.6*0.9-1.15)
+  {Cycle repeats continuously $\Rightarrow$ each digit refreshed many times per second};
+\end{tikzpicture}
+\caption{Multiplexing timeline: only one digit's common line is active at any instant, cycling rapidly through all four.}
+\label{fig:multiplex}
+\end{figure}
+
+\begin{infobox}[Persistence of Vision]
+The human eye cannot distinguish individual flashes faster than roughly 50--60 times per second; it perceives them as continuously lit. By switching through all four digits well above this rate, the firmware shows only one physical digit at a time, yet the viewer perceives a steady, complete \texttt{14:35} on the display.
+\end{infobox}
+
+\subsection{Button Interfacing}
+The three push buttons reuse the same active-low, internal-pull-up wiring described in Section~\ref{sec:features} -- this was first proven out on the Uno's own \texttt{INPUT\_PULLUP} mode before being carried over unchanged to the standalone build.
+
+\subsection{Phase I Validation Checklist}
+\begin{table}[H]
+\centering
+\begin{tabular}{p{8.5cm}c}
+\toprule
+\rowcolor{pcbDark}
+\textcolor{white}{\textbf{Check}} & \textcolor{white}{\textbf{Result}} \\
+\midrule
+All seven segments map to the correct physical segment on every digit & \ding{51} Pass \\
+No visible flicker at the chosen multiplex refresh rate & \ding{51} Pass \\
+No cross-talk / ghosting between adjacent digits & \ding{51} Pass \\
+Hour and minute buttons increment correctly and roll over (23 $\to$ 0, 59 $\to$ 0) & \ding{51} Pass \\
+Start/Mode button switches to Seconds Mode and times out back to Normal Mode & \ding{51} Pass \\
+Time stays accurate over an extended soak test (no drift from missed \texttt{millis()} ticks) & \ding{51} Pass \\
+\bottomrule
+\end{tabular}
+\caption{Validation results before migrating off the Arduino Uno.}
+\end{table}
+
+% =========================================================
+\section{Phase II --- Migrating to the Standalone ATmega328P-PU}
+\label{sec:phase2}
+% =========================================================
+
+\subsection{Why Remove the Arduino Board}
+With the logic validated, the Arduino Uno board itself -- its USB interface chip, voltage regulator, and supporting passives -- is no longer needed. Only the microcontroller it carries is required for the final product.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\rowcolor{pcbDark}
+\textcolor{white}{\textbf{Parameter}} & \textcolor{white}{\textbf{Value}} \\
+\midrule
+Supply voltage & 5\,V \\
+Clock speed & 16\,MHz (external crystal) \\
+Flash memory & 32\,KB \\
+SRAM & 2\,KB \\
+EEPROM & 1\,KB \\
+Usable GPIO & 23 pins \\
+Package & PDIP-28 \\
+\bottomrule
+\end{tabular}
+\caption{ATmega328P-PU key specifications.}
+\label{tab:atmegaspecs}
+\end{table}
+
+\begin{infobox}[Advantages of the standalone approach]
+\textbf{Compact} -- no board outline to fit around; \textbf{cheaper} -- the bare chip costs a fraction of a full Uno; \textbf{professional} -- mirrors how this chip is actually used in shipped products; \textbf{independent} -- the finished clock has no dependency on a development board it would otherwise need to keep plugged in.
+\end{infobox}
+
+\subsection{Learning the Pinout}
+\label{sec:pinout}
+Working with the bare DIP package means every connection that the Arduino board used to make invisibly -- crystal, reset, power -- must now be wired by hand. Figure~\ref{fig:pinout} maps every physical pin of the 28-pin package to its AVR port name and primary function.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  scale=0.6, transform shape, % Adjust this value to resize the whole image
+  font=\sffamily,
+  pinnum/.style={font=\sffamily\bfseries\tiny, text=white},
+  pinfun/.style={font=\sffamily\small},
+  pinstub/.style={line width=1pt, color=circuitGold!80!black}
+]
+
+\fill[pcbDark2] (0,0) rectangle (4.4,-14);
+\draw[pcbDark2,fill=white,line width=1pt] (1.85,0) arc (180:360:0.35);
+\node[rotate=90, text=white, font=\sffamily\bfseries\large] at (2.2,-7) {ATmega328P-PU};
+\node[text=circuitGold, font=\sffamily\footnotesize, anchor=north] at (2.2,-14.05) {DIP-28 (PDIP) --- top view};
+
+\leftpin{0}{1}{PC6 (RESET)}
+\leftpin{1}{2}{PD0 (RXD)}
+\leftpin{2}{3}{PD1 (TXD)}
+\leftpin{3}{4}{PD2 (INT0)}
+\leftpin{4}{5}{PD3 (INT1/OC2B)}
+\leftpin{5}{6}{PD4 (T0/XCK)}
+\leftpin{6}{7}{VCC}
+\leftpin{7}{8}{GND}
+\leftpin{8}{9}{PB6 (XTAL1)}
+\leftpin{9}{10}{PB7 (XTAL2)}
+\leftpin{10}{11}{PD5 (T1/OC0B)}
+\leftpin{11}{12}{PD6 (AIN0/OC0A)}
+\leftpin{12}{13}{PD7 (AIN1)}
+\leftpin{13}{14}{PB0 (ICP1/CLKO)}
+
+\rightpin{0}{28}{PC5 (ADC5/SCL)}
+\rightpin{1}{27}{PC4 (ADC4/SDA)}
+\rightpin{2}{26}{PC3 (ADC3)}
+\rightpin{3}{25}{PC2 (ADC2)}
+\rightpin{4}{24}{PC1 (ADC1)}
+\rightpin{5}{23}{PC0 (ADC0)}
+\rightpin{6}{22}{GND}
+\rightpin{7}{21}{AREF}
+\rightpin{8}{20}{AVCC}
+\rightpin{9}{19}{PB5 (SCK)}
+\rightpin{10}{18}{PB4 (MISO)}
+\rightpin{11}{17}{PB3 (MOSI/OC2A)}
+\rightpin{12}{16}{PB2 (SS/OC1B)}
+\rightpin{13}{15}{PB1 (OC1A)}
+\end{tikzpicture}
+\end{figure}
+\caption{ATmega328P-PU PDIP-28 pinout, top view, pin 1 marked by the notch.}
+\label{fig:pinout}
+\end{figure}
+
+\begin{designnote}[Pins reserved before any GPIO is even assigned]
+Of the 28 physical pins, \textbf{5 are already committed} before a single I/O line is allocated to the display: pins 7 \& 8 (VCC/GND), pin 1 (RESET), and pins 9 \& 10 (XTAL1/XTAL2, consumed by the crystal). Pin 20 (AVCC) and pin 22 (GND) are also tied to the supply rails. That leaves the three full ports -- B, C, and D -- minus those reservations, i.e.\ \textbf{23 usable GPIO pins}, exactly matching the datasheet figure in Table~\ref{tab:atmegaspecs}.
+\end{designnote}
+
+\subsection{Arduino Pin to Physical Pin Cross-Reference}
+The Arduino IDE refers to pins by their board-silkscreen names (\texttt{D2}, \texttt{A0}, etc.), but the bare chip only understands port/pin terms. Table~\ref{tab:crossref} translates every pin used in this project from its Arduino name to its physical DIP location, so the same wiring used on the Uno (Section~\ref{sec:phase1}) can be reproduced on the breadboard around the bare chip.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lllp{4.6cm}}
+\toprule
+\rowcolor{pcbDark}
+\textcolor{white}{\textbf{Arduino Pin}} & \textcolor{white}{\textbf{AVR Port Pin}} & \textcolor{white}{\textbf{Physical Pin \#}} & \textcolor{white}{\textbf{Used For}} \\
+\midrule
+D2 & PD2 & 4  & Segment a \\
+D3 & PD3 & 5  & Segment b \\
+D4 & PD4 & 6  & Segment c \\
+D5 & PD5 & 11 & Segment d \\
+D6 & PD6 & 12 & Segment e \\
+D7 & PD7 & 13 & Segment f \\
+D8 & PB0 & 14 & Segment g \\
+D9 & PB1 & 15 & Digit 1 select \\
+D10 & PB2 & 16 & Digit 2 select \\
+D11 & PB3 & 17 & Digit 3 select \\
+D12 & PB4 & 18 & Digit 4 select \\
+A0 & PC0 & 23 & Button 1 (Hour) \\
+A1 & PC1 & 24 & Button 2 (Minute) \\
+A2 & PC2 & 25 & Button 3 (Start/Mode) \\
+\bottomrule
+\end{tabular}
+\caption{Project-specific Arduino-pin to physical-DIP-pin cross-reference.}
+\label{tab:crossref}
+\end{table}
+
+\subsection{Rebuilding the Minimum Operating Circuit}
+Once the bare chip sits on the breadboard, the four support networks designed and calculated in Section~\ref{sec:calculations} -- the crystal oscillator (Figure~\ref{fig:crystal}), the decoupling capacitors (Figure~\ref{fig:decoupling}), and the reset pull-up (Figure~\ref{fig:reset}) -- are wired directly onto the physical pins identified in Figure~\ref{fig:pinout}: pins 9/10 for the crystal, pins 7/20 for VCC/AVCC decoupling, and pin 1 for the reset pull-up. Only once this minimum operating circuit is in place and verified (chip draws idle current, no overheating, reset line measured at 5\,V) does wiring of the display and buttons begin.
+
+% =========================================================
+\section{Phase III --- Bootloader Burning via Arduino as ISP}
+\label{sec:phase3}
+% =========================================================
+
+\subsection{Why a Fresh Chip Needs a Bootloader}
+A brand-new ATmega328P-PU from the factory has no Arduino bootloader and no fuse bits configured for a 16\,MHz external crystal -- it is generic silicon. Before it will accept sketches uploaded the "Arduino way," it must be burned with the Arduino Uno bootloader and have its clock-source fuses set correctly. A second Arduino Uno, reflashed to act as an \textbf{AVR ISP (In-System Programmer)}, performs this job -- no dedicated programmer hardware needs to be purchased.
+
+\subsection{Arduino-as-ISP Wiring}
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\rowcolor{pcbDark}
+\textcolor{white}{\textbf{Arduino Uno (Programmer)}} & \textcolor{white}{\textbf{ATmega328P-PU (Target)}} \\
+\midrule
+D10 & RESET (pin 1) \\
+D11 & MOSI (pin 17) \\
+D12 & MISO (pin 18) \\
+D13 & SCK (pin 19) \\
+5V & VCC (pin 7) \\
+GND & GND (pin 8) \\
+\bottomrule
+\end{tabular}
+\caption{Arduino-as-ISP to target-chip wiring.}
+\label{tab:isp}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[font=\sffamily\small,
+  ispbox/.style={rectangle, rounded corners=3pt, draw=pcbDark, fill=pcbMint,
+                  minimum width=42mm, minimum height=24mm, align=center,
+                  line width=0.9pt, font=\sffamily\bfseries\small},
+  pinrow/.style={font=\sffamily\footnotesize, text=pcbDark2}
+]
+\node[ispbox] (uno) {Arduino Uno\\[2pt]\footnotesize\normalfont running the\\\texttt{ArduinoISP} sketch};
+\node[ispbox, right=58mm of uno] (chip) {ATmega328P-PU\\[2pt]\footnotesize\normalfont target chip on\\breadboard};
+
+\foreach \l/\r/\y in {D10/RESET/1.4, D11/MOSI/0.5, D12/MISO/-0.4, D13/SCK/-1.3}{
+  \draw[-{Stealth[length=2mm]}, line width=0.8pt, color=copper]
+      ([yshift=\y cm]uno.east) -- ([yshift=\y cm]chip.west);
+  \node[pinrow, above=1pt] at ($(uno.east)+(1.35,\y)$) {\l};
+  \node[pinrow, above=1pt] at ($(chip.west)+(-1.35,\y)$) {\r};
+}
+\draw[line width=0.8pt, color=pcbDark!55] ([yshift=-2.4cm]uno.east) -- ([yshift=-2.4cm]chip.west);
+\node[pinrow, above=1pt] at ($(uno.east)+(0.9,-2.4)$) {5V};
+\node[pinrow, above=1pt] at ($(chip.west)+(-1.0,-2.4)$) {VCC};
+\draw[line width=0.8pt, color=pcbDark!55] ([yshift=-3.0cm]uno.east) -- ([yshift=-3.0cm]chip.west);
+\node[pinrow, above=1pt] at ($(uno.east)+(1.0,-3.0)$) {GND};
+\node[pinrow, above=1pt] at ($(chip.west)+(-1.0,-3.0)$) {GND};
+\end{tikzpicture}
+\caption{Arduino-as-ISP connection used to burn the bootloader and, later, the clock firmware itself.}
+\label{fig:ispwiring}
+\end{figure}
+
+\subsection{Bootloader Burning Procedure}
+\begin{enumerate}
+\item Open the Arduino IDE, load the built-in \textbf{File\,$\to$\,Examples\,$\to$\,11.ArduinoISP\,$\to$\,ArduinoISP} sketch, and upload it to the \emph{programmer} Uno (with its own USB cable connected, board still selected as ``Arduino Uno'').
+\item Wire the programmer Uno to the target ATmega328P-PU on the breadboard exactly as in Table~\ref{tab:isp} / Figure~\ref{fig:ispwiring}. The target chip must already have its minimum operating circuit (Section~\ref{sec:phase2}) in place.
+\item In the IDE, set \textbf{Tools\,$\to$\,Board\,$\to$\,Arduino Uno} (this selects the correct bootloader image and fuse settings for the target chip) and \textbf{Tools\,$\to$\,Programmer\,$\to$\,Arduino as ISP}.
+\item Run \textbf{Tools\,$\to$\,Burn Bootloader}. The IDE uses the programmer Uno to write the bootloader and set the fuses (clock source = external crystal, brown-out detection, etc.) on the target chip.
+\item Confirm a "Done burning bootloader" message with no errors before proceeding.
+\end{enumerate}
+
+\begin{warnbox}[Common Pitfall]
+If the target chip's crystal and capacitors (Section~\ref{sec:crystalcalc}) are not yet wired up at this point, bootloader burning will fail or hang -- the ISP process depends on the target chip actually running at the expected clock speed once fuses referencing an external crystal are set.
+\end{warnbox}
+
+% =========================================================
+\section{Phase IV --- Uploading the Clock Firmware}
+\label{sec:phase4}
+% =========================================================
+
+\subsection{Programming Logic Overview}
+With a bootloader in place, the chip behaves like a standard Arduino Uno from the IDE's point of view. The firmware's timekeeping core avoids any dependency on a hardware RTC, instead deriving hours, minutes, and seconds purely from the AVR's free-running millisecond timer:
+
+\begin{lstlisting}[caption={Timekeeping core (simplified).}, label=lst:timekeeping]
+unsigned long lastTick = 0;
+int seconds = 0, minutes = 0, hours = 0;
+
+void updateClock() {
+  if (millis() - lastTick >= 1000) {   // one real second elapsed
+    lastTick += 1000;
+    seconds++;
+    if (seconds >= 60) { seconds = 0; minutes++; }
+    if (minutes >= 60) { minutes = 0; hours++; }
+    if (hours   >= 24) { hours = 0; }
+  }
+}
+\end{lstlisting}
+
+The display routine runs independently and far more frequently, continuously cycling through the four digits (Section~\ref{sec:multiplex}) so that whichever values \texttt{hours}/\texttt{minutes} (or \texttt{minutes}/\texttt{seconds}, in Seconds Mode) currently hold are always shown without any visible flicker.
+
+\subsection{Source Code Repository}
+\label{sec:sourcecode}
+\begin{infobox}[Full Arduino Sketch]
+The complete, uploadable Arduino sketch for this project -- segment mapping, multiplexing routine, button handling, and both display modes -- is published here:
+\begin{center}
+\url{https://github.com/samikshas1118/IITH-SRFP/blob/main/Digital_Clock_Code}
+\end{center}
+\end{infobox}
+
+\subsection{Uploading the Firmware to the Bare Chip}
+The same Arduino-as-ISP wiring used for bootloader burning (Figure~\ref{fig:ispwiring}) doubles as the upload path for the actual clock sketch -- the target chip has no USB/serial interface of its own, so every future firmware update must go through this same ISP route (or, alternatively, via a separate FTDI/USB-to-serial adapter wired to the chip's RX/TX pins, if preferred):
+\begin{enumerate}
+\item Open the clock sketch from the repository above in the Arduino IDE.
+\item With \textbf{Board = Arduino Uno} and \textbf{Programmer = Arduino as ISP} still selected, choose \textbf{Sketch\,$\to$\,Upload Using Programmer} (\textit{not} the regular Upload button, since the target has no bootloader-driven serial path through the programmer Uno).
+\item Watch for "Done uploading" with no \texttt{avrdude} errors.
+\end{enumerate}
+
+% =========================================================
+\section{Phase V --- Full-Circuit Breadboard Validation}
+\label{sec:phase5}
+% =========================================================
+Before committing to solder, the \emph{entire} standalone circuit -- chip, crystal network, decoupling, reset, all four displays, both colon LEDs, and all three buttons -- was reassembled and re-tested on a breadboard, powered exactly as the final product would be (5\,V USB module, no Arduino board attached at all).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{p{8.0cm}c}
+\toprule
+\rowcolor{pcbDark}
+\textcolor{white}{\textbf{Test Case}} & \textcolor{white}{\textbf{Result}} \\
+\midrule
+Chip powers up and runs without the programmer Uno attached & \ding{51} Pass \\
+All four digits display correctly in Normal Mode (HH:MM) & \ding{51} Pass \\
+Seconds Mode (MM:SS) triggers on long-press and times out correctly & \ding{51} Pass \\
+Hour / Minute buttons set time correctly, including roll-over & \ding{51} Pass \\
+Colon LEDs are steady and clearly visible & \ding{51} Pass \\
+No flicker, ghosting, or dim digits at operating voltage & \ding{51} Pass \\
+RESET line measured at a stable 5\,V during normal run & \ding{51} Pass \\
+No unexpected resets over an extended power-on soak test & \ding{51} Pass \\
+\bottomrule
+\end{tabular}
+\caption{Full-circuit breadboard validation results, immediately prior to soldering.}
+\label{tab:fullvalidation}
+\end{table}
+
+\begin{designnote}[Gate before soldering]
+Every row in Table~\ref{tab:fullvalidation} had to pass before any component touched the dot board. Soldering is, by design, the \emph{least} reversible step in this entire workflow -- so it is deliberately the last one to happen.
+\end{designnote}
+
+% =========================================================
+\section{Phase VI --- Soldering \& Permanent Assembly}
+\label{sec:phase6}
+% =========================================================
+
+\subsection{From Breadboard to Solder}
+Once Table~\ref{tab:fullvalidation} was fully green, the validated layout was transferred, connection for connection, onto a perforated dot board for permanent assembly.
+
+\subsection{Soldering Precautions}
+\begin{itemize}
+\item Keep crystal leads and the two 22\,pF capacitor leads as \textbf{short as possible} -- long leads here add stray inductance/capacitance that can destabilise oscillation.
+\item Double-check \textbf{polarity} on every polarised part (LEDs, electrolytic capacitors if used) before soldering -- a reversed LED simply won't light, but a reversed electrolytic can fail violently.
+\item Verify the \textbf{chip orientation} (notch / pin-1 dot, Figure~\ref{fig:pinout}) before inserting it into a socket -- never solder the chip directly without a socket, both to protect it from soldering heat and to allow future reprogramming or replacement.
+\item Inspect every joint for \textbf{solder bridges} between adjacent pins, especially across the closely-spaced DIP-28 socket pins.
+\item Use a fine-tip iron and \textbf{check continuity} with a multimeter on every power and ground run before first power-up.
+\item Power up for the first time \textbf{without} the microcontroller inserted, verify 5\,V and 0\,V land where expected, then insert the chip.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.62\linewidth]{soldering.jpeg}
+\caption{The soldered standalone clock board -- ATmega328P-PU (socketed), crystal network, displays, buttons, and power module assembled on dot board.}
+\label{fig:soldering}
+\end{figure}
+
+\subsection{Post-Solder Bring-Up Checklist}
+\begin{table}[H]
+\centering
+\begin{tabular}{p{8.5cm}c}
+\toprule
+\rowcolor{pcbDark}
+\textcolor{white}{\textbf{Check}} & \textcolor{white}{\textbf{Result}} \\
+\midrule
+Visual inspection: no solder bridges, no cold joints & \ding{51} Pass \\
+Continuity confirmed on all VCC and GND runs & \ding{51} Pass \\
+5\,V measured correctly before chip insertion & \ding{51} Pass \\
+Chip inserted in correct orientation, board powers up cleanly & \ding{51} Pass \\
+Full display \& button re-test identical to Table~\ref{tab:fullvalidation} & \ding{51} Pass \\
+\bottomrule
+\end{tabular}
+\caption{Bring-up checks performed immediately after soldering.}
+\end{table}
+
+% =========================================================
+\section{Phase VII --- Mechanical Enclosure Design (Fusion 360)}
+\label{sec:phase7}
+% =========================================================
+
+\subsection{Design Goals}
+With a working soldered board in hand, a custom enclosure was modelled in \textbf{Autodesk Fusion 360} to:
+\begin{itemize}
+\item Physically protect the board, solder joints, and wiring;
+\item Present a clean, finished, non-prototype appearance;
+\item Provide a display window so the seven-segment digits remain clearly visible;
+\item Provide access cut-outs aligned to the three push buttons;
+\item Assemble and disassemble \textbf{without screws}, using a snap-fit joint between the two shells.
+\end{itemize}
+
+\subsection{Snap-Fit Mechanism}
+\label{sec:snapfit}
+Rather than threaded fasteners, the enclosure's top and bottom shells lock together using a series of cantilever snap hooks moulded into the bottom shell, which engage matching lips/slots printed into the inside wall of the top shell (Figure~\ref{fig:snapfit}).
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.0, line width=1pt]
+% top shell wall (cross-section)
+\draw[draw=pcbDark, fill=pcbMint] (0,2) rectangle (1.0,3.2);
+\draw[draw=pcbDark, fill=pcbMint] (0,1.6) -- (0,2) -- (-0.55,2) -- (-0.55,1.75) -- (0,1.6);
+\node[font=\sffamily\footnotesize, anchor=south] at (0.5,3.25) {Top shell wall};
+\node[font=\sffamily\footnotesize, color=copper, anchor=east] at (-0.65,2.15) {Lip};
+
+% bottom shell wall + cantilever hook
+\draw[draw=pcbDark, fill=pcbDark2] (0,0) rectangle (1.0,1.55);
+\draw[draw=pcbDark, fill=pcbDark2] (0,1.55) -- (0,1.95) -- (-0.55,1.7) -- cycle;
+\node[font=\sffamily\footnotesize, anchor=north] at (0.5,-0.05) {Bottom shell wall};
+\node[font=\sffamily\footnotesize, color=circuitGold, anchor=east] at (-0.65,1.45) {Snap hook};
+
+\draw[-{Stealth[length=2mm]}, color=copper, line width=0.8pt] (2.0,2.6) -- (1.1,2.05);
+\node[font=\sffamily\footnotesize, align=left] at (3.3,2.6) {Hook flexes past\\the lip, then springs\\back to lock};
+\end{tikzpicture}
+\caption{Snap-fit joint cross-section: a cantilever hook on the bottom shell deflects past, then springs back behind, a matching lip on the top shell.}
+\label{fig:snapfit}
+\end{figure}
+
+\begin{designnote}[Why snap-fit over screws]
+A screwed enclosure needs bosses, threaded inserts or self-tapping pilot holes, and visible fastener heads. A snap-fit shell needs none of that: it assembles with a firm press, disassembles by releasing the hooks with a thin tool, and leaves a cleaner, hardware-free exterior -- at the cost of needing slightly more careful tolerancing (typically 0.2--0.3\,mm clearance between hook and lip) so the joint is snug without being so tight that the PLA hook snaps off during assembly.
+\end{designnote}
+
+\subsection{CAD Renders}
+Figure~\ref{fig:cadtop} and Figure~\ref{fig:cadbottom} show the completed top and bottom shells as modelled in Fusion 360.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{DC_Top.png}
+\caption{Top shell -- Fusion 360 CAD render, showing the display window and button access cut-outs.}
+\label{fig:cadtop}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{DC_Bottom.png}
+\caption{Bottom shell -- Fusion 360 CAD render, showing the internal snap-fit hooks and board standoffs.}
+\label{fig:cadbottom}
+\end{figure}
+
+% =========================================================
+\section{Phase VIII --- Slicing \& 3D Printing}
+\label{sec:phase8}
+% =========================================================
+
+\subsection{From CAD Model to Printed Part}
+\begin{center}
+\begin{tikzpicture}[
+  node distance=8mm and 9mm,
+  every node/.style={font=\sffamily\small},
+  flowbox/.style={rectangle, rounded corners=3pt, draw=pcbDark, fill=pcbMint,
+               text=pcbDark2, minimum height=10mm, minimum width=27mm,
+               align=center, line width=0.7pt},
+  arr/.style={-{Stealth[length=2.2mm]}, line width=0.9pt, draw=copper}
+]
+\node[flowbox] (a) {Fusion 360\\CAD Model};
+\node[flowbox, right=of a] (b) {Export\\\texttt{.STL}};
+\node[flowbox, right=of b] (c) {Creality\\Slicer};
+\node[flowbox, right=of c] (d) {Generate\\G-code};
+\node[flowbox, right=of d] (e) {3D Print\\(FDM)};
+\draw[arr] (a) -- (b);
+\draw[arr] (b) -- (c);
+\draw[arr] (c) -- (d);
+\draw[arr] (d) -- (e);
+\end{tikzpicture}
+\end{center}
+
+Both shells were modelled as separate bodies in Fusion 360, each exported as an individual \texttt{.STL} mesh, then imported into \textbf{Creality's slicer software} to be converted into machine-readable G-code.
+
+\subsection{Slicing Parameters Considered}
+\begin{table}[H]
+\centering
+\begin{tabular}{lp{8.2cm}}
+\toprule
+\rowcolor{pcbDark}
+\textcolor{white}{\textbf{Parameter}} & \textcolor{white}{\textbf{Consideration}} \\
+\midrule
+Layer height & Finer layers improve the visual finish of the visible enclosure surfaces at the cost of print time. \\
+Infill & Moderate infill is sufficient -- the shells are not load-bearing structural parts, just protective housings. \\
+Orientation & Each shell oriented to print its snap-fit hooks/lips along the strongest layer direction, minimising the chance of a hook snapping under flex. \\
+Supports & Used selectively wherever an overhang (e.g. the display window lip, button bosses) would otherwise droop or print poorly bridging open air. \\
+\bottomrule
+\end{tabular}
+\caption{Key slicing parameters configured before generating G-code.}
+\end{table}
+
+% =========================================================
+\section{Results \& Final Outcome}
+\label{sec:results}
+% =========================================================
+The completed device is a fully standalone, enclosed digital clock built around a bare ATmega328P-PU rather than an Arduino board. It reliably displays HH:MM in Normal Mode, switches to MM:SS in Seconds Mode on demand, accepts hour/minute/start-mode input from three buttons, and runs continuously from a simple 5\,V USB supply -- all inside a custom, snap-fit, 3D-printed shell with no exposed fasteners.
+
+\begin{infobox}[Outcome Summary]
+\textbf{Idea} $\to$ \textbf{Calculated component selection} $\to$ \textbf{Arduino Uno breadboard prototype} $\to$ \textbf{Standalone ATmega328P-PU} $\to$ \textbf{ISP bootloader \& firmware burning} $\to$ \textbf{Full-circuit re-validation} $\to$ \textbf{Soldered assembly} $\to$ \textbf{Fusion 360 snap-fit enclosure} $\to$ \textbf{3D-printed final product}.
+\end{infobox}
+
+% =========================================================
+\section{Skills Demonstrated}
+\label{sec:skills}
+% =========================================================
+\begin{itemize}
+\item[\ding{51}] Embedded systems design with a bare microcontroller (no development board in the final product)
+\item[\ding{51}] Digital electronics: oscillator, decoupling, and reset network calculation
+\item[\ding{51}] Display multiplexing and persistence-of-vision driven design
+\item[\ding{51}] Microcontroller programming (Arduino C/C++, \texttt{millis()}-based scheduling)
+\item[\ding{51}] AVR ISP programming and bootloader/fuse management
+\item[\ding{51}] Hardware debugging across two breadboard iterations
+\item[\ding{51}] Soldering and permanent through-hole assembly
+\item[\ding{51}] Parametric CAD modelling (Fusion 360) and snap-fit mechanical design
+\item[\ding{51}] Slicing and FDM 3D-printing workflow (Creality Slicer)
+\end{itemize}
+
+% =========================================================
+\section{Future Scope}
+\label{sec:future}
+% =========================================================
+\begin{itemize}
+\item \textbf{Real-Time Clock (RTC) module} (e.g. DS1307/DS3231) to retain accurate time through power loss, removing reliance on \texttt{millis()} drift correction and manual re-setting after every power cycle.
+\item \textbf{Battery backup} (coin cell + RTC) so the clock keeps time even when unplugged.
+\item \textbf{Alarm and buzzer functionality} using one of the chip's remaining free GPIO pins.
+\item \textbf{Temperature/date display} as an additional rotating mode, using the same multiplexed digits.
+\item \textbf{Brightness control} via PWM-dimmed segment drive, using a light-dependent resistor (LDR) for ambient-light-adaptive brightness.
+\item \textbf{Digit-driver transistors} (Section~\ref{sec:resistorcalc}) to formally bring every GPIO pin's current within the AVR's recommended continuous rating.
+\item \textbf{PCB version} replacing the dot board with a custom-etched or fabricated PCB for a more compact, more reliable final assembly.
+\end{itemize}
+
+% =========================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% =========================================================
+This project set out to answer a simple question -- what does it actually take to turn an Arduino Uno sketch into a real, standalone product? -- and answered it by walking the entire path: justifying every component with a calculation, proving logic safely on a breadboard before committing to solder, learning to read and wire a bare 28-pin chip directly, reusing available hardware (a second Uno) as a programmer rather than buying new tools, and finishing with a properly designed, snap-fit 3D-printed enclosure rather than a bare board on a desk. The result is more than "a clock that tells time" -- it is a complete, documented demonstration of the idea-to-product workflow that underlies real embedded hardware development.
+
+% =========================================================
+\section{References \& Resources}
+\label{sec:references}
+% =========================================================
+\begin{itemize}
+\item Arduino Sketch (this project): \url{https://github.com/samikshas1118/IITH-SRFP/blob/main/Digital_Clock_Code}
+\item ATmega328P-PU Datasheet -- Microchip/Atmel
+\item Arduino IDE built-in example: \texttt{File\,$\to$\,Examples\,$\to$\,11.ArduinoISP\,$\to$\,ArduinoISP}
+\item Autodesk Fusion 360 -- CAD modelling software used for the enclosure
+\item Creality Slicer -- slicing software used to generate G-code for FDM printing
+\end{itemize}
+
+\end{document}
