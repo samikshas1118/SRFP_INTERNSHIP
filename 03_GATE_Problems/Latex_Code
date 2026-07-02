@@ -1,0 +1,603 @@
+\documentclass[12pt,a4paper]{article}
+
+% ─── Packages ────────────────────────────────────────────────────────────────
+\usepackage[a4paper, top=1in, bottom=1in, left=1.1in, right=1.1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{enumitem}
+\usepackage[letterspace=120]{microtype}   % enables \textls
+\usepackage{pifont}                        % replaces fontawesome5
+\usepackage{marvosym}                      % extra symbols
+\usepackage{wasysym}                       % extra symbols
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{eso-pic}          % reliable full-page background shapes
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{setspace}
+\usepackage{ragged2e}
+
+\pgfplotsset{compat=1.18}
+\tcbuselibrary{skins, breakable, listings}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, shadows, calc}
+
+% ─── Icon replacements (no fontawesome5) ─────────────────────────────────────
+\newcommand{\faCode}{\texttt{\textbf{\{/\}}}}
+\newcommand{\faMicrochip}{\ding{122}}
+\newcommand{\faCheckCircle}{\ding{52}}
+\newcommand{\faInfoCircle}{\ding{74}}
+\newcommand{\faFlask}{\ding{168}}
+\newcommand{\faGraduationCap}{\ding{243}}
+\newcommand{\faClipboardList}{\ding{113}}
+\newcommand{\faBolt}{\ding{72}}
+\newcommand{\faArrowRight}{\ding{228}}
+\newcommand{\faCircle}[1][]{\ding{109}}
+
+% ─── Color Palette ───────────────────────────────────────────────────────────
+\definecolor{PrimaryBlue}{HTML}{1A3C5E}
+\definecolor{AccentTeal}{HTML}{00A896}
+\definecolor{AccentGold}{HTML}{D4870A}
+\definecolor{LightGray}{HTML}{F5F7FA}
+\definecolor{MidGray}{HTML}{90A4AE}
+\definecolor{DarkGray}{HTML}{37474F}
+\definecolor{CodeBg}{HTML}{1E2A38}
+\definecolor{CodeGreen}{HTML}{A8FF78}
+\definecolor{CodeBlue}{HTML}{78DBFF}
+\definecolor{CodeYellow}{HTML}{FFE082}
+\definecolor{SuccessGreen}{HTML}{27AE60}
+\definecolor{AssemblyBg}{HTML}{1E1535}
+\definecolor{AssemblyKeyword}{HTML}{C792EA}
+\definecolor{RuleLine}{HTML}{C8D8E8}
+
+% ─── Hyperref ────────────────────────────────────────────────────────────────
+\hypersetup{
+    colorlinks=true,
+    linkcolor=PrimaryBlue,
+    urlcolor=AccentTeal,
+    pdfauthor={Samiksha S},
+    pdftitle={Analysis, Simplification and Arduino-Based Implementation of a GATE EC Logic Circuit}
+}
+
+% ─── Caption ─────────────────────────────────────────────────────────────────
+\captionsetup{
+    labelfont={bf, color=PrimaryBlue},
+    textfont={it, color=DarkGray},
+    labelsep=quad, skip=6pt
+}
+
+% ─── Section Headings ────────────────────────────────────────────────────────
+\titleformat{\section}
+  {\large\bfseries\color{PrimaryBlue}}
+  {\thesection.}
+  {0.5em}
+  {\MakeUppercase}
+  [\vspace{2pt}\textcolor{AccentTeal}{\rule{\linewidth}{1.5pt}}]
+
+\titleformat{\subsection}
+  {\normalsize\bfseries\color{DarkGray}}
+  {\thesubsection}
+  {0.5em}
+  {}
+  [\vspace{1pt}\textcolor{RuleLine}{\rule{0.5\linewidth}{0.5pt}}]
+
+\titlespacing*{\section}{0pt}{18pt}{8pt}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+% ─── Header / Footer ─────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{PrimaryBlue}{\textbf{GATE EC Logic Circuit Analysis}}}
+
+\fancyfoot[C]{\textcolor{MidGray}{\rule{0.28\linewidth}{0.4pt}%
+  \enspace\thepage\enspace\rule{0.28\linewidth}{0.4pt}}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{%
+  \hbox to\headwidth{\color{AccentTeal}\leaders\hrule height\headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+% ─── Code Styles ─────────────────────────────────────────────────────────────
+\lstdefinestyle{arduino}{
+    language=C++,
+    backgroundcolor=\color{CodeBg},
+    basicstyle=\ttfamily\small\color{white},
+    keywordstyle=\color{CodeBlue}\bfseries,
+    commentstyle=\color{CodeGreen}\itshape,
+    stringstyle=\color{CodeYellow},
+    numberstyle=\tiny\color{MidGray},
+    numbers=left, numbersep=10pt, stepnumber=1,
+    breaklines=true, frame=none,
+    showstringspaces=false, tabsize=4, xleftmargin=18pt,
+    morekeywords={pinMode,digitalWrite,delay,HIGH,LOW,OUTPUT,INPUT,void,int,const},
+}
+\lstdefinestyle{assembly}{
+    backgroundcolor=\color{AssemblyBg},
+    basicstyle=\ttfamily\small\color{white},
+    keywordstyle=\color{AssemblyKeyword}\bfseries,
+    commentstyle=\color{CodeGreen}\itshape,
+    numberstyle=\tiny\color{MidGray},
+    numbers=left, numbersep=10pt,
+    breaklines=true, frame=none,
+    showstringspaces=false, tabsize=4, xleftmargin=18pt,
+    morekeywords={ldi,out,mov,lsl,sbi,rcall,inc,cpi,brne,rjmp,dec,ret,.include,.org},
+}
+
+\newtcblisting{arduinobox}{
+    arc=6pt, boxrule=0pt, colback=CodeBg,
+    left=4pt, right=4pt, top=4pt, bottom=4pt,
+    listing only, listing style=arduino,
+    title={\faCode\enspace Arduino / C++ Program},
+    fonttitle=\bfseries\small\color{white}, coltitle=white,
+    attach boxed title to top left={yshift=-2mm, xshift=6mm},
+    boxed title style={arc=4pt, colback=AccentTeal, boxrule=0pt},
+    drop shadow,
+}
+\newtcblisting{assemblybox}{
+    arc=6pt, boxrule=0pt, colback=AssemblyBg,
+    left=4pt, right=4pt, top=4pt, bottom=4pt,
+    listing only, listing style=assembly,
+    title={\faMicrochip\enspace AVR Assembly Program},
+    fonttitle=\bfseries\small\color{white}, coltitle=white,
+    attach boxed title to top left={yshift=-2mm, xshift=6mm},
+    boxed title style={arc=4pt, colback=PrimaryBlue, boxrule=0pt},
+    drop shadow,
+}
+
+% ─── Info Boxes ──────────────────────────────────────────────────────────────
+\tcbset{
+    resultbox/.style={
+        enhanced, arc=5pt, boxrule=0pt,
+        colback=AccentTeal!7, colframe=AccentTeal,
+        leftrule=4pt, rightrule=0pt, toprule=0pt, bottomrule=0pt,
+        fonttitle=\bfseries\color{PrimaryBlue},
+        title={\faCheckCircle\enspace Verified Result},
+    },
+    infobox/.style={
+        enhanced, arc=5pt, boxrule=0pt,
+        colback=PrimaryBlue!5, colframe=PrimaryBlue,
+        leftrule=4pt, rightrule=0pt, toprule=0pt, bottomrule=0pt,
+        fonttitle=\bfseries\color{PrimaryBlue},
+    },
+    stepbox/.style={
+        enhanced, arc=4pt,
+        colback=LightGray, colframe=RuleLine,
+        boxrule=0.6pt, left=10pt, right=10pt, top=6pt, bottom=6pt,
+    }
+}
+
+%% ═══════════════════════════════════════════════════════════════════════════
+%%  TITLE PAGE
+%% ═══════════════════════════════════════════════════════════════════════════
+\renewcommand{\maketitle}{%
+\begin{titlepage}
+\thispagestyle{plain}
+
+%% --- eso-pic background (fires at shipout, coordinates always correct) ---
+\AddToShipoutPictureBG*{%
+  \AtPageUpperLeft{%
+    \begin{tikzpicture}[overlay]
+      \fill[PrimaryBlue] (0,0) rectangle (\paperwidth,-11.5cm);
+      \fill[AccentTeal]  (0,-11.5cm) rectangle (\paperwidth,-11.9cm);
+      \fill[AccentGold]  (0,-11.9cm) rectangle (\paperwidth,-12.15cm);
+      \fill[white, opacity=0.04]
+        (\paperwidth-3.5cm,-5.5cm) circle (5cm);
+      \fill[AccentTeal, opacity=0.10]
+        (3cm,-9cm) circle (3.5cm);
+      \fill[PrimaryBlue]
+        (0,-\paperheight) rectangle (\paperwidth,-\paperheight+2.4cm);
+      \fill[AccentTeal]
+        (0,-\paperheight+2.4cm) rectangle (\paperwidth,-\paperheight+2.62cm);
+    \end{tikzpicture}%
+  }%
+}
+
+\vspace*{1.0cm}
+\begin{center}
+  {\fontsize{10}{12}\selectfont\color{MidGray}%
+   \textls[120]{\MakeUppercase{Department of Electronics \& Communication Engineering}}}\\[0.25cm]
+  {\fontsize{9}{11}\selectfont\color{MidGray!70}%
+   B.E.\ $\cdot$\ Academic Year 2026-27}\\[1.0cm]
+
+  \textcolor{AccentTeal!60}{\rule{4cm}{0.4pt}}\enspace
+  \textcolor{AccentGold}{\small\faBolt}\enspace
+  \textcolor{AccentTeal!60}{\rule{4cm}{0.4pt}}\\[1.0cm]
+
+  {\fontsize{20}{25}\selectfont\bfseries\color{white}%
+   Analysis, Simplification and}\\[0.3cm]
+  {\fontsize{20}{25}\selectfont\bfseries\color{white}%
+   Arduino-Based Implementation}\\[0.4cm]
+  {\fontsize{15}{19}\selectfont\bfseries\color{AccentGold}%
+    GATE EC Logic Circuit}\\[1.0cm]
+
+  \textcolor{RuleLine}{\rule{9cm}{0.4pt}}\\[0.8cm]
+
+  \begin{tikzpicture}
+    \node[
+      fill=AccentTeal, text=white,
+      inner xsep=18pt, inner ysep=6pt,
+      rounded corners=4pt,
+      font=\small\bfseries\sffamily
+    ] {\faClipboardList\enspace Documentation};
+  \end{tikzpicture}
+\end{center}
+
+\vspace{1.4cm}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[
+    draw=RuleLine, fill=white,
+    rounded corners=6pt,
+    inner xsep=24pt, inner ysep=14pt,
+    drop shadow={shadow xshift=2pt, shadow yshift=-2pt, opacity=0.12}
+  ]{%
+    \begin{tabular}{rl}
+      \textcolor{MidGray}{\small Submitted by}   & \textbf{\large Samiksha S}\\[4pt]
+      \textcolor{MidGray}{\small Subject}         & \textbf{Digital Electronics \& Logic Design}\\[4pt]
+      \textcolor{MidGray}{\small Date}            & \textbf{\today}\\
+    \end{tabular}%
+  };
+\end{tikzpicture}
+\end{center}
+
+\vfill
+
+\begin{center}
+  \vspace{0.3cm}
+  {\small\color{white!80}%
+    \faBolt\enspace Boolean Algebra\quad\textcolor{AccentTeal}{$\bullet$}\quad
+    \faCircle\enspace DeMorgan's Theorem\quad\textcolor{AccentTeal}{$\bullet$}\quad
+    \faMicrochip\enspace Arduino UNO\quad\textcolor{AccentTeal}{$\bullet$}\quad
+    \faCode\enspace AVR Assembly%
+  }\\[0.3cm]
+\end{center}
+
+\end{titlepage}
+}
+
+%% ═══════════════════════════════════════════════════════════════════════════
+\begin{document}
+\maketitle
+
+\newpage
+\thispagestyle{plain}
+
+\begin{center}
+\vspace*{1.5cm}
+
+{\Large\bfseries\color{PrimaryBlue} Table of Contents}
+
+\vspace{0.3cm}
+\textcolor{AccentTeal}{\rule{6cm}{1.5pt}}
+
+\end{center}
+
+\vspace{0.8cm}
+
+\tableofcontents
+
+\newpage
+
+\section{Abstract}
+
+\begin{tcolorbox}[infobox, title={\faInfoCircle\enspace Overview}]
+This report presents a systematic \textbf{analysis, simplification, and hardware
+implementation} of a digital logic circuit drawn from a GATE Electronics and
+Communication Engineering (EC) examination paper. Boolean algebra and DeMorgan's
+theorem are applied methodically to reduce the circuit, yielding the result:
+\[
+  \boxed{Y = 1}
+\]
+An \textbf{Arduino UNO} platform is subsequently employed to verify this result
+experimentally. Three LEDs serve as indicators for the input variables $A$, $B$,
+and $C$, while a fourth LED represents the output $Y$. The firmware automatically
+iterates through all eight possible input combinations and demonstrates that the
+output remains \textsc{HIGH} in every case, thereby confirming the theoretical
+derivation.
+\end{tcolorbox}
+
+\section{Objectives}
+
+The following objectives guided the course of this project:
+
+\begin{enumerate}[leftmargin=2.2em,
+                  label=\textcolor{AccentTeal}{\bfseries\arabic*.},
+                  itemsep=5pt, topsep=4pt]
+  \item Analyse the structure of the given GATE EC logic circuit.
+  \item Derive the corresponding Boolean expression from the schematic.
+  \item Simplify the expression using Boolean algebra and DeMorgan's theorem.
+  \item Construct a complete truth table to verify the simplified result.
+  \item Implement the logic on an Arduino UNO platform and observe output behaviour.
+  \item Demonstrate the practical advantages of Boolean simplification and logic
+        optimisation.
+\end{enumerate}
+
+\section{Problem Statement}
+
+\noindent
+\begin{minipage}[c]{0.48\textwidth}
+Obtain the Boolean expression corresponding to the given logic circuit and
+simplify it using Boolean algebra. Implement the simplified result on an
+Arduino UNO and verify the output experimentally.
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{question.jpeg}
+  \captionof{figure}{Given GATE EC Logic Circuit}
+\end{minipage}
+
+\newpage
+\section{Circuit Analysis and Simplification}
+
+\subsection{Step-by-Step Derivation}
+
+\begin{tcolorbox}[stepbox]
+\textbf{Step 1 \textemdash{} First-Stage NAND Gate Outputs}\\[4pt]
+The outputs of the two input-stage NAND gates are expressed as:
+\[
+  X_1 = \overline{\bar{A}\,B} \qquad X_2 = \overline{B\,\bar{C}}
+\]
+
+\medskip
+\textbf{Step 2 \textemdash{} Application of DeMorgan's Theorem}\\[4pt]
+Applying DeMorgan's theorem to each expression:
+\[
+  X_1 = A + \bar{B} \qquad X_2 = \bar{B} + C
+\]
+
+\medskip
+\textbf{Step 3 \textemdash{} OR Gate Combination}\\[4pt]
+The OR gate combines $X_1$ and $X_2$:
+\[
+  X_3 = X_1 + X_2 = A + \bar{B} + C
+\]
+
+\medskip
+\textbf{Step 4 \textemdash{} Self-Input NAND (NOT) Gates}\\[4pt]
+Two additional NAND gates with identical inputs function as inverters:
+\[
+  X_4 = \overline{A \cdot A} = \bar{A} \qquad X_5 = \overline{C \cdot C} = \bar{C}
+\]
+
+\medskip
+\textbf{Step 5 \textemdash{} Final Output Expression}\\[4pt]
+\begin{align*}
+  Y &= X_3 + X_4 + X_5 \\
+    &= (A + \bar{B} + C) + \bar{A} + \bar{C} \\
+    &= (A + \bar{A}) + \bar{B} + (C + \bar{C}) \\
+    &= 1 + \bar{B} + 1
+\end{align*}
+\end{tcolorbox}
+
+\vspace{8pt}
+\begin{tcolorbox}[resultbox]
+\[
+  \boldsymbol{Y = 1}
+\]
+The output is \textbf{always logic HIGH}, irrespective of the values of inputs
+$A$, $B$, or $C$. This establishes that the original circuit is logically
+redundant and may be replaced entirely by a direct connection to the supply
+voltage (V\textsubscript{CC}).
+\end{tcolorbox}
+
+\section{Truth Table Verification}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{
+    >{\centering\arraybackslash\bfseries\color{PrimaryBlue}}m{2cm}
+    >{\centering\arraybackslash\bfseries\color{PrimaryBlue}}m{2cm}
+    >{\centering\arraybackslash\bfseries\color{PrimaryBlue}}m{2cm}
+    >{\centering\arraybackslash}m{3cm}
+}
+\rowcolor{PrimaryBlue}
+\textcolor{white}{A} & \textcolor{white}{B} & \textcolor{white}{C}
+    & \textcolor{white}{\bfseries Output $Y$}\\
+\midrule
+0 & 0 & 0 & \textcolor{SuccessGreen}{\bfseries 1\enspace\faCheckCircle}\\
+\rowcolor{LightGray}
+0 & 0 & 1 & \textcolor{SuccessGreen}{\bfseries 1\enspace\faCheckCircle}\\
+0 & 1 & 0 & \textcolor{SuccessGreen}{\bfseries 1\enspace\faCheckCircle}\\
+\rowcolor{LightGray}
+0 & 1 & 1 & \textcolor{SuccessGreen}{\bfseries 1\enspace\faCheckCircle}\\
+1 & 0 & 0 & \textcolor{SuccessGreen}{\bfseries 1\enspace\faCheckCircle}\\
+\rowcolor{LightGray}
+1 & 0 & 1 & \textcolor{SuccessGreen}{\bfseries 1\enspace\faCheckCircle}\\
+1 & 1 & 0 & \textcolor{SuccessGreen}{\bfseries 1\enspace\faCheckCircle}\\
+\rowcolor{LightGray}
+1 & 1 & 1 & \textcolor{SuccessGreen}{\bfseries 1\enspace\faCheckCircle}\\
+\bottomrule
+\end{tabular}
+\caption{Complete Truth Table --- Output is always logic \textsc{HIGH}}
+\end{table}
+
+The truth table confirms that $Y = 1$ holds for all $2^3 = 8$ possible
+combinations of the three input variables, thereby validating the Boolean
+simplification analytically.
+
+\section{Hardware Implementation}
+
+\subsection{Components Required}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{
+    >{\bfseries\color{DarkGray}}m{6cm}
+    >{\centering\arraybackslash}m{3cm}
+}
+\rowcolor{PrimaryBlue}
+\textcolor{white}{\bfseries Component} & \textcolor{white}{\bfseries Quantity}\\
+\midrule
+Arduino UNO Microcontroller Board & 1\\
+\rowcolor{LightGray}
+Light Emitting Diodes (LEDs) & 4\\
+$220\,\Omega$ Current-Limiting Resistors & 4\\
+\rowcolor{LightGray}
+Breadboard & 1\\
+Jumper Wires & As Required\\
+\bottomrule
+\end{tabular}
+\caption{Bill of Materials}
+\end{table}
+
+\subsection{Pin Assignment}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{
+    >{\centering\arraybackslash\bfseries\color{AccentTeal}}m{3.5cm}
+    >{\centering\arraybackslash}m{5.5cm}
+}
+\rowcolor{PrimaryBlue}
+\textcolor{white}{\bfseries Arduino Pin} & \textcolor{white}{\bfseries Function}\\
+\midrule
+D2 & Input Variable $A$ --- LED Indicator\\
+\rowcolor{LightGray}
+D3 & Input Variable $B$ --- LED Indicator\\
+D4 & Input Variable $C$ --- LED Indicator\\
+\rowcolor{LightGray}
+D5 & Output $Y$ --- LED Indicator\\
+\bottomrule
+\end{tabular}
+\caption{Arduino UNO Pin Assignment}
+\end{table}
+
+\subsection{Circuit Schematic}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.82\textwidth]{schematic.png}
+  \caption{Arduino UNO Implementation Schematic}
+\end{figure}
+
+\subsection{Working Principle}
+
+The Arduino firmware automatically generates all eight possible binary
+combinations of inputs $A$, $B$, and $C$ in a continuous loop. The LEDs
+connected to pins \texttt{D2}, \texttt{D3}, and \texttt{D4} provide a visual
+indication of the current input state. The LED connected to pin \texttt{D5}
+represents the output $Y$. Since the simplified Boolean expression evaluates to
+$Y = 1$ unconditionally, the output LED remains \textbf{continuously illuminated}
+for every input combination, providing clear empirical confirmation of the
+simplification.
+
+\section{Arduino Program}
+
+
+\vspace{4pt}
+\begin{center}
+  \small\textcolor{DarkGray}{Full source code on GitHub:\enspace}
+  \href{https://github.com/samikshas1118/IITH-SRFP/blob/main/Arduino_Code}%
+       {\textcolor{AccentTeal}{\texttt{github.com/samikshas1118/IITH-SRFP/blob/main/Arduino\_Code}}}
+\end{center}
+
+\section{Assembly Program}
+
+
+\vspace{4pt}
+\begin{center}
+  \small\textcolor{DarkGray}{Full source code on GitHub:\enspace}
+  \href{https://github.com/samikshas1118/IITH-SRFP/blob/main/Assembly_Code}%
+       {\textcolor{AccentTeal}{\texttt{github.com/samikshas1118/IITH-SRFP/blob/main/Assembly\_Code}}}
+\end{center}
+\section{Results}
+
+\begin{tcolorbox}[resultbox, title={\faFlask\enspace Experimental Findings}]
+The Arduino UNO successfully generated all eight possible input combinations of
+$A$, $B$, and $C$ in sequence. In every case, the output LED connected to pin
+\texttt{D5} remained \textbf{continuously illuminated}, experimentally confirming:
+\[
+  \boldsymbol{Y = 1}
+\]
+Both the C++ (Arduino) implementation and the AVR Assembly implementation
+produced identical results, demonstrating consistency across both levels of
+abstraction.
+\end{tcolorbox}
+
+\section{Optimisation Analysis}
+
+\subsection{Gate Count Comparison}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{
+    >{\bfseries\color{DarkGray}}m{4.5cm}
+    >{\centering\arraybackslash}m{3cm}
+    >{\centering\arraybackslash}m{3cm}
+}
+\rowcolor{PrimaryBlue}
+\textcolor{white}{\bfseries Metric}
+  & \textcolor{white}{\bfseries Original Circuit}
+  & \textcolor{white}{\bfseries Simplified}\\
+\midrule
+NAND Gates & 4 & \textcolor{SuccessGreen}{\bfseries 0}\\
+\rowcolor{LightGray}
+OR Gates   & 2 & \textcolor{SuccessGreen}{\bfseries 0}\\
+Total Gates & 6 & \textcolor{SuccessGreen}{\bfseries 0}\\
+\rowcolor{LightGray}
+Propagation Delay & Multi-stage & \textcolor{SuccessGreen}{\bfseries None}\\
+Implementation & Complex logic & \textcolor{SuccessGreen}{\bfseries V\textsubscript{CC} tie}\\
+\bottomrule
+\end{tabular}
+\caption{Original Circuit vs.\ Simplified Implementation}
+\end{table}
+
+\subsection{Advantages of Simplification}
+
+\begin{enumerate}[leftmargin=2.2em,
+                  label=\textcolor{AccentTeal}{\faArrowRight},
+                  itemsep=5pt, topsep=4pt]
+  \item \textbf{Complete elimination of hardware} --- all six logic gates are
+        removed, replaced by a single connection to V\textsubscript{CC}.
+  \item \textbf{Zero propagation delay} --- no gate switching is involved.
+  \item \textbf{Reduced power consumption} --- no active logic components draw
+        quiescent current.
+  \item \textbf{Improved reliability} --- fewer components result in fewer
+        potential failure points.
+  \item \textbf{Smaller PCB footprint} --- significant area savings in integrated
+        circuit layouts and printed circuit board designs.
+\end{enumerate}
+
+\section{Conclusion}
+
+\begin{tcolorbox}[infobox, title={\faGraduationCap\enspace Summary}]
+The given GATE EC logic circuit was systematically \textbf{analysed and
+simplified} using Boolean algebra and DeMorgan's theorem. The final Boolean
+expression was found to evaluate to $Y = 1$, establishing that the circuit output
+remains at logic HIGH for every possible combination of inputs, rendering the
+underlying gate network functionally redundant.
+
+An \textbf{Arduino UNO} based implementation was subsequently developed and
+tested. The experimental observations were in complete agreement with the
+theoretical analysis. This project underscores the practical significance of
+\textbf{Boolean simplification} and \textbf{logic optimisation} in reducing
+hardware cost, minimising power consumption, and streamlining design complexity
+in digital electronic systems.
+\end{tcolorbox}
+
+\vfill
+\begin{center}
+  \textcolor{MidGray}{\small --- End of Report ---}
+\end{center}
+
+\end{document}

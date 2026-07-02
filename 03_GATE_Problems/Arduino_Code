@@ -1,0 +1,30 @@
+const int A_LED = 2;
+const int B_LED = 3;
+const int C_LED = 4;
+const int Y_LED = 5;
+
+void setup()
+{
+    pinMode(A_LED, OUTPUT);
+    pinMode(B_LED, OUTPUT);
+    pinMode(C_LED, OUTPUT);
+    pinMode(Y_LED, OUTPUT);
+}
+
+void loop()
+{
+    for(int i=0;i<8;i++)
+    {
+        int A = (i>>2)&1;
+        int B = (i>>1)&1;
+        int C = i&1;
+
+        digitalWrite(A_LED,A);
+        digitalWrite(B_LED,B);
+        digitalWrite(C_LED,C);
+
+        digitalWrite(Y_LED,HIGH);
+
+        delay(1000);
+    }
+}
