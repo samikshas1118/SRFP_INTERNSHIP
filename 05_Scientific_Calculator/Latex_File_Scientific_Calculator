@@ -1,0 +1,906 @@
+\documentclass[12pt,a4paper]{report}
+
+% ─────────────────────────────────────────────
+%  PACKAGES
+% ─────────────────────────────────────────────
+\usepackage[a4paper, top=26mm, bottom=26mm, left=28mm, right=24mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, backgrounds}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{enumitem}
+\usepackage{mdframed}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{makecell}
+\usepackage{colortbl}
+\usepackage{longtable}
+\usepackage{mathtools}
+
+% ─────────────────────────────────────────────
+%  COLOUR PALETTE
+% ─────────────────────────────────────────────
+\definecolor{PrimaryDark}{RGB}{10, 45, 70}
+\definecolor{Primary}{RGB}{20, 80, 120}
+\definecolor{PrimaryLight}{RGB}{35, 120, 165}
+\definecolor{Accent}{RGB}{220, 120, 20}
+\definecolor{AccentLight}{RGB}{255, 185, 90}
+\definecolor{BgLight}{RGB}{246, 250, 254}
+\definecolor{BgPanel}{RGB}{232, 242, 250}
+\definecolor{GrayDark}{RGB}{55, 65, 75}
+\definecolor{GrayMid}{RGB}{120, 135, 148}
+\definecolor{GrayLight}{RGB}{215, 225, 232}
+\definecolor{SuccessGreen}{RGB}{30, 130, 80}
+\definecolor{WarnOrange}{RGB}{200, 90, 15}
+\definecolor{CodeBg}{RGB}{26, 32, 42}
+\definecolor{CodeKw}{RGB}{86, 182, 255}
+\definecolor{CodeCmt}{RGB}{120, 150, 120}
+\definecolor{CodeStr}{RGB}{225, 175, 90}
+
+% ─────────────────────────────────────────────
+%  PAGE BACKGROUND
+% ─────────────────────────────────────────────
+\pagecolor{BgLight}
+
+% ─────────────────────────────────────────────
+%  HEADER / FOOTER
+% ─────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancyhead[L]{%
+  \colorbox{Primary}{\color{white}\small\bfseries\quad\nouppercase{\leftmark}\quad}}
+\fancyhead[R]{%
+  \colorbox{PrimaryDark}{\color{AccentLight}\small\quad Scientific Calculator\quad}}
+\fancyfoot[C]{\small\color{GrayMid}\thepage}
+\fancyfoot[L]{\color{GrayMid}\footnotesize ATmega328P --- RK4 Engine}
+\fancyfoot[R]{\color{GrayMid}\footnotesize IITH-SRFP 2026}
+\setlength{\headheight}{16pt}
+
+% ─────────────────────────────────────────────
+%  CHAPTER / SECTION HEADINGS
+% ─────────────────────────────────────────────
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}
+  {%
+    \begin{tikzpicture}[baseline]
+      \fill[PrimaryDark] (0,0) rectangle (3.5cm, 0.8cm);
+      \fill[Accent] (0,0) rectangle (0.35cm, 0.8cm);
+      \node[white, font=\large\bfseries, anchor=west] at (0.6cm, 0.4cm)
+        {\chaptertitlename\ \thechapter};
+    \end{tikzpicture}
+  }
+  {6pt}
+  {\color{Primary}\huge\bfseries}
+  [\vspace{4pt}{\color{Accent}\rule{\linewidth}{1.5pt}}]
+\titlespacing*{\chapter}{0pt}{-10pt}{20pt}
+
+\titleformat{\section}
+  {\color{Primary}\large\bfseries}
+  {\color{Accent}\S\thesection\enspace}
+  {0pt}
+  {}
+  [\color{GrayLight}\vspace{2pt}\hrule\vspace{4pt}]
+
+\titleformat{\subsection}
+  {\color{PrimaryLight}\normalsize\bfseries}
+  {\thesubsection\enspace}
+  {0pt}
+  {}
+
+% ─────────────────────────────────────────────
+%  TOC STYLE
+% ─────────────────────────────────────────────
+\titlecontents{chapter}[0pt]
+  {\vspace{4pt}\bfseries\color{Primary}}
+  {\thecontentslabel\enspace}
+  {}
+  {\titlerule*[6pt]{.}\contentspage}
+
+\titlecontents{section}[1.6em]
+  {\small\color{GrayDark}}
+  {\thecontentslabel\enspace}
+  {}
+  {\titlerule*[5pt]{.}\contentspage}
+
+% ─────────────────────────────────────────────
+%  TCOLORBOX ENVIRONMENTS
+% ─────────────────────────────────────────────
+\newtcolorbox{infobox}[1][Note]{
+  enhanced, breakable, arc=4pt, boxrule=0pt,
+  colback=BgPanel, borderline west={3pt}{0pt}{Primary},
+  fonttitle=\bfseries\small\color{Primary},
+  title={#1}, left=10pt, right=10pt, top=7pt, bottom=7pt
+}
+
+\newtcolorbox{warnbox}[1][Warning]{
+  enhanced, breakable, arc=4pt, boxrule=0pt,
+  colback=WarnOrange!8, borderline west={3pt}{0pt}{WarnOrange},
+  fonttitle=\bfseries\small\color{WarnOrange},
+  title={#1}, left=10pt, right=10pt, top=7pt, bottom=7pt
+}
+
+\newtcolorbox{successbox}[1][Result]{
+  enhanced, breakable, arc=4pt, boxrule=0pt,
+  colback=SuccessGreen!8, borderline west={3pt}{0pt}{SuccessGreen},
+  fonttitle=\bfseries\small\color{SuccessGreen},
+  title={#1}, left=10pt, right=10pt, top=7pt, bottom=7pt
+}
+
+\newtcolorbox{formulabox}[1][Formula]{
+  enhanced, breakable, arc=4pt,
+  colback=PrimaryDark!5, colframe=Primary, boxrule=0.8pt,
+  fonttitle=\bfseries\small\color{white},
+  attach boxed title to top left={yshift=-2mm, xshift=6pt},
+  boxed title style={colback=Primary, arc=3pt, boxrule=0pt},
+  title={#1}, left=10pt, right=10pt, top=12pt, bottom=8pt
+}
+
+\newtcolorbox{codebox}[1][Code]{
+  enhanced, breakable, arc=4pt,
+  colback=CodeBg, colframe=PrimaryDark, boxrule=0.6pt,
+  fonttitle=\bfseries\small\color{AccentLight},
+  title={#1}, left=6pt, right=6pt, top=6pt, bottom=6pt
+}
+
+% ─────────────────────────────────────────────
+%  CODE LISTINGS
+% ─────────────────────────────────────────────
+\lstdefinestyle{darkcode}{
+  basicstyle=\ttfamily\small\color{white},
+  backgroundcolor=\color{CodeBg},
+  keywordstyle=\color{CodeKw}\bfseries,
+  commentstyle=\color{CodeCmt}\itshape,
+  stringstyle=\color{CodeStr},
+  numberstyle=\tiny\color{GrayMid},
+  numbers=left, numbersep=10pt,
+  breaklines=true,
+  frame=none,
+  xleftmargin=18pt,
+  tabsize=4,
+  showstringspaces=false,
+}
+\lstdefinestyle{shellstyle}{
+  basicstyle=\ttfamily\small\color{AccentLight},
+  backgroundcolor=\color{CodeBg},
+  breaklines=true, frame=none,
+  xleftmargin=12pt, numbers=none,
+}
+\lstdefinestyle{cinline}{
+  language=C, style=darkcode,
+  morekeywords={uint8_t,uint16_t,float,double,void,volatile}
+}
+\lstset{style=cinline}
+
+% ─────────────────────────────────────────────
+%  TABLE HELPERS
+% ─────────────────────────────────────────────
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcommand{\thdcell}[1]{\cellcolor{Primary}\color{white}\textbf{#1}}
+\newcommand{\altrow}{\rowcolor{BgPanel}}
+\renewcommand{\arraystretch}{1.38}
+
+% ─────────────────────────────────────────────
+%  HYPERREF
+% ─────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true, linkcolor=Primary,
+  urlcolor=PrimaryLight, citecolor=Accent,
+  pdftitle={Scientific Calculator ATmega328P}
+}
+
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\captionsetup{font=small, labelfont={bf,color=Primary}, labelsep=period}
+
+% ════════════════════════════════════════════════════════
+\begin{document}
+
+% ─────────────────────────────────────────────
+%  COVER PAGE
+% ─────────────────────────────────────────────
+\begin{titlepage}
+\thispagestyle{empty}
+\pagecolor{PrimaryDark}
+
+\begin{tikzpicture}[remember picture, overlay]
+  % Left accent stripe
+  \fill[Accent] ([xshift=0cm]current page.south west)
+    rectangle ([xshift=1.0cm]current page.north west);
+  \fill[AccentLight] ([xshift=0.95cm]current page.south west)
+    rectangle ([xshift=1.0cm]current page.north west);
+  % Bottom bar
+  \fill[Primary] (current page.south west)
+    rectangle ([yshift=1.2cm]current page.south east);
+  \fill[Accent] ([yshift=1.15cm]current page.south west)
+    rectangle ([yshift=1.2cm]current page.south east);
+  % Top bar
+  \fill[Primary] ([yshift=-2.4cm]current page.north west)
+    rectangle (current page.north east);
+  % Decorative circle
+  \fill[Primary!60, opacity=0.3]
+    ([xshift=14cm, yshift=-8cm]current page.north west) circle (8cm);
+  \fill[Accent, opacity=0.07]
+    ([xshift=6cm, yshift=-18cm]current page.north west) circle (7cm);
+\end{tikzpicture}
+
+\vspace*{1.2cm}
+\hspace{1.6cm}%
+\begin{minipage}{\dimexpr\linewidth-2.0cm}
+  \color{AccentLight}\footnotesize\bfseries\MakeUppercase{%
+    Department of Electrical Engineering}\\[2pt]
+  \color{GrayMid}\footnotesize IITH Summer Research Fellowship Programme 2026\\[28pt]
+
+  \color{AccentLight}\small\bfseries\MakeUppercase{Project Technical Documentation}\\[8pt]
+
+  {\color{white}\fontsize{34}{40}\selectfont\bfseries Scientific Calculator}\\[6pt]
+  {\color{white!80}\fontsize{20}{26}\selectfont Using Arduino UNO}\\[14pt]
+
+  \color{GrayLight}\large
+  Software-Based Mathematical Function Implementation\\
+  via Runge-Kutta 4\textsuperscript{th} Order Numerical Methods\\[28pt]
+
+  \color{Accent}\rule{10cm}{1.2pt}\\[16pt]
+
+  \begin{tabular}{@{}ll@{}}
+    \color{AccentLight}\small\textbf{Microcontroller} & \color{white}\small ATmega328P-PU (Arduino UNO) \\[3pt]
+    \color{AccentLight}\small\textbf{Clock Speed}     & \color{white}\small 16 MHz Crystal Oscillator \\[3pt]
+    \color{AccentLight}\small\textbf{Display}         & \color{white}\small 16$\times$2 LCD (HD44780) \\[3pt]
+    \color{AccentLight}\small\textbf{Input}           & \color{white}\small 5$\times$5 Push-Button Matrix \\[3pt]
+    \color{AccentLight}\small\textbf{Language}        & \color{white}\small Embedded C (AVR-GCC) \\[3pt]
+    \color{AccentLight}\small\textbf{Algorithm}       & \color{white}\small RK4 Numerical Integration \\[3pt]
+    \color{AccentLight}\small\textbf{Flash Used}      & \color{white}\small 12.3 KB / 32 KB (38\%) \\[3pt]
+    \color{AccentLight}\small\textbf{RAM Used}        & \color{white}\small 350 B / 2048 B (17\%) \\
+  \end{tabular}
+
+  \vspace{3cm}
+  \color{Accent}\rule{10cm}{1.2pt}\\[10pt]
+  \color{GrayLight}\small\textbf{Samiksha S}
+  \hfill \color{GrayMid}\small\texttt{github.com/samikshas1118/Calculator}\\
+  \color{GrayMid}\footnotesize IITH-SRFP Intern \hfill
+ 
+\end{minipage}
+\end{titlepage}
+\pagecolor{BgLight}
+
+% ─────────────────────────────────────────────
+%  ABSTRACT
+% ─────────────────────────────────────────────
+\newpage
+\thispagestyle{empty}
+\vspace*{1.5cm}
+
+\begin{center}
+  {\color{Accent}\rule{2cm}{1.2pt}}\quad
+  {\LARGE\bfseries\color{Primary} Abstract}\quad
+  {\color{Accent}\rule{2cm}{1.2pt}}
+\end{center}
+\vspace{10pt}
+
+\begin{mdframed}[
+  linecolor=Primary, linewidth=1.2pt,
+  backgroundcolor=BgPanel,
+  leftmargin=0pt, rightmargin=0pt,
+  innerleftmargin=18pt, innerrightmargin=18pt,
+  innertopmargin=16pt, innerbottommargin=16pt,
+  roundcorner=4pt
+]
+\setstretch{1.55}
+This report documents the complete design, implementation, and analysis of a \textbf{scientific calculator} built on the \textbf{ATmega328P microcontroller} (Arduino UNO). The central challenge is the absence of a hardware Floating Point Unit (FPU) on 8-bit AVR microcontrollers, which makes computing transcendental functions ($\sin x$, $\ln x$, $e^x$, etc.) expensive and inaccurate via standard libraries.
+
+The solution reformulates each mathematical function as an \textbf{Ordinary Differential Equation (ODE)} and solves it using the \textbf{Runge-Kutta 4\textsuperscript{th} Order (RK4)} method. A comparative benchmark of five numerical methods confirms that RK4 achieves maximum accuracy at the 32-bit precision floor while consuming only \textbf{12.3 KB Flash} and \textbf{350 bytes SRAM}.
+
+User input is handled through a \textbf{5$\times$5 push-button matrix} via row-column scanning. Expressions are parsed with the \textbf{Shunting Yard algorithm} and evaluated in Reverse Polish Notation (RPN). A bug in multi-digit expression tokenisation was identified, root-caused, and fixed in \texttt{pars.c}, \texttt{keypad.c}, and \texttt{main.c}.
+
+\medskip\noindent
+\textbf{Keywords:} Scientific Calculator, ATmega328P, Runge-Kutta, Numerical Methods, Embedded C, Shunting Yard Algorithm, AVR-GCC
+\end{mdframed}
+
+% ─────────────────────────────────────────────
+%  TABLE OF CONTENTS
+% ─────────────────────────────────────────────
+\newpage
+\tableofcontents
+\newpage
+
+% ════════════════════════════════════════════════════════
+\chapter{Project Overview}
+% ════════════════════════════════════════════════════════
+
+\section{Objective}
+
+The goal is to build a \textbf{fully functional scientific calculator} on an \textbf{Arduino UNO} (ATmega328P) \emph{without} relying on pre-built math libraries or hardware floating-point units. Every mathematical function is implemented from first principles using \textbf{numerical methods} derived from ODE models.
+
+\begin{infobox}[Why Bare-Metal Arithmetic?]
+The ATmega328P has \emph{no hardware FPU}. A single \texttt{float} division costs \textbf{505 CPU cycles} --- more than twice an integer division. Standard C library math functions use large lookup tables that eat into the 32 KB Flash. This project demonstrates that a \emph{unified} RK4-based numerical framework achieves hardware-limited precision in just 12.3 KB Flash and 350 B RAM.
+\end{infobox}
+
+\section{Supported Functions}
+
+\begin{center}
+\begin{tabular}{L{3.6cm} L{9.2cm}}
+\rowcolor{PrimaryDark}
+\thdcell{Category} & \thdcell{Functions / Operations} \\
+\altrow Trigonometric & $\sin(x)$,\enspace $\cos(x)$,\enspace $\tan(x)$ \\
+Inverse Trigonometric & $\sin^{-1}(x)$,\enspace $\cos^{-1}(x)$,\enspace $\tan^{-1}(x)$ \\
+\altrow Exponential / Log & $e^x$,\enspace $\ln(x)$,\enspace $\log_{10}(x)$ \\
+Power / Root & $x^y$,\enspace $\sqrt{x}$ \\
+\altrow Factorial & $n!$ \\
+Basic Arithmetic & $+$,\enspace $-$,\enspace $\times$,\enspace $\div$,\enspace mod \\
+\altrow Constants & $\pi$,\enspace $e$ \\
+Input & Digits 0--9, decimal point, parentheses $(\ )$ \\
+\end{tabular}
+\end{center}
+
+\section{End-to-End System Workflow}
+
+\begin{center}
+\begin{tikzpicture}[
+  box/.style={draw=Primary, fill=BgPanel, rounded corners=5pt,
+    minimum width=3.4cm, minimum height=0.8cm,
+    align=center, font=\small\bfseries, text=PrimaryDark, line width=0.8pt},
+  tag/.style={font=\tiny\ttfamily\color{Accent}},
+  arr/.style={-{Latex[length=5pt]}, Primary, line width=1pt}
+]
+\node[box] (inp) at (0,0) {User Presses Key};
+\node[box] (kp)  at (0,-1.4) {Keypad Scanner};
+\node[box] (buf) at (0,-2.8) {Expression Buffer};
+\node[box] (par) at (0,-4.2) {Shunting Yard Parser};
+\node[box] (rpn) at (0,-5.6) {RPN Evaluator};
+\node[box] (rk4) at (0,-7.0) {RK4 Math Engine};
+\node[box] (lcd) at (0,-8.4) {LCD Output};
+
+\draw[arr] (inp) -- (kp);
+\draw[arr] (kp) -- (buf)  node[tag, right, midway] {ASCII char};
+\draw[arr] (buf) -- (par) node[tag, right, midway] {on \texttt{=} pressed};
+\draw[arr] (par) -- (rpn) node[tag, right, midway] {postfix tokens};
+\draw[arr] (rpn) -- (rk4) node[tag, right, midway] {function call};
+\draw[arr] (rk4) -- (lcd) node[tag, right, midway] {float result};
+
+\node[tag, left=0.5cm of kp]  {\texttt{keypad.c}};
+\node[tag, left=0.5cm of buf] {\texttt{main.c}};
+\node[tag, left=0.5cm of par] {\texttt{pars.c}};
+\node[tag, left=0.5cm of rk4] {\texttt{func.c}};
+\node[tag, left=0.5cm of lcd] {\texttt{lcd.c}};
+\end{tikzpicture}
+\end{center}
+
+% ════════════════════════════════════════════════════════
+\chapter{Hardware Design}
+% ════════════════════════════════════════════════════════
+
+\section{Component List}
+
+\begin{center}
+\begin{tabular}{C{1.4cm} L{4.0cm} L{7.8cm}}
+\rowcolor{PrimaryDark}
+\thdcell{Qty} & \thdcell{Component} & \thdcell{Purpose} \\
+\altrow 1 & Arduino UNO & Main processing unit; runs calculator firmware \\
+1 & 16$\times$2 LCD (HD44780) & Displays expression and computed result \\
+\altrow 25 & Tactile push-buttons & User input arranged as a 5$\times$5 matrix \\
+1 & 10 k$\Omega$ Potentiometer & LCD contrast adjustment (VEE pin) \\
+\altrow --- & Jumper wires & Circuit connections \\
+\end{tabular}
+\end{center}
+
+\section{LCD Connections (4-Bit Mode)}
+
+\begin{center}
+\begin{tabular}{C{3.0cm} C{2.5cm} L{6.5cm}}
+\rowcolor{PrimaryDark}
+\thdcell{Arduino Pin} & \thdcell{LCD Pin} & \thdcell{Signal / Description} \\
+\altrow GND & VSS (1) & Power ground \\
+5V  & VCC (2) & Supply (+5V) \\
+\altrow Pot.\ wiper & VEE (3) & Contrast control voltage \\
+D2  & RS (4) & Register select: 0 = command, 1 = data \\
+\altrow GND & R/W (5) & Fixed LOW = Write-only mode \\
+D3  & EN (6) & Enable strobe \\
+\altrow D4--D7 & DB4--DB7 & 4-bit data bus (pins 11--14) \\
+5V / GND & LED$\pm$ & Backlight (pins 15--16) \\
+\end{tabular}
+\end{center}
+
+\section{5$\times$5 Keypad Matrix}
+
+\subsection{Pin Connections}
+
+\begin{center}
+\begin{tabular}{C{3.2cm} C{3.2cm} C{3.2cm} C{3.2cm}}
+\rowcolor{PrimaryDark}
+\thdcell{Row} & \thdcell{Arduino} & \thdcell{Column} & \thdcell{Arduino} \\
+\altrow Row 1 & D8 & Column 1 & A0 \\
+Row 2 & D9 & Column 2 & A1 \\
+\altrow Row 3 & D10 & Column 3 & A2 \\
+Row 4 & D11 & Column 4 & A3 \\
+\altrow Row 5 & D12 & Column 5 & A4 \\
+\end{tabular}
+\end{center}
+
+\subsection{Key Layout --- Mode 1 (Standard)}
+
+\begin{center}
+\begin{tabular}{|C{2.2cm}|C{2.2cm}|C{2.2cm}|C{2.2cm}|C{2.2cm}|}
+\hline
+\rowcolor{PrimaryDark}
+\color{white}\textbf{Col 1} & \color{white}\textbf{Col 2} & \color{white}\textbf{Col 3} &
+\color{white}\textbf{Col 4} & \color{white}\textbf{Col 5} \\
+\hline \altrow
+0 & 1 & 2 & 3 & 4 \\
+\hline
+5 & 6 & 7 & 8 & 9 \\
+\hline \altrow
+\texttt{+} & \texttt{-} & \texttt{$\times$} & \texttt{$\div$} & \texttt{sin(x)} \\
+\hline
+\texttt{cos(x)} & \texttt{tan(x)} & \texttt{exp(x)} & \texttt{ln(x)} & Clear \\
+\hline \altrow
+Backspace & \texttt{.} & \texttt{=} & Mode & $\pi$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Key Layout --- Mode 2 (Scientific)}
+
+\begin{center}
+\begin{tabular}{|C{2.2cm}|C{2.2cm}|C{2.2cm}|C{2.2cm}|C{2.2cm}|}
+\hline
+\rowcolor{PrimaryDark}
+\color{white}\textbf{Col 1} & \color{white}\textbf{Col 2} & \color{white}\textbf{Col 3} &
+\color{white}\textbf{Col 4} & \color{white}\textbf{Col 5} \\
+\hline \altrow
+0 & 1 & 2 & 3 & 4 \\
+\hline
+5 & 6 & 7 & 8 & 9 \\
+\hline \altrow
+\texttt{(} & \texttt{)} & $x^y$ & \texttt{fact(x)} & $\sin^{-1}(x)$ \\
+\hline
+$\cos^{-1}(x)$ & $\tan^{-1}(x)$ & \texttt{mod(x)} & $\log_{10}(x)$ & Clear \\
+\hline \altrow
+Backspace & \texttt{.} & \texttt{=} & Mode & $\pi$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Scanning Principle}
+
+The Arduino drives each \textbf{row LOW} in turn while reading all \textbf{column pins}. A pressed button pulls its column LOW, uniquely identifying the key as:
+\[
+\text{Key} = (\text{Active Row},\ \text{Column reading LOW})
+\]
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85,
+  btn/.style={draw=PrimaryLight, fill=BgPanel, circle, minimum size=0.72cm, font=\tiny}]
+\foreach \c in {0,...,4} {
+  \foreach \r in {0,...,2} {
+    \node[btn] at (2*\c, -1.6*\r) {};
+  }
+}
+% Row lines
+\foreach \r/\lab in {0/Row 1, 1/Row 2, 2/Row 3} {
+  \draw[Accent, line width=1.2pt] (-0.7, -1.6*\r) -- (8.7, -1.6*\r);
+  \node[left, font=\tiny\bfseries, text=Accent] at (-0.8, -1.6*\r) {\lab};
+}
+% Column lines
+\foreach \c/\lab in {0/C1,1/C2,2/C3,3/C4,4/C5} {
+  \draw[Primary, line width=1.2pt] (2*\c, 0.7) -- (2*\c, -3.9);
+  \node[above, font=\tiny\bfseries, text=Primary] at (2*\c, 0.75) {\lab};
+}
+% Pressed button highlight
+\node[draw=Accent, fill=Accent!25, circle, minimum size=0.74cm, line width=2pt] at (2,-1.6) {};
+\node[font=\tiny\bfseries\color{Accent}] at (2,-1.6) {KEY};
+% Annotation arrow
+\draw[-{Latex}, Accent, dashed] (3.2, -1.6) -- (5.0, -1.6)
+  node[right, font=\footnotesize, text=GrayDark] {Row 2 LOW + Col 2 LOW $\Rightarrow$ key (R2,C2)};
+\end{tikzpicture}
+\end{center}
+
+This reduces 25 buttons to just \textbf{10 GPIO pins} ($5 + 5$).
+
+% ════════════════════════════════════════════════════════
+\chapter{Software Architecture}
+% ════════════════════════════════════════════════════════
+
+\section{Modular File Structure}
+
+\begin{center}
+\begin{tabular}{L{3.0cm} L{10.0cm}}
+\rowcolor{PrimaryDark}
+\thdcell{File} & \thdcell{Description} \\
+\altrow \texttt{defines.h} & Global constants, hardware pin mappings, type aliases \\
+\texttt{main.c} & System init, main event loop, key-press handling \\
+\altrow \texttt{keypad.c/.h} & Key scanning, debouncing, ASCII mapping \\
+\texttt{lcd.c/.h} & LCD driver for HD44780 in 4-bit mode \\
+\altrow \texttt{pars.c/.h} & Shunting Yard: tokenise, infix$\to$postfix, RPN eval \\
+\texttt{func.c/.h} & RK4 ODE solver + all math function implementations \\
+\altrow \texttt{gpio.c/.h} & Low-level GPIO pin control wrapper \\
+\texttt{timer.c/.h} & Hardware timer configuration and delay functions \\
+\end{tabular}
+\end{center}
+
+\section{Expression Parsing: Shunting Yard Algorithm}
+
+\begin{center}
+\begin{tikzpicture}[
+  stage/.style={draw=Primary, fill=BgPanel, rounded corners=5pt,
+    minimum width=3.2cm, minimum height=0.85cm,
+    align=center, font=\small\bfseries, text=PrimaryDark, line width=0.8pt},
+  arr/.style={-{Latex[length=5pt]}, Primary, line width=1pt},
+  ex/.style={font=\ttfamily\footnotesize\color{Accent}}
+]
+\node[stage] (in)   at (0,0)    {Infix Input};
+\node[stage] (tok)  at (4.2,0)  {Tokeniser};
+\node[stage] (sy)   at (8.4,0)  {Shunting Yard};
+\node[stage] (rpn)  at (12.6,0) {RPN Queue};
+\node[stage] (eval) at (8.4,-2.2) {Stack Evaluator};
+\node[stage] (res)  at (4.2,-2.2) {Result};
+
+\draw[arr] (in)  -- (tok)  node[above, ex, midway] {\texttt{"18-2"}};
+\draw[arr] (tok) -- (sy)   node[above, ex, midway] {tokens};
+\draw[arr] (sy)  -- (rpn)  node[above, ex, midway] {\texttt{18 2 -}};
+\draw[arr] (rpn.south) -- (eval.north) node[right, ex, midway] {postfix};
+\draw[arr] (eval) -- (res) node[above, ex, midway] {\texttt{16}};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Operator Precedence Table}
+
+\begin{center}
+\begin{tabular}{L{4.5cm} C{2.8cm} C{2.8cm}}
+\rowcolor{PrimaryDark}
+\thdcell{Operator} & \thdcell{Precedence} & \thdcell{Associativity} \\
+\altrow Functions: $\sin$, $\ln$, \ldots & 5 & Right \\
+Power: $x^y$ & 4 & Right \\
+\altrow $\times$, $\div$, mod & 3 & Left \\
+$+$, $-$ & 2 & Left \\
+\altrow Parentheses & 1 & --- \\
+\end{tabular}
+\end{center}
+
+% ════════════════════════════════════════════════════════
+\chapter{Mathematical Engine --- RK4 Method}
+% ════════════════════════════════════════════════════════
+
+\section{ODE Formulation of Functions}
+
+\begin{center}
+\begin{tabular}{L{2.6cm} L{4.8cm} L{4.8cm}}
+\rowcolor{PrimaryDark}
+\thdcell{Function $y(x)$} & \thdcell{ODE} & \thdcell{Initial Conditions} \\
+\altrow $\sin(x)$ & $y'' + y = 0$ & $y(0)=0,\; y'(0)=1$ \\
+$\sin^{-1}(x)$ & $\sqrt{1-x^2}\,y' - 1 = 0$ & $y(0)=0$ \\
+\altrow $\tan^{-1}(x)$ & $(1+x^2)y' - 1 = 0$ & $y(0)=0$ \\
+$\ln(x)$ & $x\,y' - 1 = 0$ & $y(1)=0$ \\
+\altrow $e^x$ & $y' - y = 0$ & $y(0)=1$ \\
+$x^w$ & $x\,y' - w\,y = 0$ & $y(1)=1$ \\
+\end{tabular}
+\end{center}
+
+Derived relations:
+\[
+\cos x = \sin\!\left(\tfrac{\pi}{2}-x\right),\quad
+\tan x = \frac{\sin x}{\cos x},\quad
+\cos^{-1}(x) = \tfrac{\pi}{2} - \sin^{-1}(x),\quad
+\pi = 4\tan^{-1}(1)
+\]
+
+\section{RK4 Update Equations}
+
+\begin{formulabox}[RK4 --- First-Order ODE]
+Given $\dfrac{dy}{dx} = f(x,y)$, $y(x_0)=y_0$, step size $h$:
+\begin{align}
+k_1 &= h\,f(x_n,\; y_n) \\
+k_2 &= h\,f\!\left(x_n+\tfrac{h}{2},\; y_n+\tfrac{k_1}{2}\right) \\
+k_3 &= h\,f\!\left(x_n+\tfrac{h}{2},\; y_n+\tfrac{k_2}{2}\right) \\
+k_4 &= h\,f(x_n+h,\; y_n+k_3) \\[6pt]
+y_{n+1} &= y_n + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4)
+\end{align}
+\end{formulabox}
+
+\subsection{Second-Order Case: Sine Function}
+
+$y'' + y = 0$ is split into a first-order system $\dot y = z$, $\dot z = -y$:
+
+\begin{center}
+\begin{tabular}{C{1.0cm} L{5.5cm} L{5.5cm}}
+\rowcolor{PrimaryDark}
+\thdcell{Step} & \thdcell{$k_i$ for $\dot y = z$} & \thdcell{$l_i$ for $\dot z = -y$} \\
+\altrow 1 & $k_1 = h z_n$ & $l_1 = -h y_n$ \\
+2 & $k_2 = h(z_n + l_1/2)$ & $l_2 = -h(y_n + k_1/2)$ \\
+\altrow 3 & $k_3 = h(z_n + l_2/2)$ & $l_3 = -h(y_n + k_2/2)$ \\
+4 & $k_4 = h(z_n + l_3)$ & $l_4 = -h(y_n + k_3)$ \\
+\altrow Update & $y_{n+1} = y_n + \tfrac{1}{6}(k_1{+}2k_2{+}2k_3{+}k_4)$ & $z_{n+1} = z_n + \tfrac{1}{6}(l_1{+}2l_2{+}2l_3{+}l_4)$ \\
+\end{tabular}
+\end{center}
+
+\section{Non-RK4 Functions}
+
+\textbf{Factorial:} Simple recursion $y_n = n \cdot y_{n-1}$, $y_0 = 1$.
+
+\textbf{Square Root:} Computed via the \textbf{Quake III} fast inverse square root, which exploits IEEE 754 bit representation:
+
+\begin{lstlisting}[language=C, style=darkcode, caption={Fast inverse square root (Quake III method)}]
+float fast_inv_sqrt(float x) {
+    long  i;
+    float x2 = x * 0.5f, y = x;
+    i  = *(long *)&y;
+    i  = 0x5f3759df - (i >> 1); // bit-level Newton seed
+    y  = *(float *)&i;
+    y  = y * (1.5f - (x2 * y * y)); // one Newton-Raphson step
+    return y;
+}
+// Usage: sqrt(x) = x * fast_inv_sqrt(x)
+\end{lstlisting}
+
+% ════════════════════════════════════════════════════════
+\chapter{Numerical Methods Comparative Analysis}
+% ════════════════════════════════════════════════════════
+
+\section{Methods Evaluated}
+
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=*]
+  \item \textbf{Forward Euler:}\; $y_{n+1} = y_n + h\cdot f(x_n, y_n)$
+  \item \textbf{Backward Euler:}\; $y_{n+1} = y_n + h\cdot f(x_{n+1}, y_{n+1})$
+  \item \textbf{Trapezoidal:}\; $y_{n+1} = y_n + \dfrac{h}{2}[f(x_n, y_n) + f(x_{n+1}, y_{n+1})]$
+  \item \textbf{RK2 (Heun):}\; predictor--corrector with 2 function evaluations per step
+  \item \textbf{RK4:}\; 4 evaluations per step, $O(h^4)$ local truncation error
+\end{enumerate}
+
+\section{Hardware Performance on ATmega328P}
+
+\begin{center}
+\begin{tabular}{L{3.8cm} C{2.8cm} C{2.8cm} C{3.2cm}}
+\rowcolor{PrimaryDark}
+\thdcell{Algorithm} & \thdcell{Flash (B)} & \thdcell{SRAM (B)} & \thdcell{Exec.\ Time ($\mu$s)} \\
+\altrow \textbf{RK4 (selected)} & \textbf{1392} & \textbf{16} & \textbf{192.31} \\
+Trapezoidal & 1472 & 16 & 101.19 \\
+\altrow Forward Euler & 1272 & 16 & 45.75 \\
+Backward Euler & 1296 & 16 & 55.56 \\
+\end{tabular}
+\end{center}
+
+\section{Accuracy Comparison for $\sin(x)$, $h \approx 0.06$}
+
+Accuracy is measured in \textbf{Units in the Last Place (ULP)} vs.\ the MPFR multi-precision library:
+\[
+\mathrm{Error}_\mathrm{ULP} = \frac{|y_\mathrm{calc} - y_\mathrm{true}|}{\varepsilon(y_\mathrm{true})}
+\]
+
+\begin{center}
+\begin{tabular}{L{3.6cm} C{3.4cm} C{3.0cm} C{2.4cm}}
+\rowcolor{PrimaryDark}
+\thdcell{Algorithm} & \thdcell{Max Error (ULP)} & \thdcell{RMS Error} & \thdcell{Stability} \\
+\altrow \textbf{RK4} & $\mathbf{2.38\times10^{11}}$ & $\mathbf{3.44\times10^{-7}}$ & \textbf{High} \\
+Trapezoidal & $6.00\times10^{14}$ & $8.77\times10^{-4}$ & High \\
+\altrow Heun (RK2) & $1.20\times10^{15}$ & $1.74\times10^{-3}$ & Moderate \\
+Forward Euler & $1.86\times10^{15}$ & $8.56\times10^{-2}$ & Unstable \\
+\altrow Backward Euler & $2.84\times10^{15}$ & $7.27\times10^{-2}$ & Unstable \\
+\end{tabular}
+\end{center}
+
+\begin{infobox}[Precision Floor Insight]
+On the ATmega328P, \texttt{avr-gcc} treats \texttt{float} and \texttt{double} as 32-bit IEEE 754. For RK4 the error reaches a \textbf{minimum at $h\approx0.03$}. Smaller $h$ only increases execution time because accumulated rounding error dominates --- making any method of order $>4$ pointless on this platform. RK4 is the optimal choice.
+\end{infobox}
+
+\begin{successbox}[Why RK4 Was Selected]
+RK4 achieves the \textbf{lowest error} at the hardware precision floor, guarantees \textbf{predictable fixed execution time} (no adaptive stepping), and the entire firmware fits in \textbf{12.3 KB Flash} and \textbf{350 B SRAM} --- comfortable for the ATmega328P.
+\end{successbox}
+
+% ════════════════════════════════════════════════════════
+\chapter{Bug Report and Fix}
+% ════════════════════════════════════════════════════════
+
+\section{Problem Statement}
+
+Entering the expression \texttt{18 - 2 =} caused the LCD to display \texttt{18-2=} on line 1 and show \emph{nothing} on line 2 --- the result \texttt{16} was never printed.
+
+\section{Root Cause Analysis}
+
+\begin{warnbox}[Root Cause: Tokeniser in \texttt{pars.c}]
+The tokenisation loop read one character at a time. When it encountered \texttt{'1'} followed by \texttt{'8'}, it treated them as two \emph{separate} single-digit tokens instead of the number \texttt{18}. The resulting malformed postfix queue caused the RPN evaluator to produce no valid result.
+\end{warnbox}
+
+\textbf{Before fix} --- incorrect token stream:
+
+\begin{center}
+\begin{tikzpicture}[
+  tok/.style={draw=WarnOrange, fill=WarnOrange!10, rounded corners=3pt,
+    minimum width=1.3cm, minimum height=0.65cm, font=\ttfamily\small},
+  arr/.style={-{Latex[length=4pt]}, GrayDark}
+]
+\node[font=\ttfamily\small\bfseries\color{WarnOrange}] at (-0.8,0) {"18-2"};
+\node[tok] (t1) at (1.2, 0) {"1"};
+\node[tok] (t2) at (2.8, 0) {"8"};
+\node[tok] (t3) at (4.4, 0) {"-"};
+\node[tok] (t4) at (6.0, 0) {"2"};
+\draw[arr] (0.1,0)--(0.5,0);
+\node[font=\tiny\color{WarnOrange}, below=0.3cm] at (2.0,0) {wrongly split};
+\node[font=\footnotesize\color{GrayDark}, below=0.9cm] at (3.6,0)
+  {Evaluator fails: \texttt{"1"} and \texttt{"8"} are not \texttt{18}};
+\end{tikzpicture}
+\end{center}
+
+\textbf{After fix} --- correct token stream:
+
+\begin{center}
+\begin{tikzpicture}[
+  tok/.style={draw=SuccessGreen, fill=SuccessGreen!10, rounded corners=3pt,
+    minimum width=1.4cm, minimum height=0.65cm, font=\ttfamily\small},
+  arr/.style={-{Latex[length=4pt]}, GrayDark}
+]
+\node[font=\ttfamily\small\bfseries\color{SuccessGreen}] at (-0.8,0) {"18-2"};
+\node[tok] (t1) at (1.4, 0) {"18"};
+\node[tok] (t2) at (3.2, 0) {"-"};
+\node[tok] (t3) at (5.0, 0) {"2"};
+\draw[arr] (0.1,0)--(0.5,0);
+\node[font=\footnotesize\color{GrayDark}, below=0.6cm] at (3.0,0)
+  {Postfix: \texttt{18 2 -} \quad$\Rightarrow$\quad evaluates to \texttt{16}};
+\end{tikzpicture}
+\end{center}
+
+\section{Modules Modified and Fixes Applied}
+
+\subsection{\texttt{pars.c} --- Tokeniser Fix}
+
+\begin{lstlisting}[language=C, style=darkcode, caption={Fixed digit-accumulation loop in \texttt{pars.c}}]
+/* Accumulate ALL consecutive digit/decimal chars as one number token */
+while (isdigit((unsigned char)*p) || *p == '.') {
+    token_buf[tok_len++] = *p++;
+}
+token_buf[tok_len] = '\0';
+push_operand(atof(token_buf));   /* push complete multi-digit number */
+\end{lstlisting}
+
+\subsection{\texttt{keypad.c} --- Debounce and Index Fix}
+\begin{itemize}[leftmargin=*]
+  \item Added 20\,ms software debounce after a LOW column is detected
+  \item Corrected the $(row, col)$-to-character lookup table index offsets
+\end{itemize}
+
+\subsection{\texttt{main.c} --- Buffer and Display Fix}
+\begin{itemize}[leftmargin=*]
+  \item Expression buffer is now null-terminated before passing to parser
+  \item \texttt{=} key handler clears LCD line 2 before printing, uses \texttt{dtostrf()} for float formatting
+\end{itemize}
+
+\section{Verified Output After Fix}
+
+\begin{center}
+\begin{tcolorbox}[
+  colback=CodeBg, colframe=SuccessGreen, arc=4pt, boxrule=1pt,
+  width=7cm, halign=center, fontupper=\ttfamily\large\color{white}
+]
+\begin{tabular}{|p{5.5cm}|}
+\hline
+\texttt{18-2=} \\
+\hline
+\texttt{16} \\
+\hline
+\end{tabular}
+\end{tcolorbox}
+\end{center}
+
+% ════════════════════════════════════════════════════════
+\chapter{Build and Upload Process}
+% ════════════════════════════════════════════════════════
+
+\section{Toolchain}
+
+\begin{center}
+\begin{tabular}{L{3.2cm} L{9.5cm}}
+\rowcolor{PrimaryDark}
+\thdcell{Tool} & \thdcell{Purpose} \\
+\altrow \texttt{avr-gcc} & Cross-compiler targeting ATmega328P \\
+\texttt{avr-objcopy} & Converts \texttt{.elf} to \texttt{.hex} for upload \\
+\altrow \texttt{platformio} & Build system managing toolchain and upload \\
+\texttt{ArduinoDroid} & Upload HEX to Arduino UNO via Android phone \\
+\end{tabular}
+\end{center}
+
+\section{Software Prototype (Android / Linux)}
+
+\begin{lstlisting}[style=shellstyle, caption={Compile shared library and run Android server}]
+# Clone the repository
+git clone https://github.com/samikshas1118/Calculator
+
+# Compile the C calculator library as a shared object
+gcc -shared -o libcalc.so -fPIC func.c pars.c
+
+# Run the Python server inside termux-debian (proot)
+python3 server.py
+
+# Install calci.apk on phone and open the app
+\end{lstlisting}
+
+\section{Hardware Upload via PlatformIO}
+
+\begin{lstlisting}[style=shellstyle, caption={PlatformIO build and upload to Arduino UNO}]
+# Create project
+pio project init --board uno
+
+# Copy all .c and .h source files to src/
+# Then add to platformio.ini:
+# build_flags = -Wl,-u,vfprintf -lprintf_flt
+
+# Compile and upload
+pio run -t upload
+\end{lstlisting}
+
+\begin{infobox}[Linker Flag Note]
+The flag \texttt{-lprintf\_flt} enables floating-point formatting in \texttt{printf}/\texttt{sprintf} on AVR. Without it, \texttt{\%f} format specifiers print nothing.
+\end{infobox}
+
+% ════════════════════════════════════════════════════════
+\chapter{Results and Conclusions}
+% ════════════════════════════════════════════════════════
+
+\section{Final System Specifications}
+
+\begin{center}
+\begin{tabular}{L{4.5cm} L{8.0cm}}
+\rowcolor{PrimaryDark}
+\thdcell{Parameter} & \thdcell{Value} \\
+\altrow Platform & Arduino UNO (ATmega328P @ 16 MHz) \\
+Flash Used & 12.3 KB of 32 KB (38\%) \\
+\altrow SRAM Used & 350 B of 2048 B (17\%) \\
+Numerical Method & RK4, fixed step $h = 0.03$ \\
+\altrow RMS Error (sin) & $3.44 \times 10^{-7}$ \\
+Execution Time & 192.3\,$\mu$s per function call \\
+\altrow Input & 25-key 5$\times$5 matrix keypad \\
+Output & 16$\times$2 LCD display \\
+\altrow Math Functions & 15+ (trig, inv.\ trig, exp, log, power, sqrt, fact) \\
+\end{tabular}
+\end{center}
+
+\section{Key Achievements}
+
+\begin{successbox}[Deliverables Completed]
+\begin{itemize}[leftmargin=*, itemsep=2pt]
+  \item[$\checkmark$] 25-key matrix keypad with reliable debouncing
+  \item[$\checkmark$] 16$\times$2 LCD display driver
+  \item[$\checkmark$] Complete RK4 software math engine for all transcendental functions
+  \item[$\checkmark$] Modular embedded C architecture (8 source files)
+  \item[$\checkmark$] Shunting Yard parser with precedence, associativity, and parentheses
+  \item[$\checkmark$] Multi-digit tokenisation bug identified and fixed
+  \item[$\checkmark$] Comparative analysis of 5 numerical methods with hardware benchmarks
+  \item[$\checkmark$] Firmware within tight ATmega328P resource constraints
+\end{itemize}
+\end{successbox}
+
+\section{Hardware Limitations}
+
+\begin{itemize}[leftmargin=*]
+  \item No hardware FPU: \texttt{float} division costs 505 cycles vs.\ $\approx200$ for integer
+  \item 32-bit software float imposes a hard precision floor ($\approx3\times10^{-7}$ RMS)
+  \item Fixed-step RK4 trades latency (192\,$\mu$s) for maximum achievable accuracy
+\end{itemize}
+
+\section{Possible Future Extensions}
+
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=*]
+  \item Migrate to STM32 with hardware FPU for double-precision results
+  \item Add complex number support
+  \item Implement a graphing mode with ST7735 graphical LCD
+  \item Port the RK4 engine to FPGA for parallel function evaluation
+  \item Add unit conversion and physical constants bank
+\end{enumerate}
+
+
+\end{document}
