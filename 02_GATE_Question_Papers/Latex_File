@@ -1,0 +1,1990 @@
+\documentclass[12pt, a4paper]{article}
+
+% ── Page geometry ──────────────────────────────────────────────
+\usepackage[
+  a4paper,
+  top=2.5 cm,
+  bottom=2cm,
+  left=2.5cm,
+  right=2.5cm,
+  headheight=1.5cm,
+  headsep=0.5cm,
+  footskip=1cm
+]{geometry}
+
+% ── Essential packages ─────────────────────────────────────────
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{amsmath, amssymb}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{shapes.multipart, arrows.meta, positioning}
+
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\usetikzlibrary{
+  shapes.geometric,
+  arrows.meta,
+  positioning,
+  trees,
+  calc,
+  backgrounds,
+  patterns
+}
+\pgfplotsset{compat=1.18}
+
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{verbatim}
+
+
+
+% ── Paragraph spacing ──────────────────────────────────────────
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+% ── Header / Footer ────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+
+\lhead{%
+  \begin{minipage}[c]{0.08\textwidth}
+    \includegraphics[width=0.50in]{logo (1).png}
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[c]{0.84\textwidth}
+    \raggedleft
+    \textbf{Data Science \& Artificial Intelligence (DA)}
+  \end{minipage}%
+}
+\lfoot{\small Organizing Institute: IIT Guwahati}
+\cfoot{}
+\rfoot{\small Page \thepage\ of 41}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ── Column type ────────────────────────────────────────────────
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% ── Section heading style ──────────────────────────────────────
+\titleformat{\section}[block]
+  {\normalfont\bfseries\underline}
+  {}{0em}{}
+
+% ── Code listing style ─────────────────────────────────────────
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=none,
+  columns=flexible,
+  keepspaces=true
+}
+
+% ── Document body ──────────────────────────────────────────────
+% =====================================================
+% WATERMARK
+% =====================================================
+\usepackage{eso-pic}
+\usepackage{transparent}
+\AddToShipoutPictureBG{%
+  \AtPageCenter{%
+    \makebox(0,0){%
+      \transparent{0.03}%
+      \includegraphics[
+        width=0.90\paperwidth,
+        keepaspectratio
+      ]{logo (1).png}%
+    }%
+  }%
+}
+\begin{document}
+
+%=================================================================
+% GENERAL APTITUDE
+%=================================================================
+\section*{\underline{General Aptitude (GA)}}
+\textbf{Q.1 -- Q.5 Carry ONE mark Each}
+
+\vspace{6pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{2.2}
+
+\begin{tabular}{|p{1.2cm}|p{14cm}|}
+\hline
+\textbf{Q. 1} & Verbosity : Brevity :: Insolence : \underline{\hspace{2cm}} \\
+              & \textit{Choose the word that best fills the blank.} \\
+\hline
+              & \\
+\hline
+(A)           & Innocence \\
+\hline
+(B)           & Respect \\
+\hline
+(C)           & Solace \\
+\hline
+(D)           & Wealth \\
+\hline
+              & \\
+\hline
+\textbf{Q. 2} & The product of the digits of a three-digit number is 70.
+                The sum of the digits of this three-digit number is \underline{\hspace{1cm}} \\
+\hline
+              & \\
+\hline
+(A)           & 12 \\
+\hline
+(B)           & 14 \\
+\hline
+(C)           & 16 \\
+\hline
+(D)           & 18 \\
+\hline
+              & \\
+\hline
+\end{tabular}
+
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{2}
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.3} &
+The four pieces of a puzzle are shown in the figure below.
+\vspace{0.3cm}
+\begin{center}
+\includegraphics[width=0.55\textwidth]{puzzle.png}
+\end{center}
+\vspace{0.2cm}
+Which one of the figures labelled as P, Q, R, and S can be constructed by using
+each of the four pieces only once without overlaps?
+\vspace{0.3cm}
+\begin{center}
+\includegraphics[width=0.55\textwidth]{3.png}
+\end{center}
+\\
+\hline
+& \\
+\hline
+(A) & P \\
+\hline
+(B) & Q \\
+\hline
+(C) & R \\
+\hline
+(D) & S \\
+\hline
+& \\
+\hline
+\end{tabular}
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.4} &
+Consider two distinct positive real numbers $m,n$ with $m>n$.
+
+Let
+\[
+x=n^{\log_{10}(m)}
+\quad \text{and} \quad
+y=m^{\log_{10}(n)}.
+\]
+
+The relation between $x$ and $y$ is \underline{\hspace{1.5cm}}.
+\\
+\hline
+& \\
+\hline
+(A) & $x>y$ \\
+\hline
+(B) & $x<y$ \\
+\hline
+(C) & $x=y$ \\
+\hline
+(D) & $x=\log_{10}(y)$ \\
+\hline
+& \\
+\hline
+\textbf{Q.5} &
+``If his latest movie had been a commercial success, the actor would have made enough money to sponsor his next movie.''
+
+Based only on the above sentence, which one of the following statements is true?
+\\
+\hline
+& \\
+\hline
+(A) & The actor will certainly sponsor his next movie. \\
+\hline
+(B) & His latest movie was a commercial success. \\
+\hline
+(C) & The actor made enough money from his latest movie. \\
+\hline
+(D) & His latest movie was not commercially successful. \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+%=================================================================
+\section*{\underline{Q.6 -- Q.10 Carry TWO marks Each}}
+%=================================================================
+
+\vspace{6pt}
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.6} &
+`My friend and I parted \underline{\hspace{0.5cm}} the door \underline{\hspace{0.5cm}} the cabin that I had rented \underline{\hspace{0.5cm}} the night.'
+
+Choose the option with the correct sequence of words to fill the blanks.
+\\
+\hline
+& \\
+\hline
+(A) & at; of; for \\
+\hline
+(B) & for; at; of \\
+\hline
+(C) & of; for; in \\
+\hline
+(D) & in; of; for \\
+\hline
+& \\
+\hline
+\textbf{Q.7} &
+Five integers are picked from 0 to 20, with possible repetitions, such that their mean is 12, median is 18, and they have a single mode of 20.
+
+Ignoring permutations, the number of ways to pick these five integers is \underline{\hspace{1cm}}
+\\
+\hline
+& \\
+\hline
+(A) & 0 \\
+\hline
+(B) & 1 \\
+\hline
+(C) & 2 \\
+\hline
+(D) & 3 \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.8} &
+Rishi and Swathi are students of Class 5. Pavan and Tanvi are students of Class 4.
+Rishi and Pavan are boys. Swathi and Tanvi are girls.
+The four students played a total of three games of chess. The games were played one after another. A player who lost a game did not participate in any more games.
+It was observed that:
+\begin{enumerate}[label=(\roman*)]
+\item the first game was the only game where two students of the same class played against each other,
+\item the students of Class 5 won more games than the students of Class 4, and
+\item the boys won two games and the girls won one game.
+\end{enumerate}
+The student who did not lose any game is \underline{\hspace{2cm}}
+\\
+\hline
+& \\
+\hline
+(A) & Pavan \\
+\hline
+(B) & Rishi \\
+\hline
+(C) & Swathi \\
+\hline
+(D) & Tanvi \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.9} &
+$P, Q, R, S, X,$ and $Y$ are distinct single-digit whole numbers taking values from $0$ to $9$.
+
+\vspace{0.3cm}
+
+$PQ$ is a two-digit number with $Q$ being in the units place and $P$ in the tens place.
+Similarly, $RS$ is a two-digit number.
+
+\vspace{0.3cm}
+
+It is known that $PQ$ and $RS$ are consecutive numbers and
+\[
+(PQ)^2 + (RS)^2 = XYP,
+\]
+with $XYP$ being a three-digit number.
+
+\vspace{0.3cm}
+
+The value of $Y$ is \underline{\hspace{1.5cm}}
+\\
+\hline
+& \\
+\hline
+(A) & 4 \\
+\hline
+(B) & 5 \\
+\hline
+(C) & 6 \\
+\hline
+(D) & 7 \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.10} &
+In the given figure, $P$, $Q$, and $R$ are three points on a circle of radius 10 cm with $O$ as its center, $\overline{PQ} = \overline{RQ}$, and $\angle PQR = 45^\circ$. The figure is representative.
+
+The area of the shaded region $PQRO$ is \underline{\hspace{2cm}} cm$^2$.
+
+\vspace{0.4cm}
+\medskip
+\begin{center}
+\begin{tikzpicture}[scale=0.70]
+
+  % Circle, radius = 3 units in TikZ (represents 10 cm)
+  \draw[thick] (0,0) circle (3cm);
+
+  % Key coordinates:
+  %   Q at top of circle
+  %   P at 225 degrees, R at 315 degrees
+  %   (arc PR subtends 90 degrees at centre => inscribed angle = 45 deg)
+  \coordinate (O) at (0, 0);
+  \coordinate (Q) at (0, 3);
+  \coordinate (P) at ({3*cos(225)}, {3*sin(225)});
+  \coordinate (R) at ({3*cos(315)}, {3*sin(315)});
+
+  % Shaded quadrilateral PQRO with hatch pattern
+  \fill[pattern=north east lines, pattern color=black!70]
+    (P) -- (Q) -- (R) -- (O) -- cycle;
+
+  % Outline of shaded region
+  \draw[thick] (P) -- (Q) -- (R) -- (O) -- cycle;
+
+  % Radii OP and OR
+  \draw[thick] (O) -- (P);
+  \draw[thick] (O) -- (R);
+
+  % Angle arc at Q
+  \draw ([shift=(240:0.6cm)]Q) arc[start angle=240,
+                                    end angle=300,
+                                    radius=0.6cm];
+
+  % Angle label at Q
+  \node[below, font=\small] at (0, 2.25) {$45^{\circ}$};
+
+  % Point labels
+  \node[above,       font=\small\bfseries] at (Q)          {$Q$};
+  \node[below left,  font=\small\bfseries] at (P)          {$P$};
+  \node[below right, font=\small\bfseries] at (R)          {$R$};
+  \node[right,       font=\small\bfseries] at (0.12, 0.12) {$O$};
+
+\end{tikzpicture}
+\end{center}
+\\
+\hline
+& \\
+\hline
+(A) & 50 \\
+\hline
+(B) & $25\sqrt{2}$ \\
+\hline
+(C) & $50\sqrt{2}$ \\
+\hline
+(D) & 100 \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+%=================================================================
+% DATA SCIENCE AND AI SUBJECT SECTION
+%=================================================================
+
+\section*{\underline{Data Science and Artificial Intelligence (DA)}}
+\textbf{Q.11 -- Q.35 Carry ONE mark Each}
+
+\vspace{6pt}
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.11} &
+For a classification problem, Principal Component Analysis (PCA) has been used to reduce the dimensionality of a feature space from 100 to 10.
+
+Which of the following options is true about the angle $\theta$ between the first and the tenth principal components?
+\\
+\hline
+& \\
+\hline
+(A) & $\theta = 0^\circ$ \\
+\hline
+(B) & $\theta = 90^\circ$ \\
+\hline
+(C) & $90^\circ < \theta \leq 180^\circ$ \\
+\hline
+(D) & $0 < \theta < 90^\circ$ \\
+\hline
+& \\
+\hline
+\textbf{Q.12} &
+Consider that you are training a classifier for a 10-class classification problem. Each input is represented as a 512-dimensional vector. There are 1000 samples, out of which first 100 will be used for testing. Let \textit{Leave-One-Out-Cross-Validation} (LOOCV) be used for selection of the classifier model before testing.
+
+Which of the following options is the correct number of validation splits that will be generated?
+\\
+\hline
+& \\
+\hline
+(A) & 10 \\
+\hline
+(B) & 512 \\
+\hline
+(C) & 900 \\
+\hline
+(D) & 1000 \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.13} &
+Which of the following algorithms is \textbf{NOT} an example of uninformed search?
+\\
+\hline
+& \\
+\hline
+(A) & Breadth First Search \\
+\hline
+(B) & Depth First Search \\
+\hline
+(C) & A* Search \\
+\hline
+(D) & Depth-limited Search \\
+\hline
+& \\
+\hline
+\textbf{Q.14} &
+Which of the following statements is \textbf{NOT} true?
+
+(The names of the predicates are intuitive.)
+\\
+\hline
+& \\
+\hline
+(A) & $\forall x\, \forall y\; Classmate(x,y) \Rightarrow Classmate(y,x)$ \\
+\hline
+(B) & $\forall x\; Likes(x, Icecream) \Rightarrow \neg\exists x\; \neg Likes(x, Icecream)$ \\
+\hline
+(C) & ``Each king is a person'' is equivalent to $\forall x\; IsKing(x) \wedge IsPerson(x)$ \\
+\hline
+(D) & ``All humans are mortal'' is equivalent to $\forall x\; IsHuman(x) \Rightarrow IsMortal(x)$ \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.15} &
+Consider that the quick sort algorithm is used to sort an array of $n$ distinct randomly ordered elements. In every call, the pivot is chosen as the first element of the current subarray.
+
+Let $T(n)$ denote the expected time to sort the array. Assume that the time to partition is linear in the size of the current subarray.
+
+Which of the following recurrence relations correctly represents $T(n)$ in this scenario?
+\\
+\hline
+& \\
+\hline
+(A) & $T(n) = T(1) + T(n-1) + O(n)$ \\
+\hline
+(B) & $T(n) = T\!\left(\dfrac{n}{4}\right) + T\!\left(\dfrac{3n}{4}\right) + O(n)$ \\
+\hline
+(C) & $T(n) = 2T\!\left(\dfrac{n}{2}\right) + O(n)$ \\
+\hline
+(D) & $T(n) = \dfrac{1}{n}\displaystyle\sum_{k=0}^{n-1}\bigl[T(k)+T(n-k-1)\bigr] + O(n)$ \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.16} &
+Consider the given Python program.
+
+\begin{lstlisting}
+def append_to_lst(val, lst=[]):
+    lst.append(val)
+    return lst
+print(append_to_lst(1))
+print(append_to_lst(2))
+print(append_to_lst(3, []))
+\end{lstlisting}
+
+Which of the following is the correct output of this program?
+\\
+\hline
+& \\
+\hline
+(A) & \texttt{[1]} \newline \texttt{[2]} \newline \texttt{[3]} \\
+\hline
+(B) & \texttt{[1]} \newline \texttt{[1, 2]} \newline \texttt{[3]} \\
+\hline
+(C) & \texttt{[1]} \newline \texttt{[2]} \newline \texttt{[1, 2, 3]} \\
+\hline
+(D) & \texttt{[1]} \newline \texttt{[1, 2]} \newline \texttt{[1, 3]} \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.17} &
+Let $R(A,B,C,D,E)$ be a relational schema with functional dependency set
+$F=\{A\to BC,\; CD\to E,\; E\to A\}$.
+
+Which of the following statements is correct?
+\\
+\hline
+& \\
+\hline
+(A) & AD, ED and CD are the only candidate keys of R. \\
+\hline
+(B) & AD and ED are the only candidate keys of R. \\
+\hline
+(C) & A, E and CD are the only candidate keys of R. \\
+\hline
+(D) & A and CD are the only candidate keys of R. \\
+\hline
+& \\
+\hline
+\textbf{Q.18} &
+Consider that the visualization of a 3-dimensional data cube is showing \textit{Sales Quantity} for each combination of the attributes \textit{Product Type}, \textit{Month} and \textit{Country}.
+
+From this, if we want to further visualize the \textit{Sales Quantity} for each combination of \textit{Product Type}, \textit{Month} and \textit{State}, which of the following OLAP operations should be performed?
+\\
+\hline
+& \\
+\hline
+(A) & Slicing \\
+\hline
+(B) & Dicing \\
+\hline
+(C) & Roll-up \\
+\hline
+(D) & Drill-down \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.19} &
+Let $M$ be a randomly chosen non-empty subset of $S = \{1,2,3,\ldots,2026\}$.
+
+Which of the following is the probability that the product of all the elements of $M$ is even?
+\\
+\hline
+& \\
+\hline
+(A) & $2^{1013}(2^{1013}-1)/2^{2026}$ \\
+\hline
+(B) & $2^{1013}/2^{2026}$ \\
+\hline
+(C) & $2^{1013}(2^{1013}-1)/(2^{2026}-1)$ \\
+\hline
+(D) & $1/(2^{2026}-1)$ \\
+\hline
+& \\
+\hline
+\textbf{Q.20} &
+Suppose that a computer program provides a non-negative and integer-valued random solution to the equation $n_1 + n_2 + n_3 + n_4 = 20$.
+
+Which of the following is the probability that all of $n_1, n_2, n_3, n_4$ in the provided solution are positive?
+\\
+\hline
+& \\
+\hline
+(A) & $\dbinom{19}{3}\!\Big/\!\dbinom{23}{3}$ \\
+\hline
+(B) & $\dbinom{20}{4}\!\Big/\!\dbinom{24}{4}$ \\
+\hline
+(C) & $\dbinom{20}{3}\!\Big/\!\dbinom{23}{3}$ \\
+\hline
+(D) & $\dbinom{19}{4}\!\Big/\!\dbinom{24}{4}$ \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.21} &
+Let $M = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$ be a $2\times 2$ matrix, where $\theta = \dfrac{2\pi}{5}$, and
+$I_2 = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$.
+
+Which of the following options is equal to $M^{2026}$\,?
+\\
+\hline
+& \\
+\hline
+(A) & $M^2$ \\
+\hline
+(B) & $M$ \\
+\hline
+(C) & $M^{-1}$ \\
+\hline
+(D) & $I_2$ \\
+\hline
+& \\
+\hline
+\textbf{Q.22} &
+Consider a set $S_1 = \{x = (x_1, x_2, x_3)^T \in \mathbb{R}^3 \mid x^T x \leq 16\}$. Let $S_2$ be another set which is a subspace of $\mathbb{R}^3$ with dimension two.
+
+Which of the following gives the area of $S_1 \cap S_2$?
+\\
+\hline
+& \\
+\hline
+(A) & $16\pi$ \\
+\hline
+(B) & $4\pi$ \\
+\hline  % <-- corrected: was missing closing \hline after (B) option body
+(C) & $4\pi^2$ \\
+\hline
+(D) & $16\pi^2$ \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.23} &
+In the following table, the \texttt{Task} column lists a few tasks related to machine
+learning. The \texttt{Algorithm} column lists a few algorithms.
+
+\vspace{0.2cm}
+Each entry ``t'' from the \texttt{Task} column is to be matched with an appropriate
+entry ``a'' from the \texttt{Algorithm} column such that the task ``t'' can be solved
+using the algorithm ``a''. Denote such a match as \texttt{t:a}
+\vspace{0.3cm}
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Task} & \textbf{Algorithm} \\
+\hline
+T1 -- Clustering & A1 -- Markov Chain Monte Carlo \\
+\hline
+T2 -- Classification & A2 -- K-Medoid \\
+\hline
+T3 -- Sampling & A3 -- Linear Discriminant Analysis \\
+\hline
+T4 -- Feature Extraction & A4 -- Naive Bayes \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.2cm}
+Which of the following options is/are the correct matching(s)?
+\\
+\hline
+& \\
+\hline
+(A) & T1:A4, T2:A3, T3:A1, T4:A2 \\
+\hline
+(B) & T1:A2, T2:A4, T3:A1, T4:A3 \\
+\hline
+(C) & T1:A3, T2:A4, T3:A1, T4:A2 \\
+\hline
+(D) & T1:A4, T2:A2, T3:A1, T4:A3 \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.24} &
+Sentence $X$ is said to entail Sentence $Y$ if whenever $X$ is $TRUE$, $Y$ also must hold $TRUE$.
+
+Which of the following statements is/are correct if $X$ entails $Y$?
+\\
+\hline
+& \\
+\hline
+(A) & $X \Rightarrow Y$ \\
+\hline
+(B) & $X \wedge \neg Y$ is $FALSE$ \\
+\hline
+(C) & if $X$ then $Y$ \\
+\hline
+(D) & if $Y$ then $X$ \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.25} &
+You are given the following Pre-order and In-order traversals of a Binary Tree $T$ with nodes E, F, G, P, Q, R, S.
+
+\vspace{0.3cm}
+\begin{tabular}{ll}
+Pre-order: & P \quad Q \quad S \quad E \quad R \quad F \quad G \\
+In-order:  & S \quad Q \quad E \quad P \quad F \quad R \quad G \\
+\end{tabular}
+
+\vspace{0.3cm}
+Which of the following statements is/are true about the Binary Tree $T$?
+\\
+\hline
+& \\
+\hline
+(A) & Node P is the root of T \\
+\hline
+(B) & The Post-order traversal of T is: S \; E \; Q \; F \; G \; R \; P \\
+\hline
+(C) & Node Q has only one child \\
+\hline
+(D) & The left subtree of node R contains the node G \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.26} &
+Consider two relations \texttt{r} and \texttt{s} defined on the relational schemas $R(A,B)$ and $S(E,C)$, respectively. A is the primary key of R and E is a foreign key of S referencing A in R.
+
+Which of the following operations will \textbf{NEVER} violate the foreign key constraint?
+\\
+\hline
+& \\
+\hline
+(A) & Inserting records into relation \texttt{r} \\
+\hline
+(B) & Deleting records from relation \texttt{s} \\
+\hline
+(C) & Deleting records from relation \texttt{r} \\
+\hline
+(D) & Inserting records into relation \texttt{s} \\
+\hline
+& \\
+\hline
+\textbf{Q.27} &
+Let $f(x) = x^3 - 3x^2 + 2$ be a function defined on $(-1,3]$.
+
+Which of the following statements is/are correct?
+\\
+\hline
+& \\
+\hline
+(A) & $f(x)$ has exactly two roots in $[-0.9, 0]$. \\
+\hline
+(B) & $f(x)$ has a minimum at 2 only. \\
+\hline
+(C) & $f(x)$ has maximum at 0 only. \\
+\hline
+(D) & $f(x)$ has a root at 1. \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.28} &
+Suppose a random variable $Z$ follows $Normal(\mu=0, \sigma^2=1)$ distribution with probability density function $g(z)$ and cumulative distribution function $G(z)$.
+
+Another random variable $Y$ follows $t_1$ distribution with probability density function $h(y)$ and cumulative distribution function $H(y)$. Let $c$ be the positive real number for which $g(c)=h(c)$.
+
+Which of the following statements is/are correct?
+\\
+\hline
+& \\
+\hline
+(A) & $G(0) = H(0)$ \\
+\hline
+(B) & $G(c) < H(c)$ \\
+\hline
+(C) & $G(-c) < H(-c)$ \\
+\hline
+(D) & $g(0) = h(0)$ \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.29} &
+Consider that for a supervised learning task, the objective function being minimized is $f_w(x) = wx$, where $x \in \mathbb{R}$ is the input and $w \in \mathbb{R}$ is the parameter. Stochastic Gradient Descent with learning rate of 0.10 is used for parameter updates.
+
+Suppose that at the end of iteration $i$, the value of $w$ becomes 10.00.
+
+Let $x = 10.00$ be the input for iteration $(i+1)$.
+
+The value of $w$ at the end of iteration $(i+1)$ is \underline{\hspace{2cm}}. (Rounded off to \textbf{two} decimal places)
+\\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\vspace{6pt}
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.30} &
+Consider the game tree for a two-player turn-taking minimax game as shown in the figure. The value of a terminal node represents the utility of the game state if the game ends there. The numbers written next to the edges denote the strategies.
+
+There are two players MAX and MIN. At any particular state of the game, MAX prefers to move to a state of maximum value. On the other hand, MIN prefers to move to a state of minimum value.
+
+Suppose MAX starts the game at the root and has three strategies: 1, 2 and 3. Next, MIN plays and also has three strategies: 1, 2 and 3. The game ends there. Both players always take optimal strategies throughout the game.
+
+At the root, the best strategy for MAX is \underline{\hspace{1.5cm}}. (Answer in \textbf{integer})
+
+\vspace{0.3cm}
+\begin{center}
+
+\begin{tikzpicture}[
+    >=stealth,
+    every node/.style={font=\small},
+    line width=0.4pt
+]
+
+% ---------------- Root ----------------
+\node (root) at (0,0)
+{
+\begin{tikzpicture}[scale=0.35]
+\draw (0,0.7)--(-0.7,-0.7)--(0.7,-0.7)--cycle;
+\end{tikzpicture}
+};
+
+\node[left=1.8cm of root] {\textbf{MAX}};
+
+% ---------------- Level 1 ----------------
+\node (m1) at (-4,-2.4)
+{
+\begin{tikzpicture}[scale=0.35]
+\draw (0,-0.7)--(-0.7,0.7)--(0.7,0.7)--cycle;
+\end{tikzpicture}
+};
+
+\node (m2) at (0,-2.4)
+{
+\begin{tikzpicture}[scale=0.35]
+\draw (0,-0.7)--(-0.7,0.7)--(0.7,0.7)--cycle;
+\end{tikzpicture}
+};
+
+\node (m3) at (4,-2.4)
+{
+\begin{tikzpicture}[scale=0.35]
+\draw (0,-0.7)--(-0.7,0.7)--(0.7,0.7)--cycle;
+\end{tikzpicture}
+};
+
+\node[left=1.8cm of m1] {\textbf{MIN}};
+
+% ---------------- ROOT EDGES ----------------
+\draw[->] (root) -- node[midway, above=2pt] {1} (m1);
+\draw[->] (root) -- node[midway, right=5pt] {2} (m2);
+\draw[->] (root) -- node[midway, above=2pt] {3} (m3);
+
+% ---------------- LEAF NODES (LEFT) ----------------
+\node (a1) at (-5,-4.6)
+{
+\begin{tikzpicture}[scale=0.32]
+\draw (0,0.7)--(-0.7,-0.7)--(0.7,-0.7)--cycle;
+\end{tikzpicture}
+};
+
+\node (a2) at (-4,-4.6)
+{
+\begin{tikzpicture}[scale=0.32]
+\draw (0,0.7)--(-0.7,-0.7)--(0.7,-0.7)--cycle;
+\end{tikzpicture}
+};
+
+\node (a3) at (-3,-4.6)
+{
+\begin{tikzpicture}[scale=0.32]
+\draw (0,0.7)--(-0.7,-0.7)--(0.7,-0.7)--cycle;
+\end{tikzpicture}
+};
+
+\draw[->] (m1) -- node[midway, above=2pt] {1} (a1);
+\draw[->] (m1) -- node[midway, right=0pt] {2} (a2);
+\draw[->] (m1) -- node[midway, above=2pt] {3} (a3);
+
+\node at (-5,-5.4) {8};
+\node at (-4,-5.4) {6};
+\node at (-3,-5.4) {$-1$};
+
+% ---------------- LEAF NODES (CENTER) ----------------
+\node (b1) at (-1,-4.6)
+{
+\begin{tikzpicture}[scale=0.32]
+\draw (0,0.7)--(-0.7,-0.7)--(0.7,-0.7)--cycle;
+\end{tikzpicture}
+};
+
+\node (b2) at (0,-4.6)
+{
+\begin{tikzpicture}[scale=0.32]
+\draw (0,0.7)--(-0.7,-0.7)--(0.7,-0.7)--cycle;
+\end{tikzpicture}
+};
+
+\node (b3) at (1,-4.6)
+{
+\begin{tikzpicture}[scale=0.32]
+\draw (0,0.7)--(-0.7,-0.7)--(0.7,-0.7)--cycle;
+\end{tikzpicture}
+};
+
+\draw[->] (m2) -- node[midway, above=2pt] {1} (b1);
+\draw[->] (m2) -- node[midway, right=0pt] {2} (b2);
+\draw[->] (m2) -- node[midway, above=2pt] {3} (b3);
+
+\node at (-1,-5.4) {1};
+\node at (0,-5.4) {5};
+\node at (1,-5.4) {7};
+
+% ---------------- LEAF NODES (RIGHT) ----------------
+\node (c1) at (3,-4.6)
+{
+\begin{tikzpicture}[scale=0.32]
+\draw (0,0.7)--(-0.7,-0.7)--(0.7,-0.7)--cycle;
+\end{tikzpicture}
+};
+
+\node (c2) at (4,-4.6)
+{
+\begin{tikzpicture}[scale=0.32]
+\draw (0,0.7)--(-0.7,-0.7)--(0.7,-0.7)--cycle;
+\end{tikzpicture}
+};
+
+\node (c3) at (5,-4.6)
+{
+\begin{tikzpicture}[scale=0.32]
+\draw (0,0.7)--(-0.7,-0.7)--(0.7,-0.7)--cycle;
+\end{tikzpicture}
+};
+
+\draw[->] (m3) -- node[midway, above=2pt] {1} (c1);
+\draw[->] (m3) -- node[midway, right=0pt] {2} (c2);
+\draw[->] (m3) -- node[midway, above=2pt] {3} (c3);
+
+\node at (3,-5.4) {$-4$};
+\node at (4,-5.4) {$-3$};
+\node at (5,-5.4) {$-12$};
+
+\end{tikzpicture}
+
+\end{center}
+\\
+\hline
+& \\
+\hline
+\end{tabular}
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.31} &
+Let A be a sorted array containing 1000 distinct integers. You perform a recursive binary search on A to find an element y. Suppose each comparison checks whether the middle element computed during the current recursive step is equal to, less than, or greater than y.
+
+The maximum number of comparisons that may have to be performed if y is not an element of A is \underline{\hspace{1.5cm}}. (Answer in \textbf{integer})
+\\
+\hline
+& \\
+\hline
+\textbf{Q.32} &
+In a relational database, a B+ Tree Index is to be constructed for a relation on a key field. In a B+ Tree, a Node Pointer points to a sub-tree and a Data Record Pointer points to a block of database records.
+
+Let, Node size $= 4096$ bytes, Node Pointer size $= 10$ bytes, Search Key Field size $= 11$ bytes and Data Record Pointer size $= 12$ bytes.
+
+The maximum number of Node Pointers that can be present in a non-leaf node of the B+ Tree is \underline{\hspace{1.5cm}}. (Answer in \textbf{integer})
+\\
+\hline
+& \\
+\hline
+\textbf{Q.33} &
+The number of bijections $f(\cdot)$ from the set $S = \{1,2,3,4\}$ to itself such that $f(f(n)) = n$, for all $n \in S$, is \underline{\hspace{1.5cm}}. (Answer in \textbf{integer})
+\\
+\hline
+& \\
+\hline
+\textbf{Q.34} &
+Let $X$ be an exponentially distributed random variable with mean $\lambda(>0)$. If $P(X>5) = 0.35$, then the conditional probability $P(X>10 \mid X>5)$ is \underline{\hspace{1.5cm}}. (Rounded off to \textbf{two} decimal places)
+\\
+\hline
+& \\
+\hline
+\textbf{Q.35} &
+The value of $\displaystyle\sum_{i=0}^{\infty}\sum_{j=1}^{\infty} 2^{-i}\,3^{-j}$ is \underline{\hspace{1.5cm}}. (Answer in \textbf{integer})
+\\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+%=================================================================
+% Q.36 – Q.65: TWO marks each
+%=================================================================
+
+\section*{\underline{Q.36 -- Q.65 Carry TWO marks Each}}
+
+\vspace{6pt}
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.36} &
+Let four points in three-dimensional space be:
+
+P1: $[2, 3, -1]$, P2: $[3, 1, 1]$, P3: $[5, -2, 3]$ and P4: $[3, 3, 3]$.
+
+Hierarchical Agglomerative Clustering is used to cluster the above points. If Manhattan Distance is used as the distance metric during clustering, which of the following options indicates the two points that will be merged first?
+\\
+\hline
+& \\
+\hline
+(A) & $P1, P2$ \\
+\hline
+(B) & $P2, P3$ \\
+\hline
+(C) & $P3, P4$ \\
+\hline
+(D) & $P2, P4$ \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.37} &
+Which of the following statements is true for Ridge Regression?
+\\
+\hline
+& \\
+\hline
+(A) & The regularizer in the objective function of Ridge Regression is used to guard against scenarios where the model works well for the test data, but poorly for the training data. \\
+\hline
+(B) & The regularizer of Ridge Regression uses $L_1$ norm. \\
+\hline
+(C) & Ridge Regression aims to reduce the number of parameters that have negative values. \\
+\hline
+(D) & The regularizer of Ridge Regression may increase the bias of the model, but it helps in reducing the variance in predictions. \\
+\hline
+& \\
+\hline
+\textbf{Q.38} &
+Assume that a Creative ($C$) person will Succeed ($S$) if the person is also Disciplined ($D$), but will not succeed otherwise. Now, consider the following statements:
+\begin{enumerate}[label=(\roman*)]
+\item $C \wedge S \Leftrightarrow D$
+\item $C \Rightarrow (S \Leftrightarrow D)$
+\item $C \Leftrightarrow ((D \Rightarrow S) \vee \neg S)$
+\end{enumerate}
+Which of the following options is correct?
+\\
+\hline
+& \\
+\hline
+(A) & Both (i) and (ii) are TRUE \\
+\hline
+(B) & Only (ii) is TRUE \\
+\hline
+(C) & Both (ii) and (iii) are TRUE \\
+\hline
+(D) & Only (iii) is TRUE \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.39} &
+A recursive function in Python is given.
+
+\begin{lstlisting}
+def mystery(n):
+    if n <= 0:
+        return 1
+    else:
+        return mystery(n-1) + mystery(n-2)
+\end{lstlisting}
+
+Now, consider the following function call:
+
+\texttt{mystery(4)}
+
+Assume that a typical runtime stack is used to manage function calls. Each function call is pushed onto the stack and removed only after it finishes execution.
+
+Which of the following options denotes the total number of function calls (i.e., the total number of stack activations), including the initial call, to compute \texttt{mystery(4)}?
+\\
+\hline
+& \\
+\hline
+(A) & 5 \\
+\hline
+(B) & 9 \\
+\hline
+(C) & 15 \\
+\hline
+(D) & 17 \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.40} &
+Consider a directed graph $G=(V,E)$, where $V$ is the finite set of vertices and $E$ is the set of directed edges between the vertices. $G$ may contain cycles but there is no self-loop. Further, $G$ may not be strongly connected.
+
+Let $G^R$ be the graph obtained by reversing the directions of all the edges in $G$ without changing the set of vertices.
+
+Assume that Breadth First Search (BFS) or Depth First Search (DFS) from any given vertex $v$ of a graph visits only the reachable vertices from $v$ in that graph.
+
+Which of the following statements must always be true, regardless of the structure of $G$?
+\\
+\hline
+& \\
+\hline
+(A) & If $u$ is a reachable vertex in the BFS of $G^R$ from $v$, then $u$ is also a reachable vertex in the DFS of $G$ from $v$. \\
+\hline
+(B) & In $G^R$, the BFS traversal from $v$ will visit exactly the same set of vertices as the DFS from $v$ in $G$. \\
+\hline
+(C) & The order of vertices visited in the BFS of $G^R$ from $v$ is the reverse of the order of vertices visited in the DFS of $G$ from $v$. \\
+\hline
+(D) & If $u$ is a reachable vertex in the DFS of $G$ from $v$, then $v$ is also a reachable vertex in the BFS of $G^R$ from $u$. \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.41} &
+Consider a B+ Tree where the maximum number of key values in each leaf node
+is 2 and the maximum number of pointers in each non-leaf node is 3. Let the
+content of the B+ Tree be as shown in the figure.
+
+\vspace{0.2cm}
+Which of the following options denotes the key value(s) stored in the root node
+after inserting a key value 3 in the given B+ Tree?
+\vspace{0.4cm}
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth, font=\sffamily, thick, scale=0.65]
+% Root Node
+\begin{scope}[shift={(0.25,4)}]
+    \draw (0,0) rectangle (5, 1.5);
+    \draw (0.5, 0) -- (0.5, 1.5);
+    \draw (2.25, 0) -- (2.25, 1.5);
+    \draw (2.75, 0) -- (2.75, 1.5);
+    \draw (4.5, 0) -- (4.5, 1.5);
+    \node at (1.375, 0.75) {\large 5};
+    \node at (3.625, 0.75) {\large 8};
+\end{scope}
+% Leaf 1
+\begin{scope}[shift={(-5.5,0)}]
+    \draw (0,0) rectangle (5.5, 1.5);
+    \draw (0.2, 0.3) rectangle (2.2, 1.2); \draw (1.2, 0.3) -- (1.2, 1.2);
+    \draw (2.8, 0.3) rectangle (4.8, 1.2); \draw (3.8, 0.3) -- (3.8, 1.2);
+    \draw (5.2, 0) -- (5.2, 1.5);
+    \node at (0.7, 0.75) {\large 1};
+    \node at (3.3, 0.75) {\large 5};
+    \draw[->, dashed] (1.7, 0.75) -- (1.7, -0.5);
+    \draw[->, dashed] (4.3, 0.75) -- (4.3, -0.5);
+\end{scope}
+% Leaf 2
+\begin{scope}[shift={(0.5,0)}]
+    \draw (0,0) rectangle (5.5, 1.5);
+    \draw (0.2, 0.3) rectangle (2.2, 1.2); \draw (1.2, 0.3) -- (1.2, 1.2);
+    \draw (2.8, 0.3) rectangle (4.8, 1.2); \draw (3.8, 0.3) -- (3.8, 1.2);
+    \draw (5.2, 0) -- (5.2, 1.5);
+    \node at (0.7, 0.75) {\large 7};
+    \node at (3.3, 0.75) {\large 8};
+    \draw[->, dashed] (1.7, 0.75) -- (1.7, -0.5);
+    \draw[->, dashed] (4.3, 0.75) -- (4.3, -0.5);
+\end{scope}
+% Leaf 3
+\begin{scope}[shift={(6.5,0)}]
+    \draw (0,0) rectangle (5.5, 1.5);
+    \draw (0.2, 0.3) rectangle (2.2, 1.2); \draw (1.2, 0.3) -- (1.2, 1.2);
+    \draw (2.8, 0.3) rectangle (4.8, 1.2); \draw (3.8, 0.3) -- (3.8, 1.2);
+    \draw (5.2, 0) -- (5.2, 1.5);
+    \node at (0.7, 0.75) {\large 9};
+    \node at (3.3, 0.75) {\large 12};
+    \draw[->, dashed] (1.7, 0.75) -- (1.7, -0.5);
+    \draw[->, dashed] (4.3, 0.75) -- (4.3, -0.5);
+\end{scope}
+% Connections from Root
+\draw[->] (0.75, 4.75) -- (-3, 1.5);
+\draw[->] (3.0, 4.75) -- (3.25, 1.5);
+\draw[->] (5.25, 4.75) -- (9.25, 1.5);
+% Horizontal links between leaves
+\draw[->] (-0.3, 0.75) -- (0.5, 0.75);
+\draw[->] (6.0, 0.75) -- (6.5, 0.75);
+\draw[->] (12.0, 0.75) -- ++(0.8,0) node[right] {\large NULL};
+\end{tikzpicture}
+\end{center}
+\\
+\hline
+& \\
+\hline
+(A) & 5 \\
+\hline
+(B) & 8 \\
+\hline
+(C) & 3 and 5 \\
+\hline
+(D) & 3, 5 and 8 \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.42} &
+Consider the given relations $X$, $Y$ and $Z$. The relation $X$ has three columns $P$, $Q$
+and $R$. The relation $Y$ has three columns $P$, $Q$ and $S$. The relation $Z$ has two
+columns $P$ and $T$.
+\vspace{0.3cm}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\multicolumn{3}{|c|}{$X$} \\
+\hline
+$P$ & $Q$ & $R$ \\
+\hline
+P1 & Q1 & R1 \\
+\hline
+P2 & Q2 & R2 \\
+\hline
+P3 & Q3 & R2 \\
+\hline
+\end{tabular}
+\hspace{0.8cm}
+\begin{tabular}{|c|c|c|}
+\hline
+\multicolumn{3}{|c|}{$Y$} \\
+\hline
+$P$ & $Q$ & $S$ \\
+\hline
+P1 & Q1 & 2 \\
+\hline
+P1 & Q2 & 5 \\
+\hline
+P2 & Q1 & 6 \\
+\hline
+P3 & Q3 & 1 \\
+\hline
+\end{tabular}
+\hspace{0.8cm}
+\begin{tabular}{|c|c|}
+\hline
+\multicolumn{2}{|c|}{$Z$} \\
+\hline
+$P$ & $T$ \\
+\hline
+P1 & T1 \\
+\hline
+P3 & T2 \\
+\hline
+P4 & T3 \\
+\hline
+P4 & NULL \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.3cm}
+Consider the relational algebra expression
+\[
+\Pi_{PRS}\bigl[(\sigma_{(Q=Q3\,\vee\, R=R2)}[X \bowtie Y])\bowtie(\sigma_{(S>1)}[Y \bowtie Z])\bigr]
+\]
+where $\bowtie$ denotes natural join operation.
+
+\vspace{0.2cm}
+Which of the following options is the correct output for the given expression?
+\\
+\hline
+& \\
+\hline
+(A) & Two rows (P1, R1, 2) and (P1, R1, 5) \\
+\hline
+(B) & Three rows (P1, R1, 2), (P1, R1, 5) and (P2, R2, 6) \\
+\hline
+(C) & One row (P1, R1, 2) \\
+\hline
+(D) & Zero rows \\
+\hline
+& \\
+\hline
+\end{tabular}
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.43} &
+Consider the concept hierarchies as shown in the figure.
+
+\vspace{0.3cm}
+\begin{center}
+\begin{tikzpicture}[scale=0.9, every node/.style={draw=none}]
+  % Time hierarchy
+  \node[fill=black,circle,inner sep=3pt,label=right:{Year}] (year) at (0,2) {};
+  \node[fill=black,circle,inner sep=3pt,label=right:{Month}] (month) at (0,1) {};
+  \node[fill=black,circle,inner sep=3pt,label=right:{Day}] (day) at (0,0) {};
+  \draw (year) -- (month) -- (day);
+  % Location hierarchy
+  \node[fill=black,circle,inner sep=3pt,label=right:{Country}] (country) at (3,2) {};
+  \node[fill=black,circle,inner sep=3pt,label=right:{State}] (state) at (3,1) {};
+  \node[fill=black,circle,inner sep=3pt,label=right:{City}] (city) at (3,0) {};
+  \draw (country) -- (state) -- (city);
+  % Item hierarchy
+  \node[fill=black,circle,inner sep=3pt,label=right:{Item Category}] (ic) at (6,2) {};
+  \node[fill=black,circle,inner sep=3pt,label=right:{Item Type}] (it) at (6,1) {};
+  \node[fill=black,circle,inner sep=3pt,label=right:{Item}] (i) at (6,0) {};
+  \draw (ic) -- (it) -- (i);
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.3cm}
+Which of the following options denotes the total number of possible data cuboids from these concept hierarchies?
+\\
+\hline
+& \\
+\hline
+(A) & $4^3$ \\
+\hline
+(B) & $2^3$ \\
+\hline
+(C) & $2!$ \\
+\hline
+(D) & $4!$ \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.44} &
+Let $X$ and $Y$ be two independent random variables. $X$ follows $Bernoulli(p=0.3)$ distribution and $Y$ follows $Normal(\mu=0, \sigma^2=100)$ distribution.
+
+Which of the following options is the variance of $(2X-1)Y$\,?
+\\
+\hline
+& \\
+\hline
+(A) & 100 \\
+\hline
+(B) & 90 \\
+\hline
+(C) & 49 \\
+\hline
+(D) & 21 \\
+\hline
+& \\
+\hline
+\textbf{Q.45} &
+Let
+\[
+L = \lim_{n\to\infty}\sum_{k=0}^{n}\frac{e^{-n}\,n^k}{k!}
+\]
+Which of the following is the value of $L$?
+\\
+\hline
+& \\
+\hline
+(A) & 0.5 \\
+\hline
+(B) & 1.0 \\
+\hline
+(C) & 0 \\
+\hline
+(D) & $e^{-1}$ \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.46} &
+Let $\gamma_1, \gamma_2, \gamma_3$ be the eigenvalues of the matrix
+$\begin{bmatrix} 1 & 0 & 0 \\ 0 & \cos t & \sin t \\ 0 & -\sin t & \cos t \end{bmatrix}$,
+
+where $t \in [-\pi, \pi]$ is in radians.
+
+Which one of the following options lists all the possible values of $t$ satisfying $\gamma_1 + \gamma_2 + \gamma_3 = 1 + \sqrt{2}$\,?
+\\
+\hline
+& \\
+\hline
+(A) & $\left\{\dfrac{\pi}{3},\,-\dfrac{\pi}{4}\right\}$ \\
+\hline
+(B) & $\left\{\dfrac{\pi}{4},\,-\dfrac{\pi}{3}\right\}$ \\
+\hline
+(C) & $\left\{\dfrac{\pi}{4},\,-\dfrac{\pi}{4}\right\}$ \\
+\hline
+(D) & $\left\{\dfrac{\pi}{3},\,-\dfrac{\pi}{3}\right\}$ \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.47} &
+Consider that 20 stories of Author X and 10 stories of Author Y were kept together without mentioning the names of the authors. A classifier was then asked to predict the author (X or Y) of each of these stories. Let, out of X's stories, 6 were classified as that of Y. On the other hand, out of Y's stories, 2 were classified as that of X.
+
+Considering X and Y as two classes, which of the following statements is/are true?
+\\
+\hline
+& \\
+\hline
+(A) & Accuracy of the classifier is 11/15. \\
+\hline
+(B) & Precision of Class X is higher than the Precision of Class Y. \\
+\hline
+(C) & Recall of Class X is higher than the Recall of Class Y. \\
+\hline
+(D) & Accuracy of the classifier is 14/15. \\
+\hline
+& \\
+\hline
+\textbf{Q.48} &
+Let $P(x)$ be a predicate.
+
+Which of the following statements is/are \textbf{NOT} valid in first-order logic?
+\\
+\hline
+& \\
+\hline
+(A) & $\forall x\, P(x) \Rightarrow \exists x\, P(x)$ \\
+\hline
+(B) & $\exists x\, P(x) \Rightarrow \forall x\, P(x)$ \\
+\hline
+(C) & $\exists x\, P(x) \Leftrightarrow \forall x\, P(x)$ \\
+\hline
+(D) & $\forall x\, P(x) \Rightarrow \exists x\, \neg P(x)$ \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.49} &
+Consider the problem of sorting the given array in ascending order:
+
+\vspace{0.2cm}
+\texttt{P = [1, 2, 3, 5, 4]}
+
+\vspace{0.2cm}
+Consider two sorting algorithms Bubble Sort (BS) and Insertion Sort (IS).
+
+Let N1 be the total number of comparisons done by BS on the elements of P and N2 be the total number of comparisons done by IS on the elements of P.
+
+Which of the following options is/are correct?
+\\
+\hline
+& \\
+\hline
+(A) & N1 = 10, N2 = 4 \\
+\hline
+(B) & N1 $>$ N2 \\
+\hline
+(C) & IS on P will perform only one swap \\
+\hline
+(D) & Both BS and IS on P will make at least one unnecessary comparison (i.e., comparing elements that are already in correct order) \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.50} &
+Consider the given Python program.
+
+\begin{lstlisting}
+def outer():
+    x = []
+    def inner(val):
+        x.append(val)
+        return x
+    return inner
+f1 = outer()
+f2 = outer()
+print(f1(10))  # Line P
+print(f1(20))  # Line Q
+print(f2(30))  # Line R
+print(f1(40))  # Line S
+\end{lstlisting}
+
+Which of the following options is/are correct?
+\\
+\hline
+& \\
+\hline
+(A) & \texttt{f1} and \texttt{f2} share the same list \texttt{x} \\
+\hline
+(B) & Output of Line Q is \texttt{[10, 20]} \\
+\hline
+(C) & Output of Line R is \texttt{[10, 20, 30]} \\
+\hline
+(D) & Output of Line S is \texttt{[10, 20, 40]} \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.51} &
+Consider a table \texttt{Employee(EmpID, TeamID)}, where the column \texttt{EmpID} (ID of
+an employee) is the primary key. The column \texttt{TeamID} denotes the team ID of the
+team of which the employee is a member. \texttt{TeamID} is a NOT NULL column.
+We want to display the size of the team (denoted as \texttt{TeamSize}) in which each
+employee is a member by using SQL. As an example, the desired output for the
+given \texttt{Employee} table is also shown in tabular form.
+\vspace{0.1cm}
+
+\begin{center}
+\renewcommand{\arraystretch}{0.75}
+\begin{minipage}{0.28\linewidth}
+\centering
+\textbf{Employee}\\[0.05cm]
+\begin{tabular}{|c|c|}
+\hline
+\textbf{EmpID} & \textbf{TeamID} \\
+\hline
+1 & 8 \\ \hline
+2 & 8 \\ \hline
+3 & 8 \\ \hline
+4 & 7 \\ \hline
+5 & 7 \\ \hline
+6 & 9 \\ \hline
+\end{tabular}
+\end{minipage}
+\hspace{0.8cm}
+\begin{minipage}{0.28\linewidth}
+\centering
+\textbf{Output}\\[0.05cm]
+\begin{tabular}{|c|c|}
+\hline
+\textbf{EmpID} & \textbf{TeamSize} \\
+\hline
+1 & 3 \\ \hline
+2 & 3 \\ \hline
+3 & 3 \\ \hline
+4 & 2 \\ \hline
+5 & 2 \\ \hline
+6 & 1 \\ \hline
+\end{tabular}
+\end{minipage}
+\renewcommand{\arraystretch}{1}
+\end{center}
+
+\vspace{0.1cm}
+Which of the following is/are correct?
+\\
+\hline
+& \\[-0.4cm]
+\hline
+(A) & \texttt{SELECT E.EmpID, B.TeamSize} \\
+& \texttt{FROM Employee AS E, (SELECT TeamID, COUNT(TeamID) AS} \\
+& \texttt{TeamSize FROM Employee GROUP BY TeamID) AS B} \\
+& \texttt{WHERE E.TeamID = B.TeamID} \\
+\hline
+(B) & \texttt{SELECT A.EmpID, COUNT(B.TeamID) AS TeamSize} \\
+& \texttt{FROM Employee AS A, Employee AS B} \\
+& \texttt{WHERE A.TeamID = B.TeamID AND A.EmpID = B.EmpID} \\
+& \texttt{GROUP BY A.EmpID} \\
+\hline
+(C) & \texttt{SELECT B.EmpID, B.TeamSize} \\
+& \texttt{FROM (SELECT EmpID, COUNT(TeamID) AS TeamSize} \\
+& \texttt{FROM Employee GROUP BY EmpID) AS B} \\
+\hline
+(D) & \texttt{SELECT A.EmpID, B.TeamSize} \\
+& \texttt{FROM Employee AS A, (SELECT COUNT(TeamID) AS TeamSize} \\
+& \texttt{FROM Employee GROUP BY TeamID) AS B} \\
+& \texttt{WHERE A.TeamID = B.TeamID} \\
+\hline
+
+
+\end{tabular}
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.52} &
+Let $M = \left(I_n - \dfrac{1}{n}\mathbf{1}\mathbf{1}^T\right)$ be a matrix, where $\mathbf{1} = (1,1,1,\ldots,1)^T \in \mathbb{R}^n$ and $I_n$ is the identity matrix of order $n$.
+
+Which of the following options is/are correct?
+\\
+\hline
+& \\
+\hline
+(A) & $M^T = M$ \\
+\hline
+(B) & $M^2 = I_n$ \\
+\hline
+(C) & $\mathrm{Trace}(M) = n$ \\
+\hline
+(D) & $M$ is a projection matrix \\
+\hline
+& \\
+\hline
+\textbf{Q.53} &
+Let $X_1, X_2, \ldots, X_n$ be $n$ independent random variables. Each of the random variables follows $Normal(\mu=0, \sigma^2=1)$ distribution. Define $\bar{X} = \dfrac{1}{n}\displaystyle\sum_{i=1}^n X_i$.
+
+Which of the following statements is/are correct?
+\\
+\hline
+& \\
+\hline
+(A) & $\displaystyle\sum_{i=1}^n X_i^2$ follows Chi-square distribution with $n$ degrees of freedom. \\
+\hline
+(B) & $\displaystyle\sum_{i=1}^n (X_i - \bar{X})^2$ follows Chi-square distribution with $(n-1)$ degrees of freedom. \\
+\hline
+(C) & $X_1^2 + X_n^2$ follows exponential distribution with mean 2. \\
+\hline
+(D) & $(\sqrt{n}\,\bar{X})^2$ follows Chi-square distribution with 2 degrees of freedom. \\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.54} &
+Let $X$ be a discrete valued random variable with cumulative distribution function $F(x)$.
+
+Which of the following statements is/are correct?
+\\
+\hline
+& \\
+\hline
+(A) & $F(x)$ is always a positive function. \\
+\hline
+(B) & $F(x)$ is a non-decreasing function. \\
+\hline
+(C) & $F(x)$ has jump discontinuity. \\
+\hline
+(D) & $F(x)$ is a left continuous function. \\
+\hline
+& \\
+\hline
+\textbf{Q.55} &
+Consider that Linear Ridge Regression is being used to learn a prediction function $y_{pred} = w^T x$, where $w, x \in \mathbb{R}^2$ and Mean Absolute Error (MAE) is used to measure the prediction error. A weight of 0.20 is associated with the regularizer.
+
+At an intermediate step of the training process, assume that the parameter $w = [-3.00,\ 4.00]^T$. In the next step, for the input $x = [1.00,\ 2.00]^T$, the predicted value of $y$ is noted. Let the relation between $x = [x_1, x_2]^T$ and the true value of $y$ be $y_{true} = x_1 + x_2$.
+
+The value of the overall regularized loss function for this instance is \underline{\hspace{2cm}}. (Rounded off to \textbf{two} decimal places)
+\\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.56} &
+Consider a fully-connected feed-forward multi-layer perceptron. It has 30 neurons in the input layer, followed by two hidden layers and an output layer. The first hidden layer has 4 neurons and the second hidden layer has 3 neurons. The output layer has only one neuron. Assume that no bias parameters are used.
+
+The number of learnable parameters in the multi-layer perceptron is \underline{\hspace{2cm}}. (Answer in \textbf{integer})
+\\
+\hline
+& \\
+\hline
+\textbf{Q.57} &
+A clinic specializes in testing for a disease D. The result of the test can be either positive or negative.
+
+A study revealed that if a person suffers from the disease D, the test result in that clinic comes out positive 80\% of the time, and negative 20\% of the time. If a person is not suffering from the disease D, the test comes out positive 10\% of the time and negative 90\% of the time. It is also known that among the general population, the disease D occurs in 30\% of the individuals.
+
+If a person tests positive for D in that clinic, the probability that he/she actually suffers from the disease D is \underline{\hspace{2cm}}. (Rounded off to \textbf{two} decimal places)
+\\
+\hline
+& \\
+\hline
+\textbf{Q.58} &
+Consider the given Python program.
+
+\begin{lstlisting}
+def fun(L, i=0):
+    if i >= len(L)-1:
+        return 0
+    if L[i] > L[i+1]:
+        L[i+1], L[i] = L[i], L[i+1]
+        return 1+fun(L, i+1)
+    else:
+        return fun(L, i+1)
+data = [5, 3, 4, 1, 2]
+count = 0
+for _ in range(len(data)):
+    count += fun(data)
+print(count)
+\end{lstlisting}
+
+The output of the program is \underline{\hspace{2cm}}. (Answer in \textbf{integer})
+\\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.59} &
+Let there be two relations $X$ and $Y$ as shown. $X$ has three columns $P$, $Q$ and $R$. $Y$
+has two columns $P$ and $S$.
+\vspace{0.2cm}
+
+\begin{center}
+\renewcommand{\arraystretch}{0.85}
+\begin{minipage}{0.35\linewidth}
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\multicolumn{3}{|c|}{$X$} \\
+\hline
+$P$ & $Q$ & $R$ \\
+\hline
+P1 & Q1 & R1 \\ \hline
+P2 & Q2 & R2 \\ \hline
+P3 & Q3 & R2 \\ \hline
+\end{tabular}
+\end{minipage}
+\hspace{1cm}
+\begin{minipage}{0.3\linewidth}
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\multicolumn{2}{|c|}{$Y$} \\
+\hline
+$P$ & $S$ \\
+\hline
+P1 & 10 \\ \hline
+P1 & 15 \\ \hline
+P2 & 20 \\ \hline
+P3 & 1  \\ \hline
+\end{tabular}
+\end{minipage}
+\renewcommand{\arraystretch}{1}
+\end{center}
+
+\vspace{0.2cm}
+Consider that the following tuple relational calculus expression is evaluated.
+\[
+\{t \mid t \in X \wedge \exists z \in X\,(t[P]=z[P]) \wedge \exists m \in Y\,(m[P]=t[P] \wedge m[S]>1)\}
+\]
+The number of tuples that will be returned is \underline{\hspace{1.5cm}}. (Answer in \textbf{integer})
+\\
+\hline
+& \\[-0.1cm]
+\hline
+\end{tabular}
+\newpage
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.60} &
+Let \texttt{Account} be a relation as shown.
+\vspace{0.2cm}
+
+\begin{center}
+\renewcommand{\arraystretch}{0.85}
+\begin{tabular}{|c|c|}
+\hline
+\multicolumn{2}{|c|}{\texttt{Account}} \\
+\hline
+\textbf{AccNo} & \textbf{Balance} \\
+\hline
+A1 & 5000  \\ \hline
+A2 & 5000  \\ \hline
+A3 & 10000 \\ \hline
+A4 & 15000 \\ \hline
+A5 & 18000 \\ \hline
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+\end{center}
+
+\vspace{0.2cm}
+Consider the given SQL query.
+\vspace{0.1cm}
+
+\texttt{SELECT AccNo FROM Account AS A} \\
+& \texttt{WHERE (SELECT COUNT(*) FROM Account AS B} \\
+& \texttt{WHERE A.Balance < B.Balance) >= (SELECT COUNT(*)} \\
+& \texttt{FROM Account AS C WHERE A.Balance > C.Balance)}
+
+\vspace{0.2cm}
+The number of rows returned by the SQL query is \underline{\hspace{1.5cm}}. (Answer in \textbf{integer})
+\\
+\hline
+& \\[-0.1cm]
+\hline
+\end{tabular}
+\newpage
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.61} &
+Consider an ER model with the entities $E1(A_{11}, A_{12}, A_{13})$ and $E2(A_{21}, A_{22}, A_{23})$, where $A_{11}$, $A_{12}$, $A_{13}$ are the attributes of $E1$, and $A_{21}$, $A_{22}$, $A_{23}$ are the attributes of $E2$. Let $A_{22}$ be a multi-valued attribute. $A_{11}$ and $A_{21}$ are the primary keys of $E1$ and $E2$, respectively.
+
+Let $R12$ be a many-to-many relationship between $E1$ and $E2$. Participation of both $E1$ and $E2$ in $R12$ is total.
+
+The minimum number of relations required to convert the ER model into relational model (assuming there is no other functional dependency) where each relation is in third normal form (3NF) is \underline{\hspace{1.5cm}}. (Answer in \textbf{integer})
+\\
+\hline
+& \\
+\hline
+\textbf{Q.62} &
+For a given data set $\{x_1, x_2, \ldots, x_n\}$, where $n=100$, it is known that
+\[
+\frac{1}{2000}\sum_{i=1}^{n}\sum_{j=1}^{n}(x_i - x_j)^2 = 99
+\]
+
+Let us denote $\bar{x} = \dfrac{1}{n}\displaystyle\sum_{i=1}^n x_i$.
+
+The value of $\dfrac{1}{99}\displaystyle\sum_{i=1}^n (x_i - \bar{x})^2$ is \underline{\hspace{1.5cm}}. (Answer in \textbf{integer})
+\\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\newpage
+
+\begin{tabular}{|p{1cm}|p{14cm}|}
+\hline
+\textbf{Q.63} &
+Let $X$ be a random variable that follows $Uniform(-1,1)$ distribution. The conditional distribution of the random variable $Y$ given $X=x$ is the $Uniform(x^2-0.1,\; x^2+0.1)$ distribution.
+
+The value of $correlation(X,Y)$ is \underline{\hspace{1.5cm}}. (Answer in \textbf{integer})
+\\
+\hline
+& \\
+\hline
+\textbf{Q.64} &
+Let $A_{5\times 5}$ be a matrix such that each of its elements follows $Bernoulli(p=0.50)$ distribution independently.
+
+The probability that the row-sum of the second row and the column-sum of the third column are both equal to 3 is \underline{\hspace{1.5cm}}. (Rounded off to \textbf{two} decimal places)
+\\
+\hline
+& \\
+\hline
+\textbf{Q.65} &
+Let $A = \left(I_n - \dfrac{1}{n}\mathbf{1}\mathbf{1}^T\right)$ be a matrix, where $\mathbf{1} = (1,1,1,\ldots,1)^T \in \mathbb{R}^n$ and $I_n$ is the identity matrix of order $n$.
+
+The value of $\displaystyle\max_{S}\; x^T A x$, where $S = \{x \in \mathbb{R}^n \mid x^T x = 1\}$, is \underline{\hspace{1.5cm}}. (Answer in \textbf{integer})
+\\
+\hline
+& \\
+\hline
+\end{tabular}
+
+\end{document}
