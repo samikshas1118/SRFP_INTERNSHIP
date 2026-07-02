@@ -1,0 +1,1272 @@
+\documentclass[11pt,a4paper]{article}
+
+% ------------------------- PACKAGES -------------------------
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{fontspec}
+\usepackage[table]{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{tikz}
+
+\usepackage{pifont}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[most]{tcolorbox}
+\usepackage{titletoc}
+\usepackage{needspace}
+
+% ------------------------- FONTS -------------------------
+\setmainfont{Latin Modern Roman}
+\newfontfamily\headingfont{Latin Modern Sans}
+\newfontfamily\monofont{Latin Modern Mono}
+
+% ------------------------- COLOR PALETTE -------------------------
+\definecolor{navy}{HTML}{101B2E}
+\definecolor{teal}{HTML}{0FA3A3}
+\definecolor{amber}{HTML}{E8A33D}
+\definecolor{lightbg}{HTML}{F4F7F9}
+\definecolor{codebg}{HTML}{0D1520}
+\definecolor{codefg}{HTML}{9FE7D8}
+\definecolor{graytext}{HTML}{55606E}
+\definecolor{softline}{HTML}{D8E1E8}
+\definecolor{danger}{HTML}{C9483A}
+\definecolor{success}{HTML}{2E9E5B}
+
+% ------------------------- HEADER / FOOTER -------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyhead[L]{\small\headingfont\color{graytext} Vaman Internship \ $\cdot$\ Engineering Log}
+\fancyhead[R]{\small\headingfont\color{graytext} Technical Handover Doc}
+\fancyfoot[C]{\small\color{graytext}\thepage}
+\fancyfoot[R]{\small\color{graytext}\headingfont Vaman Project}
+
+% ------------------------- SECTION STYLING -------------------------
+\titleformat{\part}[block]
+  {\headingfont\bfseries\centering}
+  {\color{amber}\Large PART \thepart}
+  {8pt}
+  {\color{navy}\Huge}
+\titlespacing*{\part}{0pt}{10pt}{20pt}
+
+\titleformat{\section}
+  {\headingfont\Large\bfseries\color{navy}}
+  {\thesection}{0.4em}{}[{\color{teal}\titlerule[1.4pt]}]
+\titleformat{\subsection}
+  {\headingfont\large\bfseries\color{teal}}
+  {\thesubsection}{0.4em}{}
+
+\titlespacing*{\section}{0pt}{22pt}{12pt}
+\titlespacing*{\subsection}{0pt}{16pt}{8pt}
+
+% ------------------------- CODE BLOCK STYLE -------------------------
+\lstdefinestyle{termstyle}{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small\color{codefg},
+  breaklines=true,
+  frame=none,
+  xleftmargin=8pt,
+  xrightmargin=8pt,
+  aboveskip=6pt,
+  belowskip=6pt,
+  showstringspaces=false,
+}
+\lstset{style=termstyle}
+
+\newtcolorbox{codebox}[1][]{
+  enhanced, breakable,
+  colback=codebg, colframe=teal!70!black,
+  boxrule=0.6pt, arc=3pt,
+  left=4pt, right=4pt, top=2pt, bottom=2pt,
+  fonttitle=\headingfont\bfseries,
+  coltitle=white, colbacktitle=navy,
+  #1
+}
+
+% ------------------------- INFO / STATUS BOXES -------------------------
+\newtcolorbox{infobox}[1][]{
+  enhanced, breakable,
+  colback=lightbg, colframe=teal,
+  boxrule=0.8pt, arc=3pt, left=8pt, right=8pt, top=6pt, bottom=6pt,
+  title={#1}, fonttitle=\headingfont\bfseries\small,
+  coltitle=navy, colbacktitle=lightbg, boxsep=2pt,
+  attach boxed title to top left={xshift=8pt,yshift=-3pt},
+  boxed title style={colback=lightbg,colframe=lightbg},
+}
+
+\newtcolorbox{warnbox}[1][]{
+  enhanced, breakable,
+  colback=amber!12, colframe=amber!80!black,
+  boxrule=0.8pt, arc=3pt, left=8pt, right=8pt, top=6pt, bottom=6pt,
+  title={#1}, fonttitle=\headingfont\bfseries\small,
+  coltitle=navy, colbacktitle=amber!12, boxsep=2pt,
+  attach boxed title to top left={xshift=8pt,yshift=-3pt},
+  boxed title style={colback=amber!12,colframe=amber!12},
+}
+
+\newtcolorbox{successbox}[1][]{
+  enhanced, breakable,
+  colback=success!8, colframe=success,
+  boxrule=0.8pt, arc=3pt, left=8pt, right=8pt, top=6pt, bottom=6pt,
+  title={#1}, fonttitle=\headingfont\bfseries\small,
+  coltitle=navy, colbacktitle=success!8, boxsep=2pt,
+  attach boxed title to top left={xshift=8pt,yshift=-3pt},
+  boxed title style={colback=success!8,colframe=success!8},
+}
+
+\newtcolorbox{problembox}[1][]{
+  enhanced, breakable,
+  colback=danger!6, colframe=danger,
+  boxrule=0.8pt, arc=3pt, left=8pt, right=8pt, top=6pt, bottom=6pt,
+  title={#1}, fonttitle=\headingfont\bfseries\small,
+  coltitle=white, colbacktitle=danger, boxsep=2pt,
+}
+
+% Flow-step pill helper
+\newcommand{\flowstep}[1]{%
+  \tikz[baseline=(a.base)]{\node[fill=navy,rounded corners=3pt,text=white,inner sep=5pt,font=\ttfamily\small] (a) {#1};}%
+}
+\newcommand{\flowarrow}{\vspace{2pt}\hspace{1.2cm}{\color{teal}\Large$\Downarrow$}\vspace{2pt}\\}
+
+\hypersetup{
+  colorlinks=true, linkcolor=teal, urlcolor=teal, citecolor=teal,
+  pdftitle={Vaman LC-1 / Pygmy FPGA + ESP32 Documentation},
+  pdfauthor={Engineering Team}
+}
+
+\setlist[itemize]{leftmargin=1.4em, itemsep=2pt, topsep=4pt}
+\setlist[enumerate]{leftmargin=1.6em, itemsep=3pt, topsep=4pt}
+
+% ------------------------- DOCUMENT -------------------------
+\begin{document}
+
+% ===================== TITLE PAGE =====================
+\begin{titlepage}
+\newgeometry{margin=0cm}
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[navy] (current page.north west) rectangle (current page.south east);
+  \fill[teal] (current page.south west) rectangle ([yshift=0.6cm]current page.south east);
+  \draw[teal, line width=1.2pt] ([yshift=-4.5cm]current page.north west) -- ([yshift=-4.5cm]current page.north east);
+\end{tikzpicture}
+
+\vspace*{2.2cm}
+\begin{center}
+{\headingfont\color{teal}\Large \ HARDWARE $\cdot$ FIRMWARE $\cdot$ BRING-UP}\\[1.4cm]
+
+{\headingfont\color{white}\fontsize{34}{40}\selectfont\bfseries FPGA + ESP32}\\[0.3cm]
+{\headingfont\color{white}\fontsize{34}{40}\selectfont\bfseries Bring-Up Documentation}\\[0.9cm]
+
+{\color{amber}\rule{7cm}{1.2pt}}\\[0.6cm]
+
+{\headingfont\color{softline}\Large Vaman LC-1 Board \quad$\cdot$\quad Pygmy FPGA}\\[2.0cm]
+
+\begin{tcolorbox}[
+    width=11.5cm, colback=navy!40!black, colframe=teal,
+    boxrule=1pt, arc=4pt, left=14pt, right=14pt, top=10pt, bottom=10pt
+]
+\centering
+\includegraphics[width=10.5cm]{vaman.png}
+\end{tcolorbox}
+
+\vfill
+
+{\headingfont\color{white}\large Technical Handover \& Engineering Debug Log}\\[0.3cm]
+{\color{softline}\footnotesize Vaman FPGA/ESP32 \ $\vert$\ Raspberry Pi Headless Setup \ $\vert$\ ESP32 Bootloader Debugging}\\[1.2cm]
+
+{\color{softline}\small \today}
+
+\end{center}
+\end{titlepage}
+\restoregeometry
+
+% ===================== TABLE OF CONTENTS =====================
+\begin{tcolorbox}[colback=lightbg, colframe=softline, boxrule=0.6pt, arc=2pt]
+\tableofcontents
+\end{tcolorbox}
+\newpage
+\phantomsection
+\addcontentsline{toc}{part}{Part I --- FPGA + ESP32 (Vaman LC-1 / Pygmy)}
+\part{FPGA + ESP32}
+
+\begin{tcolorbox}[colback=navy, colframe=teal, boxrule=1pt, arc=3pt,
+    left=14pt, right=14pt, top=10pt, bottom=10pt]
+\centering
+{\headingfont\color{white}\Large Vaman LC-1 Board \ $\cdot$\ Pygmy FPGA}\\[4pt]
+{\color{softline}\small Programming flow, memory map, seven-segment bring-up, and OTA architecture}
+\end{tcolorbox}
+\vspace{0.8cm}
+
+% ===================== 1. OBJECTIVE =====================
+\section{Objective}
+
+The objective of this work was to learn the \textbf{Vaman LC-1} board architecture and successfully program the \textbf{Pygmy FPGA} and \textbf{ESP32} using the provided Vaman repository.
+
+\begin{infobox}{Scope of Work}
+\begin{itemize}
+  \item Understanding the FPGA programming flow
+  \item Understanding the ESP32 programming flow
+  \item Programming FPGA bitstreams
+  \item Programming the seven-segment display
+  \item Understanding OTA architecture
+  \item Learning the memory map of QuickFeather/Pygmy
+  \item Understanding the boot process
+  \item Debugging programming issues
+\end{itemize}
+\end{infobox}
+
+% ===================== 2. HARDWARE =====================
+\section{Hardware Used}
+
+\begin{itemize}[label={\color{teal}\ding{110}}]
+  \item Vaman LC-1 Board
+  \item Pygmy FPGA
+  \item ESP32-WROOM
+  \item USB Cable
+  \item Common Anode 7-Segment Display
+  \item Breadboard
+  \item Jumper Wires
+  \item 330\,$\Omega$ Resistors
+\end{itemize}
+
+% ===================== 3. REPOSITORY =====================
+\section{Repository Used}
+
+\begin{codebox}
+\begin{lstlisting}
+~/vaman
+~/qorc-sdk
+\end{lstlisting}
+\end{codebox}
+
+% ===================== 4. ENVIRONMENT =====================
+\section{Programming Environment}
+
+\begin{itemize}
+  \item \textbf{OS:} Ubuntu Linux
+  \item \textbf{Python:} Virtual Environment
+\end{itemize}
+
+\begin{codebox}
+\begin{lstlisting}
+~/qorc-sdk/TinyFPGA-Programmer-Application/venv
+\end{lstlisting}
+\end{codebox}
+
+% ===================== 5. INITIAL PROBLEM =====================
+\section{Initial Problem}
+
+The original programming method described in the manual did not work because:
+
+\begin{problembox}{Root Causes}
+\begin{itemize}
+  \item ESP32 bootloader rejected serial data
+  \item TinyFPGA programmer dependencies were missing
+  \item Module errors occurred
+  \item Programming flow was unclear
+\end{itemize}
+\end{problembox}
+
+Initially attempted:
+\begin{codebox}
+\begin{lstlisting}
+tinyfpga-programmer-gui.py
+\end{lstlisting}
+\end{codebox}
+
+Result:
+\begin{codebox}
+\begin{lstlisting}
+ModuleNotFoundError: tinyfpgab
+\end{lstlisting}
+\end{codebox}
+
+% ===================== 6. SOLUTION =====================
+\section{Solution}
+
+Instead of the system Python interpreter, use the project's virtual environment.
+
+\begin{successbox}{Correct Command}
+\begin{lstlisting}[language=bash]
+cd ~/qorc-sdk/TinyFPGA-Programmer-Application
+
+sudo ./venv/bin/python \
+tinyfpga-programmer-gui.py \
+--port /dev/ttyACM0 \
+--appfpga <bitstream.bin> \
+--mode fpga
+\end{lstlisting}
+\end{successbox}
+
+This successfully programs the FPGA.
+
+% ===================== 7. PROGRAMMER INVESTIGATION =====================
+\section{Programmer Investigation}
+
+Inspected:
+\begin{codebox}
+\begin{lstlisting}
+tinyfpgaq.py
+\end{lstlisting}
+\end{codebox}
+
+Studied functions:
+\begin{codebox}
+\begin{lstlisting}
+program_bitstream()
+program()
+write()
+boot()
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Observed Programming Sequence}
+\begin{center}
+\flowstep{Erase Flash}\\
+\flowarrow
+\flowstep{Write Bitstream}\\
+\flowarrow
+\flowstep{Read Back}\\
+\flowarrow
+\flowstep{Verify}\\
+\flowarrow
+\flowstep{Write Metadata}\\
+\flowarrow
+\flowstep{Verify Metadata}\\
+\flowarrow
+\flowstep{Activate Image}\\
+\flowarrow
+\flowstep{Done}
+\end{center}
+
+% ===================== 8. MEMORY MAP =====================
+\section{Memory Map Discovered}
+
+From \texttt{tinyfpga-programmer-gui.py}:
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\rowcolor{lightbg}
+\textbf{Region} & \textbf{Address} \\
+\midrule
+Bootloader & \texttt{0x000000} \\
+USB FPGA & \texttt{0x020000} \\
+Application FPGA & \texttt{0x040000} \\
+FFE & \texttt{0x060000} \\
+M4 & \texttt{0x080000} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{infobox}{Note}
+Application FPGA bitstreams are written to \texttt{0x040000}.
+\end{infobox}
+
+% ===================== 9. SUCCESSFUL OUTPUT =====================
+\section{Successful Programming Output}
+
+\begin{center}
+\flowstep{Erase} \ \ {\color{teal}\Large$\Rightarrow$} \ \ \flowstep{Write} \ \ {\color{teal}\Large$\Rightarrow$} \ \ \flowstep{Verify} \ \ {\color{teal}\Large$\Rightarrow$} \ \ \flowstep{Metadata} \ \ {\color{teal}\Large$\Rightarrow$} \ \ \flowstep{Image Active}
+\end{center}
+
+\begin{successbox}{Confirmed Successful Flash}
+\begin{lstlisting}
+Success: read_back == data
+\end{lstlisting}
+\end{successbox}
+
+% ===================== 10. SEVEN SEGMENT EXPERIMENT =====================
+\section{Seven-Segment Experiment}
+
+\subsection*{Files Investigated}
+\begin{codebox}
+\begin{lstlisting}
+sevenseg.v
+sevenseg_dec.v
+sevenseg_word.v
+pygmy.pcf
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{PCF Mapping}
+\begin{center}
+\begin{tabular}{@{}cc@{}}
+\toprule
+\rowcolor{lightbg}
+\textbf{Segment} & \textbf{Pin} \\
+\midrule
+a & 3 \\
+b & 64 \\
+c & 62 \\
+d & 63 \\
+e & 61 \\
+f & 59 \\
+g & 57 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Provided Verilog Assignment}
+\begin{codebox}
+\begin{lstlisting}[language=Verilog]
+assign a=0;
+assign b=1;
+assign c=0;
+assign d=0;
+assign e=1;
+assign f=0;
+assign g=0;
+\end{lstlisting}
+\end{codebox}
+
+This pattern is expected to display the digit \textbf{5} on a Common Anode display.
+
+% ===================== 11. PHYSICAL OBSERVATION =====================
+\section{Physical Observation}
+
+\begin{warnbox}{Unexpected Behavior}
+After programming, only \textbf{Segment C} lights up. Pressing the \textbf{USR} button also lights only segment C. No other segments illuminate.
+\end{warnbox}
+
+% ===================== 12. WIRING INVESTIGATION =====================
+\section{Wiring Investigation}
+
+Initially followed \texttt{pygmy.pcf}:
+
+\begin{center}
+\begin{tabular}{@{}cc@{}}
+\toprule
+\rowcolor{lightbg}
+\textbf{Segment} & \textbf{Pin} \\
+\midrule
+a & 3 \\
+b & 64 \\
+c & 62 \\
+d & 63 \\
+e & 61 \\
+f & 59 \\
+g & 57 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Later experimentation found pins \textbf{11}, \textbf{9}, and \textbf{20} behaved differently:
+
+\begin{infobox}{Empirical Findings}
+\begin{itemize}
+  \item Pin 9 $\rightarrow$ G segment
+  \item Pin 20 $\rightarrow$ F segment
+\end{itemize}
+This suggests the board revision pinout differs from the documentation.
+\end{infobox}
+
+% ===================== 13. CURRENT STATUS =====================
+\section{Current Seven-Segment Status}
+
+\begin{itemize}
+  \item[{\color{success}\ding{51}}] Common Anode display confirmed
+  \item[{\color{success}\ding{51}}] COM connected to 3.3V via resistor
+  \item[{\color{success}\ding{51}}] FPGA programming successful
+  \item[{\color{danger}\ding{55}}] Only C segment glows
+  \item[{\color{amber}!}] Some segments glow much brighter
+  \item[{\color{amber}!}] Some segments glow dimly
+\end{itemize}
+
+\begin{warnbox}{Possible Causes}
+\begin{itemize}
+  \item Incorrect board revision
+  \item Wrong FPGA header
+  \item Different J5 pin mapping
+  \item Incorrect documentation
+\end{itemize}
+\end{warnbox}
+
+% ===================== 14. IMPORTANT DISCOVERY =====================
+\section{Important Discovery}
+
+\begin{successbox}{Key Insight}
+Programming is \textbf{NOT} failing --- verification succeeds every time. Therefore the problem is almost certainly \textbf{hardware pin mapping}, \emph{not} programming.
+\end{successbox}
+
+% ===================== 15. COMMANDS USED =====================
+\section{Commands Used}
+
+\subsection*{Check Programmer Code}
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+grep -n "def write" tinyfpgaq.py
+sed -n '207,260p' tinyfpgaq.py
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Inspect Program Function}
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+grep -n "program_bitstream" tinyfpga-programmer-gui.py
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Memory Map}
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+grep -n "image_address" tinyfpga-programmer-gui.py
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Programming}
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+sudo ./venv/bin/python \
+tinyfpga-programmer-gui.py \
+--port /dev/ttyACM0 \
+--appfpga ~/vaman/fpga/sevenseg/codes/static/helloworldfpga.bin \
+--mode fpga
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Hash Verification}
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+sha256sum helloworldfpga.bin
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{PCF Inspection}
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+cat pygmy.pcf
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Verilog Inspection}
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+cat sevenseg.v
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Repository Search}
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+find ~/vaman -iname "*.pcf"
+find ~/vaman -iname "*seven*"
+\end{lstlisting}
+\end{codebox}
+
+% ===================== 16. OTA INVESTIGATION =====================
+\section{OTA Investigation}
+
+Read the OTA manual. Key learning: the \textbf{ESP32 controls the FPGA}. The OTA project is uploaded to the \textbf{ESP32}, \emph{not} the FPGA.
+
+\subsection*{Jumper Wiring}
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\rowcolor{lightbg}
+\textbf{ESP32} & \textbf{FPGA} \\
+\midrule
+GPIO2 & GPIO18 \\
+GPIO4 & GPIO21 \\
+GPIO5 & GPIO22 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{infobox}{Project Location}
+\begin{lstlisting}
+~/vaman/esp32/codes/ide/ota
+\end{lstlisting}
+\end{infobox}
+
+% ===================== 17. CODESPACES INVESTIGATION =====================
+\section{Codespaces Investigation}
+
+GitHub Codespaces contains:
+\begin{codebox}
+\begin{lstlisting}
+yosys
+nextpnr-ice40
+icepack
+\end{lstlisting}
+\end{codebox}
+
+\begin{problembox}{Missing Toolchain}
+\begin{lstlisting}
+symbiflow
+symbiflow_synth
+symbiflow_write_bitstream
+\end{lstlisting}
+Therefore, QuickLogic FPGA projects \textbf{cannot} be compiled in this environment.
+\end{problembox}
+
+The existing \texttt{blink.bin} is built for the \textbf{Ice40} FPGA and is \textbf{incompatible} with the QuickLogic Pygmy FPGA.
+
+% ===================== 18. UNRESOLVED PROBLEMS =====================
+\section{Current Unresolved Problems}
+
+\begin{enumerate}[label=\textbf{Problem \arabic*}]
+  \item Seven-segment mapping appears incorrect --- need the actual FPGA header mapping.
+  \item Need the correct PCF for the current hardware revision.
+  \item Need to compile new QuickLogic bitstreams --- current environment lacks the SymbiFlow QuickLogic Toolchain.
+  \item Need to identify the actual J5 FPGA pin numbering.
+  \item Need to verify whether \texttt{helloworldfpga.bin} matches \texttt{sevenseg.v} or an older compiled version.
+\end{enumerate}
+
+% ===================== 19. CONCLUSIONS =====================
+\section{Major Conclusions}
+
+\begin{successbox}{Confirmed Working}
+\begin{itemize}
+  \item[{\color{success}\ding{51}}] TinyFPGA programmer works correctly
+  \item[{\color{success}\ding{51}}] FPGA flash programming works
+  \item[{\color{success}\ding{51}}] Metadata programming works
+  \item[{\color{success}\ding{51}}] Flash verification succeeds
+  \item[{\color{success}\ding{51}}] OTA project targets ESP32, not FPGA
+  \item[{\color{success}\ding{51}}] Current issue is almost certainly hardware pin mapping, not programming
+  \item[{\color{success}\ding{51}}] Existing documentation may correspond to an older board revision
+\end{itemize}
+\end{successbox}
+
+% ===================== 20. NEXT STEPS =====================
+\section{Next Steps}
+
+\begin{enumerate}
+  \item Determine the exact Vaman LC-1 board revision.
+  \item Obtain the updated FPGA J5 pinout.
+  \item Verify the seven-segment header mapping with continuity testing.
+  \item Set up the QuickLogic SymbiFlow toolchain (not IceStorm) to compile custom Verilog into compatible \texttt{.bin} files.
+  \item Recompile \texttt{sevenseg.v} using the correct PCF and upload the new bitstream.
+  \item Continue ESP32 OTA experiments once the FPGA pin mapping is validated.
+\end{enumerate}
+
+\vspace{1cm}
+\begin{tcolorbox}[colback=navy, colframe=navy, arc=3pt, left=12pt, right=12pt, top=8pt, bottom=8pt]
+\centering
+{\headingfont\color{white}\small This closes the FPGA + ESP32 bring-up log --- the complete debugging journey, the commands executed, the successful milestones, the reasoning behind each conclusion, and the remaining engineering tasks for the Vaman LC-1 / Pygmy board.}
+\end{tcolorbox}
+
+
+% #####################################################################
+% PART II --- RASPBERRY PI 3 HEADLESS SETUP
+% #####################################################################
+\newpage
+\phantomsection
+\addcontentsline{toc}{part}{Part II --- Raspberry Pi 3 Headless Setup}
+\part{Raspberry Pi 3 Headless Setup}
+
+\begin{tcolorbox}[colback=navy, colframe=teal, boxrule=1pt, arc=3pt,
+    left=14pt, right=14pt, top=10pt, bottom=10pt]
+\centering
+{\headingfont\color{white}\Large Raspberry Pi 3 Model B v1.2}\\[4pt]
+{\color{softline}\small Headless imaging, SSH/Wi-Fi pre-configuration, and an SD-card write failure investigation}
+\end{tcolorbox}
+\vspace{0.8cm}
+
+% ===================== OBJECTIVE =====================
+\section{Objective}
+
+Set up a Raspberry Pi 3 Model B v1.2 from scratch in a \textbf{headless} (no monitor / keyboard / mouse) Linux environment.
+
+\begin{infobox}{Target Goals}
+\begin{enumerate}
+  \item Flash Raspberry Pi OS Lite onto a new microSD card.
+  \item Configure the Pi before first boot.
+  \item Enable SSH.
+  \item Configure Wi-Fi.
+  \item Boot the Pi.
+  \item Discover the Pi's IP.
+  \item SSH into the Pi.
+  \item Update the system.
+  \item Configure serial only if required.
+  \item Connect Raspberry Pi to the VAMAN FPGA + ESP32 board as specified in the internship manual.
+\end{enumerate}
+\end{infobox}
+
+% ===================== HOST SYSTEM =====================
+\section{Host System}
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\rowcolor{lightbg}
+\textbf{Item} & \textbf{Detail} \\
+\midrule
+Host OS & Ubuntu Linux \\
+Raspberry Pi & Raspberry Pi 3 Model B v1.2 \\
+Storage & New 32\,GB microSD card \\
+Card Reader & USB SD Card Reader \\
+Ethernet & Available \\
+USB-UART Adapter & CP210x \\
+Monitor / Keyboard / Mouse & \textcolor{danger}{None} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ===================== METHOD FOLLOWED =====================
+\section{Method Followed}
+
+\subsection*{Step 1 --- Detect the SD Card}
+
+Verified the inserted microSD card before flashing, to avoid overwriting the laptop SSD.
+
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+lsblk
+\end{lstlisting}
+\end{codebox}
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\rowcolor{lightbg}
+\textbf{Device} & \textbf{Identity} \\
+\midrule
+\texttt{/dev/nvme0n1} & Laptop SSD \\
+\texttt{/dev/sdb} & microSD card \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+This confirmed the correct SD card device.
+
+\subsection*{Step 2 --- Install Raspberry Pi Imager}
+
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+sudo apt update
+sudo apt install rpi-imager -y
+\end{lstlisting}
+\end{codebox}
+
+Installation completed successfully.
+
+\subsection*{Step 3 --- Launch Raspberry Pi Imager}
+
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+rpi-imager
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Step 4 --- Select Operating System}
+
+Selected \textbf{Raspberry Pi OS Lite (64-bit)}.
+
+\begin{infobox}{Reason}
+\begin{itemize}
+  \item Headless operation
+  \item SSH only
+  \item Lower storage usage
+  \item Suitable for embedded development
+\end{itemize}
+\end{infobox}
+
+\subsection*{Step 5 --- Select Storage}
+
+Selected the \textbf{31.9\,GB microSD card} and verified it was the correct target, to avoid erasing laptop storage.
+
+\subsection*{Step 6 --- Open Advanced Configuration}
+
+Opened via \texttt{Ctrl + Shift + X} and configured:
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\rowcolor{lightbg}
+\textbf{Setting} & \textbf{Value} \\
+\midrule
+Hostname & \texttt{raspberrypi} \\
+SSH & Enabled (password authentication) \\
+Username & \texttt{khushi} \\
+Password & Custom password configured \\
+Wi-Fi SSID & \texttt{EE\_Lab} \\
+Wi-Fi Country & \texttt{IN} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Step 7 --- Flash Raspberry Pi OS}
+
+\begin{codebox}
+\begin{lstlisting}
+Write
+\end{lstlisting}
+\end{codebox}
+
+% ===================== PROBLEM ENCOUNTERED =====================
+\section{Problem Encountered}
+
+The write process reached nearly 100\% completion.
+
+\begin{problembox}{Write Failure}
+\begin{lstlisting}
+Error writing to storage (while fsync)
+\end{lstlisting}
+\begin{lstlisting}
+Write error:
+"No space left on device"
+while writing len: 1048576
+\end{lstlisting}
+\end{problembox}
+
+% ===================== INITIAL DIAGNOSIS =====================
+\section{Initial Diagnosis}
+
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+df -h
+\end{lstlisting}
+\end{codebox}
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\rowcolor{lightbg}
+\textbf{Partition} & \textbf{Result} \\
+\midrule
+Ubuntu root & 77\,GB total, 58\,GB free \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{successbox}{Conclusion}
+The error was \textbf{NOT} caused by insufficient laptop storage.
+\end{successbox}
+
+% ===================== MOUNT INVESTIGATION =====================
+\section{Mount Investigation}
+
+Observed an unexpected mounted partition:
+\begin{codebox}
+\begin{lstlisting}
+/mnt/rpi_root
+\end{lstlisting}
+\end{codebox}
+
+Attempted to unmount:
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+sudo umount /dev/sda2
+\end{lstlisting}
+\end{codebox}
+
+\begin{warnbox}{Result}
+\begin{lstlisting}
+Target is busy
+\end{lstlisting}
+\end{warnbox}
+
+Checked open files:
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+sudo lsof /mnt/rpi_root
+\end{lstlisting}
+\end{codebox}
+No useful result.
+
+Checked process usage:
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+sudo fuser -vm /mnt/rpi_root
+\end{lstlisting}
+\end{codebox}
+
+\begin{infobox}{Result}
+\begin{lstlisting}
+kernel mount
+\end{lstlisting}
+Meaning: no user process was using the mount.
+\end{infobox}
+
+Performed a lazy unmount:
+\begin{successbox}{Succeeded}
+\begin{lstlisting}[language=bash]
+sudo umount -l /mnt/rpi_root
+\end{lstlisting}
+\end{successbox}
+
+Verified block devices:
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+lsblk
+\end{lstlisting}
+\end{codebox}
+\texttt{/dev/sdb} present without mounted partitions.
+
+% ===================== SECOND FLASH ATTEMPT =====================
+\section{Second Flash Attempt}
+
+Repeated flashing. Same result:
+
+\begin{problembox}{Repeated Failure}
+\begin{lstlisting}
+Error writing to storage (while fsync)
+\end{lstlisting}
+\end{problembox}
+
+% ===================== KERNEL DIAGNOSTICS =====================
+\section{Kernel Diagnostics}
+
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+dmesg | tail -30
+\end{lstlisting}
+\end{codebox}
+Permission denied. Used instead:
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+sudo dmesg | tail -30
+\end{lstlisting}
+\end{codebox}
+
+\begin{problembox}{Kernel Messages}
+\begin{lstlisting}
+device offline or changed
+unable to read partition table
+unable to read RDB block
+Disk read failed
+\end{lstlisting}
+Repeated entries:
+\begin{lstlisting}
+sd ... device offline or changed
+\end{lstlisting}
+\end{problembox}
+
+% ===================== ROOT CAUSE ANALYSIS =====================
+\section{Root Cause Analysis}
+
+The problem is unlikely to be Raspberry Pi Imager. Evidence indicates the SD card disconnects during the final synchronization stage.
+
+\begin{warnbox}{Most Probable Causes}
+\begin{enumerate}
+  \item Faulty USB SD card reader
+  \item Poor contact between SD card and reader
+  \item Defective or counterfeit microSD card
+  \item Unstable USB connection
+  \item USB controller temporarily disconnecting the reader
+\end{enumerate}
+\end{warnbox}
+
+\begin{infobox}{Interpretation}
+The kernel log strongly indicates a \textbf{hardware communication failure} rather than a software configuration issue.
+\end{infobox}
+
+% ===================== COMMANDS USED =====================
+\section{Commands Used}
+
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+lsblk
+
+sudo apt update
+sudo apt install rpi-imager -y
+rpi-imager
+
+df -h
+
+sudo umount /dev/sda2
+sudo lsof /mnt/rpi_root
+sudo fuser -vm /mnt/rpi_root
+sudo umount -l /mnt/rpi_root
+
+lsblk
+
+sudo dmesg | tail -30
+\end{lstlisting}
+\end{codebox}
+
+% ===================== CURRENT STATUS =====================
+\section{Current Status}
+
+\begin{successbox}{Completed}
+\begin{itemize}
+  \item[{\color{success}\ding{51}}] Linux environment prepared
+  \item[{\color{success}\ding{51}}] Raspberry Pi Imager installed
+  \item[{\color{success}\ding{51}}] Raspberry Pi OS selected
+  \item[{\color{success}\ding{51}}] Advanced configuration completed
+  \item[{\color{success}\ding{51}}] SSH configured
+  \item[{\color{success}\ding{51}}] Wi-Fi configured
+  \item[{\color{success}\ding{51}}] Hostname configured
+  \item[{\color{success}\ding{51}}] Username/password configured
+\end{itemize}
+\end{successbox}
+
+\begin{problembox}{Blocked At}
+Flashing Raspberry Pi OS to the microSD card.
+\end{problembox}
+
+\begin{infobox}{Current Blocker}
+The SD card disconnects during the final write synchronization (\texttt{fsync}), producing kernel errors indicating the storage device goes offline.
+\end{infobox}
+
+% ===================== RECOMMENDED NEXT ACTIONS =====================
+\section{Recommended Next Actions}
+
+\begin{enumerate}
+  \item Try a different USB SD card reader.
+  \item Try another USB port on the laptop.
+  \item Test the same SD card on another computer.
+  \item Test another microSD card with the same reader.
+  \item If available, use Raspberry Pi Imager on a different host PC to determine whether the issue follows the SD card or the reader.
+  \item Only proceed with Raspberry Pi boot and SSH configuration after a successful flash and verification.
+\end{enumerate}
+
+\vspace{1cm}
+\begin{tcolorbox}[colback=navy, colframe=navy, arc=3pt, left=12pt, right=12pt, top=8pt, bottom=8pt]
+\centering
+{\headingfont\color{white}\small This closes the Raspberry Pi headless setup log --- the environment is fully pre-configured; the sole remaining blocker is a hardware-level SD card write failure that needs to be isolated to the reader, cable, port, or card itself.}
+\end{tcolorbox}
+
+
+% #####################################################################
+% PART III --- ESP32 BOOTLOADER COMMUNICATION ISSUE
+% #####################################################################
+\newpage
+\phantomsection
+\addcontentsline{toc}{part}{Part III --- ESP32 Bootloader Communication Issue}
+\part{ESP32 Bootloader\\[2pt] \normalsize Communication Issue}
+
+\begin{tcolorbox}[colback=navy, colframe=teal, boxrule=1pt, arc=3pt,
+    left=14pt, right=14pt, top=10pt, bottom=10pt]
+\centering
+{\headingfont\color{white}\Large FPGA Programming via ESP32}\\[4pt]
+{\color{softline}\small Android (Termux) and Ubuntu (PlatformIO) build attempts, and an upload-stage bootloader failure}
+\end{tcolorbox}
+\vspace{0.8cm}
+
+% ===================== PROJECT OVERVIEW =====================
+\section{Project Overview}
+
+The objective is to program an FPGA board that uses an onboard \textbf{ESP32} as the programming interface. The FPGA bitstream, generated from Verilog code, is uploaded to the FPGA through the ESP32 bootloader over a USB serial connection.
+
+\begin{infobox}{Two Environments Attempted}
+\begin{enumerate}
+  \item Android (Termux + PlatformIO)
+  \item Ubuntu Linux (PlatformIO)
+\end{enumerate}
+The goal was to compile the firmware successfully and upload it to the ESP32 so that it could program the FPGA.
+\end{infobox}
+
+% ===================== METHOD 1: ANDROID =====================
+\section{Method 1: Android (Termux + PlatformIO)}
+
+\subsection*{Objective}
+Attempt to compile and upload the project entirely from an Android phone using Termux.
+
+\subsection*{Environment}
+\begin{itemize}
+  \item Android
+  \item Termux
+  \item Python 3.13
+  \item pip
+  \item PlatformIO Core
+  \item ESP32 target
+\end{itemize}
+
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+python --version
+pip --version
+pio --version
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Project Structure}
+\begin{codebox}
+\begin{lstlisting}
+vaman_7segment/
+|
+|-- platformio.ini
+|-- src/
+|-- include/
+|-- lib/
+`-- ...
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Build Attempt}
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+cd ~/vaman_7segment
+pio run
+pio run --target build
+pio run -t compiledb
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Error Encountered}
+PlatformIO failed \textbf{before compilation} because pySerial attempted to enumerate serial ports.
+
+\begin{problembox}{Import Error}
+\begin{lstlisting}
+ImportError:
+Sorry: no implementation for your platform ('posix') available
+\end{lstlisting}
+PlatformIO internally imports \texttt{serial.tools.list\_ports}. Android is not officially supported for serial enumeration inside PlatformIO.
+\end{problembox}
+
+\begin{warnbox}{Consequence}
+\begin{itemize}
+  \item No compilation occurred.
+  \item No firmware binary was generated.
+  \item Upload was impossible.
+\end{itemize}
+\end{warnbox}
+
+\subsection*{Root Cause}
+PlatformIO Core assumes desktop Linux serial device naming (\texttt{/dev/ttyUSB*}, \texttt{/dev/ttyACM*}). Android Termux does not expose serial devices the same way, and pySerial cannot enumerate Android USB serial devices.
+
+\begin{infobox}{Verdict}
+This is a \textbf{PlatformIO compatibility limitation}, not a project issue.
+\end{infobox}
+
+\subsection*{Additional Investigation}
+The ESP-IDF generated configuration file was inspected:
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\rowcolor{lightbg}
+\textbf{Setting} & \textbf{Value} \\
+\midrule
+Target & \texttt{CONFIG\_IDF\_TARGET="esp32"} \\
+Console UART & \texttt{CONFIG\_ESP\_CONSOLE\_UART\_NUM=0} \\
+Monitor Baud & 115200 \\
+Flash Baud & 115200 \\
+Flash Mode & DIO \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+These settings confirmed that the project configuration itself was valid.
+
+% ===================== METHOD 2: UBUNTU =====================
+\section{Method 2: Ubuntu Linux}
+
+\subsection*{Objective}
+Move the entire workflow to Ubuntu since PlatformIO officially supports Linux.
+
+\subsection*{Environment Setup}
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+sudo apt update
+sudo apt upgrade -y
+
+sudo apt install python3 python3-pip python3-venv git curl build-essential pipx -y
+
+pipx ensurepath
+pipx install platformio
+
+pio --version
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Device Detection}
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+ls /dev/tty*
+pio device list
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Build}
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+cd ~/vaman_7segment
+pio run
+\end{lstlisting}
+\end{codebox}
+
+\begin{successbox}{Result}
+Compilation completed successfully.
+\end{successbox}
+
+\subsection*{Upload Attempt}
+\begin{codebox}
+\begin{lstlisting}[language=bash]
+pio run --target upload
+\end{lstlisting}
+\end{codebox}
+
+\subsection*{Upload Failure}
+Compilation succeeded; however, the ESP32 bootloader did not accept serial communication.
+
+\begin{problembox}{Symptoms}
+\begin{itemize}
+  \item Bootloader not responding
+  \item Serial synchronization failure
+  \item Upload never started
+  \item ESP32 rejected incoming serial data
+\end{itemize}
+The issue occurred during the \textbf{upload stage}, not compilation.
+\end{problembox}
+
+% ===================== CURRENT STATUS =====================
+\section{Current Status}
+
+\begin{successbox}{Successfully Completed}
+\begin{itemize}
+  \item[{\color{success}\ding{51}}] Installed PlatformIO
+  \item[{\color{success}\ding{51}}] Configured development environment
+  \item[{\color{success}\ding{51}}] Verified ESP-IDF configuration
+  \item[{\color{success}\ding{51}}] Built project successfully on Linux
+  \item[{\color{success}\ding{51}}] Confirmed ESP32 project configuration
+\end{itemize}
+\end{successbox}
+
+\begin{problembox}{Remaining Problem}
+The ESP32 bootloader is not accepting serial communication, preventing firmware upload. The compilation toolchain is functioning correctly --- the remaining issue is entirely related to \textbf{bootloader communication}.
+\end{problembox}
+
+% ===================== POSSIBLE CAUSES =====================
+\section{Possible Causes}
+
+\begin{warnbox}{Candidate Root Causes}
+\begin{itemize}
+  \item Incorrect boot mode
+  \item BOOT button timing
+  \item EN/RESET timing
+  \item USB cable issue
+  \item USB driver issue
+  \item Incorrect serial port
+  \item Wrong baud rate
+  \item Hardware wiring issue
+  \item ESP32 bootloader damaged
+  \item Custom ESP32 firmware replacing the standard bootloader
+  \item FPGA board requiring a vendor-specific flashing method instead of standard esptool
+  \item USB-UART bridge issue
+  \item Permission issues on Linux
+\end{itemize}
+\end{warnbox}
+
+% ===================== SUGGESTED NEXT INVESTIGATION =====================
+\section{Suggested Next Investigation}
+
+The next debugging phase should focus \textbf{exclusively} on the upload process.
+
+\begin{enumerate}
+  \item Verify the detected serial port.
+  \item Confirm ESP32 enters Download Mode.
+  \item Check BOOT and EN button sequence.
+  \item Test communication using \texttt{esptool.py} directly.
+  \item Inspect the USB-UART bridge.
+  \item Verify whether the board uses a custom flashing protocol instead of the standard ESP32 bootloader.
+  \item Compare the flashing procedure against the official project documentation.
+\end{enumerate}
+
+\begin{infobox}{Status}
+Compilation is no longer considered the issue. The remaining blocker is successful communication between the host PC and the ESP32 bootloader.
+\end{infobox}
+
+\vspace{1cm}
+\begin{tcolorbox}[colback=navy, colframe=navy, arc=3pt, left=12pt, right=12pt, top=8pt, bottom=8pt]
+\centering
+{\headingfont\color{white}\small This closes the ESP32 bootloader communication log --- the toolchain and firmware build are confirmed working; the remaining blocker is isolated entirely to host$\leftrightarrow$bootloader serial communication at upload time.}
+\end{tcolorbox}
+
+\end{document}
